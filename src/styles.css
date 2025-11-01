@@ -1,14 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&family=Julius+Sans+One&display=swap');
 @import 'tailwindcss';
 
 @theme {
-  --color-black: #ffde21;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  --color-black: #212121;
+  --color-white: #f5f5f5;
+  --color-valid: #31b21a;
+  --color-delete: #d80000;
+  --color-red-over: #d8000070;
+  --color-green-over: #31b21a70;
+  --color-modal: #ddd0ee;
+  --color-purple: #7c3dd4;
+  --color-purple-over: #7c3dd470;
+  --color-logout: #aaa;
+  --font-Agdasima: 'Agdasima', sans-serif;
+  --font-Julius: 'Julius Sans One', sans-serif;
 }
