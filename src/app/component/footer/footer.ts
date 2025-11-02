@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-footer',
   imports: [],
   template: `<footer
-    class="bg-black text-white text-2xl flex justify-center gap-10 font-Agdasima"
+    class="bg-black text-white text-2xl flex justify-around font-Agdasima p-5"
   >
     <p>Mention légale</p>
     <p>© Copyright 2025</p>

@@ -2,6 +2,57 @@
   <header>
     <app-logo />
   </header>
-  <main class="flex-auto"></main>
+  <main
+    class="flex-auto flex flex-col p-5 gap-10 items-center text-center xl:p-20"
+  >
+    <h2 class="font-Julius text-4xl">
+      Bienvenue sur <br class="hidden md:block" />Poste Man
+    </h2>
+    <article class="font-Agdasima text-[32px] flex flex-col gap-10">
+      <section class="flex flex-col md:flex-row">
+        <p
+          class="bg-purple20 border border-black rounded-t-[10px] border-b-0 md:flex md:items-center md:rounded-l-[10px] md:border md:border-r-0 md:rounded-r-none"
+        >
+          Une plateforme qui vous permet d'organiser vos projets en collaborant
+          avec vos amies.
+        </p>
+        <img
+          src="assets/organization.webp"
+          alt="Project organization"
+          class="rounded-b-[10px] border border-black md:w-1/2 md:rounded-l-none md:rounded-r-[10px]"
+        />
+      </section>
+      <section class="flex flex-col md:flex-row">
+        <img
+          src="assets/collaboration.webp"
+          alt="Project collaboration"
+          class="border border-black rounded-t-[10px] md:w-1/2 md:rounded-r-none md:rounded-l-[10px]"
+        />
+        <p
+          class="text-center bg-purple20 border border-black border-t-0 rounded-b-[10px] md:flex md:items-center md:rounded-r-[10px] md:border md:border-l-0 md:rounded-l-none"
+        >
+          Vous pouvez échanger vos idées et voter pour les idées qui vous
+          correspondent.
+        </p>
+      </section>
+      <section class="flex flex-col md:flex-row w-full">
+        <p
+          class="flex-1 bg-purple20 rounded-t-[10px] border border-b-0 md:flex md:justify-center md:items-center md:rounded-l-[10px] md:border md:border-r-0 md:rounded-r-none xl:justify-center"
+        >
+          Vous pourrez aussi communiquer entre vous.
+        </p>
+        <img
+          src="assets/messaging.webp"
+          alt="Messaging"
+          class="border rounded-b-[10px] md:w-1/2 md:rounded-l-none md:rounded-r-[10px] flex-1"
+        />
+      </section>
+    </article>
+    <a
+      href="#"
+      class="text-2xl font-Agdasima bg-purple text-white py-5 rounded-[10px] w-2/3 md:w-1/3"
+      >Créer un projet</a
+    >
+  </main>
   <app-footer />
 </div>
