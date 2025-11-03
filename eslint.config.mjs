@@ -6,6 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   eslint.configs.recommended,
-  tseslint.configs.strict,
+  ...tseslint.configs.strict,
   { ignores: ['**/*.js'] },
+  { rules: { '@typescript-eslint/no-extraneous-class': 'off' } },
 );
