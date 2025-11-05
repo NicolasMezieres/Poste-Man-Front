@@ -9,6 +9,4 @@ import { RouterLink } from "@angular/router";
   templateUrl: './presentation.html',
   styleUrl: './presentation.css',
 })
-export class Presentation {
-
-}
+export class PresentationComponent {}
