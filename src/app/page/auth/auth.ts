@@ -9,10 +9,17 @@ import { Logo } from '../../component/logo/logo';
 import { Footer } from '../../component/footer/footer';
 import { InputFormComponent } from '../../component/input/input-form/input-form';
 import { RouterLink } from '@angular/router';
-import { ErrorMessage } from "../../component/error-message/error-message";
+import { ErrorMessage } from '../../component/error-message/error-message';
 @Component({
   selector: 'app-auth',
-  imports: [Logo, Footer, ReactiveFormsModule, InputFormComponent, RouterLink, ErrorMessage],
+  imports: [
+    Logo,
+    Footer,
+    ReactiveFormsModule,
+    InputFormComponent,
+    RouterLink,
+    ErrorMessage,
+  ],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
 })
