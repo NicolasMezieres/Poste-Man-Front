@@ -1,1 +1,113 @@
-<p>auth works!</p>
+<div class="bg-white flex flex-col min-h-screen">
+  <header>
+    <app-logo />
+  </header>
+  <main
+    class="flex-auto p-5 font-Agdasima flex flex-col items-center justify-center gap-5 md:px-20"
+  >
+    <h1 class="font-Julius text-[32px] text-center">Authentification</h1>
+
+    <div class="flex justify-center gap-10 xl:hidden">
+      <button
+        class=" {{isRegisterModel() ? 'text-white  bg-purple shadowUnset' : ' text-black bg-purple50 shadowInset'}} text-[32px] px-5 py-2.5 rounded-[10px] "
+        (click)="changeForm(false)"
+      >
+        Connexion
+      </button>
+      <button
+        class="{{isRegisterModel() ? 'text-black bg-purple50 shadowInset' : 'text-white  bg-purple shadowUnset'}} text-[32px] px-5 py-2.5 rounded-[10px] shadowUnset"
+        (click)="changeForm(true)"
+      >
+        Inscription
+      </button>
+    </div>
+    @if(!isRegisterModel()){
+    <div class="flex w-full md:w-3/4">
+      <form
+        [formGroup]="formConnexion"
+        class="flex-2 bg-purple20 border rounded-[10px] px-10 py-5 flex flex-col items-center xl:border-r-0 xl:rounded-r-none"
+      >
+        <h2 class="font-Julius text-[36px]">Connexion</h2>
+        <div class="w-full py-5">
+          <app-input-form
+            inputId="identifierConnexion"
+            type="text"
+            label="Identifiant"
+            placeholder="Identifiant"
+            [control]="formConnexion.controls.identifier"
+          />
+          @if (formConnexion.controls['identifier'].touched) {
+          @if(formConnexion.controls["identifier"].hasError("required")){
+          <app-error-message message="Ce champs est requis" />
+          } }
+        </div>
+        <div class="w-full pb-5">
+          <app-input-form
+            inputId="passwordConnexion"
+            class="w-full"
+            type="text"
+            label="Mot de passe"
+            placeholder="Mot de passe"
+            [control]="formConnexion.controls.password"
+          />
+          @if (formConnexion.controls['password'].touched) {
+          @if(formConnexion.controls["password"].hasError("required")){
+          <app-error-message message="Ce champs est requis" />
+          } }
+        </div>
+        <a [routerLink]="" class="pb-5">Mot de passe oublier ?</a>
+        <button
+          type="submit"
+          (click)="submitFormConnexion($event)"
+          class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset"
+        >
+          Connexion
+        </button>
+      </form>
+      <button
+        class="hidden flex-1 border border-l-0 border-black text-white text-4xl font-Julius bg-purple px-5 py-2.5 rounded-[10px] rounded-l-none xl:block"
+        (click)="changeForm(true)"
+      >
+        Inscription
+      </button>
+    </div>
+    }@else {
+    <div class="flex w-full md:w-3/4">
+      <button
+        class="hidden flex-1 border border-r-0 border-black text-white text-4xl font-Julius bg-purple px-5 py-2.5 rounded-[10px] rounded-r-none xl:block"
+        (click)="changeForm(false)"
+      >
+        Connexion
+      </button>
+      <form
+        class="flex-2 w-full bg-purple20 border rounded-[10px] px-10 py-5 flex flex-col items-center gap-5 xl:border-r-0 xl:rounded-l-none"
+      >
+        <h2 class="font-Julius text-[36px]">Inscription</h2>
+        <!-- <app-input-form
+          class="w-full"
+          type="text"
+          label="Nom"
+          placeholder="Nom"
+          formControlName="identifier"
+        />
+        <app-input-form
+          class="w-full"
+          type="text"
+          label="Prénom"
+          placeholder="Prénom"
+          formControlName="identifier"
+        /> -->
+        <!--checkbox-->
+        <button
+          type="submit"
+          (click)="submitFormRegister($event)"
+          class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset"
+        >
+          Inscription
+        </button>
+      </form>
+    </div>
+    }
+  </main>
+  <app-footer />
+</div>
