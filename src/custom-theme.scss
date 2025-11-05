@@ -8,6 +8,7 @@
 
 $agdasima: var(--font-Agdasima);
 $julius: var(--font-Julius);
+$placeholder: var(--color-placeholder);
 .agdasima {
   @include mat.theme(
     (
