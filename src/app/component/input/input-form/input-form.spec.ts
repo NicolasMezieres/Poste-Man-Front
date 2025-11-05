@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InputFormComponent } from './input-form';
+import { FormControl } from '@angular/forms';
 
 describe('InputFormComponent', () => {
   let component: InputFormComponent;
@@ -13,6 +14,11 @@ describe('InputFormComponent', () => {
 
     fixture = TestBed.createComponent(InputFormComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('inputId', 'inputId');
+    fixture.componentRef.setInput('label', 'label');
+    fixture.componentRef.setInput('type', 'type');
+    fixture.componentRef.setInput('placeholder', 'placeholder');
+    fixture.componentRef.setInput('control', new FormControl());
     fixture.detectChanges();
   });
 

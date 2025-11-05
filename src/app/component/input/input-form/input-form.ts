@@ -4,8 +4,17 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-input-form',
   imports: [ReactiveFormsModule],
-  templateUrl: './input-form.html',
-  styleUrl: './input-form.css',
+  template: `<div class="flex flex-col">
+    <label class="text-xl font-bold" [for]="inputId()">{{ label() }}* : </label>
+    <input
+      [id]="inputId()"
+      [type]="type()"
+      class="text-center text-xl bg-white shadowCast rounded-[5px] py-2 placeholder:text-placeholder"
+      [placeholder]="placeholder() + '...'"
+      (change)="updateValue($event.target.value)"
+      [formControl]="control()"
+    />
+  </div>`,
 })
 export class InputFormComponent {
   inputId = input.required<string>();
