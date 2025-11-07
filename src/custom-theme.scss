@@ -23,7 +23,6 @@ $placeholder: var(--color-placeholder);
     )
   );
 }
-
 html {
   @include mat.theme(
     (
@@ -31,8 +30,15 @@ html {
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
+      typography: $agdasima,
       density: 0,
+    )
+  );
+}
+:root {
+  @include mat.checkbox-overrides(
+    (
+      label-text-size: 16px,
     )
   );
 }
