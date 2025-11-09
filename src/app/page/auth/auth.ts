@@ -5,13 +5,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Logo } from '../../component/logo/logo';
-import { Footer } from '../../component/footer/footer';
-import { InputFormComponent } from '../../component/input/input-form/input-form';
+import { Logo } from 'src/app/component/logo/logo';
+import { Footer } from 'src/app/component/footer/footer';
+import { InputFormComponent } from 'src/app/component/input/input-form/input-form';
 import { RouterLink } from '@angular/router';
-import { ErrorMessage } from '../../component/error-message/error-message';
-import { matchPasswords, passwordValidator } from '../../utils/function';
+import { ErrorMessage } from 'src/app/component/error-message/error-message';
+import { matchPasswords, passwordValidator } from 'src/app/utils/function';
 import { MatCheckbox } from '@angular/material/checkbox';
+// import { AuthService } from './auth-service';
+// import { take } from 'rxjs';
+// import { dataSignupType } from 'src/app/utils/type';
 @Component({
   selector: 'app-auth',
   imports: [
@@ -27,12 +30,13 @@ import { MatCheckbox } from '@angular/material/checkbox';
   styleUrl: './auth.css',
 })
 export class AuthComponent {
+  // #auth = inject(AuthService);
   isSubmit = false;
   formConnexion = new FormGroup({
     identifier: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
-  formRegister = new FormGroup(
+  formRegister: FormGroup = new FormGroup(
     {
       lastName: new FormControl('', [
         Validators.required,
@@ -76,9 +80,9 @@ export class AuthComponent {
   submitFormRegister(event: Event) {
     event.preventDefault();
     this.isSubmit = true;
-    console.log(this.formRegister.controls, this.formRegister.errors);
     if (this.formRegister.valid) {
-      console.log('valid');
+      // const data = this.formRegister.value;
+      // this.#auth.signup(data).pipe(take(1)).subscribe({});
     }
   }
   submitFormConnexion(event: Event) {

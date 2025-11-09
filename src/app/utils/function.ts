@@ -7,7 +7,7 @@ import {
 } from './const';
 
 export function matchPasswords(
-  control: AbstractControl,
+  control: AbstractControl<{ password: string; confirmPassword: string }>,
 ): ValidationErrors | null {
   const isSamePassword =
     control.value.password === control.value.confirmPassword
@@ -17,7 +17,7 @@ export function matchPasswords(
 }
 
 export function passwordValidator(
-  control: AbstractControl,
+  control: AbstractControl<string>,
 ): ValidationErrors | null {
   if (!patternLowercase.test(control.value)) {
     return { lowercase: { value: control.value } };
