@@ -6,7 +6,20 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   eslint.configs.recommended,
-  ...tseslint.configs.strict,
+  tseslint.configs.recommendedTypeChecked,
   { ignores: ['**/*.js'] },
-  { rules: { '@typescript-eslint/no-extraneous-class': 'off' } },
+  {
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        projectService: { allowDefaultProject: ['*.js', '*.mjs'] },
+      },
+    },
+  },
+  {
+    rules: {
+      '@typescript-eslint/no-extraneous-class': 'off',
+      '@typescript-eslint/unbound-method': 'off',
+    },
+  },
 );
