@@ -18,8 +18,17 @@
   --font-Agdasima: 'Agdasima', sans-serif;
   --font-Julius: 'Julius Sans One', sans-serif;
   --font-Alumni: 'Alumni Sans Collegiate One', sans-serif;
-}
+  --animate-slide-in-right: slide-in-right 0.6s;
 
+  @keyframes slide-in-right {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+}
 html {
   color: #212121;
   background-color: #f5f5f5;

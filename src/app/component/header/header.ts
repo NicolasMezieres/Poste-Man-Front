@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { MatIcon } from "@angular/material/icon";
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { SideBar } from '../side-bar/side-bar';
 
 @Component({
   selector: 'app-header',
@@ -8,5 +10,9 @@ import { MatIcon } from "@angular/material/icon";
   styleUrl: './header.css',
 })
 export class Header {
+  constructor(private dialogRef: MatDialogRef<SideBar>) {}
 
+  close() {
+    this.dialogRef.close();
+  }
 }
