@@ -12,9 +12,9 @@ import { RouterLink } from '@angular/router';
 import { ErrorMessage } from 'src/app/component/error-message/error-message';
 import { matchPasswords, passwordValidator } from 'src/app/utils/function';
 import { MatCheckbox } from '@angular/material/checkbox';
-// import { AuthService } from './auth-service';
-// import { take } from 'rxjs';
-// import { dataSignupType } from 'src/app/utils/type';
+import { AuthService } from './auth-service';
+import { take } from 'rxjs';
+import { dataSignupType } from 'src/app/utils/type';
 @Component({
   selector: 'app-auth',
   imports: [
