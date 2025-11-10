@@ -22,10 +22,10 @@
       </button>
     </div>
     @if(!isRegisterModel()){
-    <div class="flex w-full md:w-3/4">
+    <div class="flex w-full md:w-3/4 xl:w-2/3">
       <form
         [formGroup]="formConnexion"
-        class="flex-2 bg-purple20 border rounded-[10px] px-10 py-5 gap-5 flex flex-col items-center xl:border-r-0 xl:rounded-r-none"
+        class="bg-purple20 flex-1 border rounded-[10px] px-10 py-5 gap-5 flex flex-col items-center xl:border-r-0 xl:rounded-r-none"
       >
         <h2 class="font-Julius text-[36px]">Connexion</h2>
         <div class="w-full">
@@ -34,7 +34,7 @@
             type="text"
             label="Identifiant"
             placeholder="Identifiant"
-            [control]="formConnexion.controls.identifier"
+            [control]="formConnexion.controls['identifier']"
           />
           @if (formConnexion.controls['identifier'].touched || isSubmit) {
           @if(formConnexion.controls["identifier"].hasError("required")){
@@ -45,7 +45,7 @@
           <app-input-form
             inputId="passwordConnexion"
             class="w-full"
-            type="text"
+            type="password"
             label="Mot de passe"
             placeholder="Mot de passe"
             [control]="formConnexion.controls.password"
@@ -72,7 +72,7 @@
       </button>
     </div>
     } @else {
-    <div class="flex w-full md:w-3/4">
+    <div class="flex w-full md:w-3/4 xl:w-2/3">
       <button
         class="hidden flex-1 border border-r-0 border-black text-white text-4xl font-Julius bg-purple px-5 py-2.5 rounded-[10px] rounded-r-none xl:block"
         (click)="changeForm(false)"
@@ -81,7 +81,7 @@
       </button>
       <form
         [formGroup]="formRegister"
-        class="flex-2 w-full bg-purple20 border rounded-[10px] px-10 py-5 flex flex-col items-center gap-5 xl:border-r-0 xl:rounded-l-none xl:grid xl:grid-cols-2 xl:gap-x-20 xl:gap"
+        class="flex-2 w-full bg-purple20 border rounded-[10px] px-10 py-5 flex flex-col items-center gap-5 xl:border-l-0 xl:rounded-l-none xl:grid xl:grid-cols-2 xl:gap-x-20 xl:gap"
       >
         <h2 class="font-Julius text-[36px] col-span-2 place-self-center">
           Inscription
@@ -198,7 +198,7 @@
             type="password"
             label="Confirmation"
             placeholder="Mot de passe"
-            [control]="formRegister.controls.confirmPassword"
+            [control]="formRegister.controls['confirmPassword']"
           />
           @if (formRegister.controls['confirmPassword'].touched || isSubmit) {
           @if(formRegister.controls["confirmPassword"].hasError("required")) {

@@ -9,6 +9,8 @@
 $agdasima: var(--font-Agdasima);
 $julius: var(--font-Julius);
 $placeholder: var(--color-placeholder);
+$colorError: var(--color-error);
+$colorValid: var(--color-valid);
 .agdasima {
   @include mat.theme(
     (
@@ -23,6 +25,27 @@ $placeholder: var(--color-placeholder);
     )
   );
 }
+.toastFail {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: $colorError,
+      supporting-text-size: 24px,
+      container-shape: 10px,
+    )
+  );
+  text-align: center;
+}
+.toastSucces {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: $colorValid,
+      supporting-text-size: 24px,
+      container-shape: 10px,
+    )
+  );
+  text-align: center;
+}
+
 html {
   @include mat.theme(
     (

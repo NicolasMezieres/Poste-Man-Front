@@ -1,5 +1,3 @@
-// import { FormControl } from '@angular/forms';
-
 export type dataSignupType = {
   firstName: string;
   lastName: string;
@@ -9,11 +7,20 @@ export type dataSignupType = {
   confirmPassword: string;
 };
 
-// export type formSignupType = {
-//   firstName: FormControl<string>;
-//   lastName: FormControl<string>;
-//   email: FormControl<string>;
-//   username: FormControl<string>;
-//   password: FormControl<string>;
-//   confirmPassword: FormControl<string>;
-// };
+export type dataSigninType = {
+  identifier: string;
+  password: string;
+};
+
+export type HttpErrorResponseType = {
+  status: number;
+  error: { message: string };
+};
+
+export type resSigninType = {
+  message: string;
+  role: string;
+};
+export type resMessageType = {
+  message: string;
+};
