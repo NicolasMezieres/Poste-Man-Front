@@ -12,7 +12,9 @@ export default defineConfig(
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        projectService: { allowDefaultProject: ['*.js', '*.mjs'] },
+        projectService: {
+          allowDefaultProject: ['*.js', '*.mjs', 'jest.config.ts'],
+        },
       },
     },
   },
