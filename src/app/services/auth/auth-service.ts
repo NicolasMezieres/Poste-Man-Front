@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { ToastComponent } from 'src/app/component/toast/toast';
 import {
   dataSigninType,
@@ -47,5 +47,12 @@ export class AuthService {
           this.#toast.openFailToast(err);
         },
       });
+  }
+  activAccount(token: string): Observable<resMessageType> {
+    return this.#http.patch<resMessageType>(
+      `${this.#url}auth/activationAccount/${token}`,
+      null,
+      { withCredentials: true },
+    );
   }
 }

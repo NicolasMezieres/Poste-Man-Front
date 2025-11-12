@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 import { ErrorMessage } from 'src/app/component/error-message/error-message';
 import { matchPasswords, passwordValidator } from 'src/app/utils/function';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { AuthService } from './auth-service';
+import { AuthService } from '../../services/auth/auth-service';
 @Component({
   selector: 'app-auth',
   imports: [
