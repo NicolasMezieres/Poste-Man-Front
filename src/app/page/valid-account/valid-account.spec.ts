@@ -16,6 +16,7 @@ describe('ValidAccountComponent', () => {
 
     fixture = TestBed.createComponent(ValidAccountComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 

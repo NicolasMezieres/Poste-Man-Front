@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
-import { ToastComponent } from 'src/app/component/toast/toast';
+import { ToastService } from 'src/app/services/toast/toast';
 import {
   dataSigninType,
   dataSignupType,
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  #toast = inject(ToastComponent);
+  #toast = inject(ToastService);
   #http = inject(HttpClient);
   readonly #url = environment.apiURL;
   signup(data: dataSignupType) {

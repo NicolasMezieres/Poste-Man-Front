@@ -14,7 +14,7 @@ export type dataSigninType = {
 
 export type HttpErrorResponseType = {
   status: number;
-  error: { message: string };
+  error: { message: string | string[] };
 };
 
 export type resSigninType = {

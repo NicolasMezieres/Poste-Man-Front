@@ -5,7 +5,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth-service';
 import { take } from 'rxjs';
-import { ToastComponent } from 'src/app/component/toast/toast';
+import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType } from 'src/app/utils/type';
 
 @Component({
@@ -36,7 +36,7 @@ export class ValidAccountComponent implements OnInit {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #auth = inject(AuthService);
-  #toast = inject(ToastComponent);
+  #toast = inject(ToastService);
   message = model<string>();
   isError = model<boolean>(false);
   token = this.#route.snapshot.queryParamMap.get('token');

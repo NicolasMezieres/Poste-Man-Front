@@ -2,13 +2,8 @@ import { Component, inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponseType } from 'src/app/utils/type';
 @Injectable({ providedIn: 'root' })
-@Component({
-  selector: 'app-toast',
-  imports: [],
-  templateUrl: './toast.html',
-  styleUrl: './toast.css',
-})
-export class ToastComponent {
+@Component({ template: '' })
+export class ToastService {
   #snackBar = inject(MatSnackBar);
   durationSeconds = 5;
   failToast(message: string) {
@@ -35,7 +30,7 @@ export class ToastComponent {
       if (isArrayMessage) {
         this.failToast(err.error.message[0]);
       } else {
-        this.failToast(err.error.message);
+        this.failToast(err.error.message as string);
       }
     }
   }
