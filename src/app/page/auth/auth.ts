@@ -97,6 +97,7 @@ export class AuthComponent {
     this.isSubmit = false;
   }
   submitFormRegister(event: Event) {
+    console.log('coucou');
     event.preventDefault();
     this.isSubmit = true;
     if (this.formRegister.valid) {
@@ -105,6 +106,7 @@ export class AuthComponent {
     }
   }
   submitFormConnexion(event: Event) {
+    console.log('ici');
     event.preventDefault();
     this.isSubmit = true;
     if (this.formConnexion.valid) {
