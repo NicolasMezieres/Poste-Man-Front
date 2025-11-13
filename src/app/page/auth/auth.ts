@@ -13,6 +13,9 @@ import { ErrorMessage } from 'src/app/component/error-message/error-message';
 import { matchPasswords, passwordValidator } from 'src/app/utils/function';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { AuthService } from '../../services/auth/auth-service';
+import { ToastService } from 'src/app/services/toast/toast';
+import { HttpErrorResponseType } from 'src/app/utils/type';
+import { take } from 'rxjs';
 @Component({
   selector: 'app-auth',
   imports: [
@@ -28,6 +31,7 @@ import { AuthService } from '../../services/auth/auth-service';
   styleUrl: './auth.css',
 })
 export class AuthComponent {
+  #toast = inject(ToastService);
   #auth = inject(AuthService);
   isSubmit = false;
   formConnexion = new FormGroup({
@@ -97,21 +101,35 @@ export class AuthComponent {
     this.isSubmit = false;
   }
   submitFormRegister(event: Event) {
-    console.log('coucou');
     event.preventDefault();
     this.isSubmit = true;
     if (this.formRegister.valid) {
       const data = this.formRegister.getRawValue();
-      this.#auth.signup(data);
+      this.#auth.signup(data).subscribe({
+        next: (res) => {
+          this.#toast.openSuccesToast(res.message);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+        },
+      });
     }
   }
   submitFormConnexion(event: Event) {
-    console.log('ici');
     event.preventDefault();
     this.isSubmit = true;
     if (this.formConnexion.valid) {
       const data = this.formConnexion.getRawValue();
-      this.#auth.signin(data);
+      this.#auth
+        .signin(data)
+        .subscribe({
+          next: (res) => {
+            this.#toast.openSuccesToast(res.message);
+          },
+          error: (err: HttpErrorResponseType) => {
+            this.#toast.openFailToast(err);
+          },
+        });
     }
   }
 }
