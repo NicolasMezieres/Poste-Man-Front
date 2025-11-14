@@ -12,13 +12,17 @@ export default defineConfig(
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        projectService: { allowDefaultProject: ['*.js', '*.mjs'] },
+        projectService: {
+          allowDefaultProject: ['*.js', '*.mjs', 'jest.config.ts'],
+        },
       },
     },
   },
   {
     rules: {
-      '@typescript-eslint/no-extraneous-class': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/unbound-method': 'off',
     },
   },
