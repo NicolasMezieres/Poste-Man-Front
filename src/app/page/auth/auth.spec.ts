@@ -5,10 +5,13 @@ import { AuthService } from 'src/app/services/auth/auth-service';
 import { AuthComponent } from 'src/app/page/auth/auth';
 import { provideRouter } from '@angular/router';
 import { authServiceMock } from './mock/auth-service.mock';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { ToastService } from 'src/app/services/toast/toast';
+import { authToastMock } from './mock/auth-toast.mock';
 
 describe('AuthService', () => {
   let authService: AuthService;
+  let toast: ToastService;
   let component: AuthComponent;
   let fixture: ComponentFixture<AuthComponent>;
   let view: HTMLElement;
@@ -18,10 +21,12 @@ describe('AuthService', () => {
         provideRouter([]),
         provideHttpClient(),
         { provide: AuthService, useValue: authServiceMock },
+        { provide: ToastService, useValue: authToastMock },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(AuthComponent);
     authService = TestBed.inject(AuthService);
+    toast = TestBed.inject(ToastService);
     component = fixture.componentInstance;
     view = fixture.nativeElement as HTMLElement;
     fixture.detectChanges();
@@ -71,15 +76,31 @@ describe('AuthService', () => {
       expect(component.isSubmit).toBe(true);
       expect(authService.signin).not.toHaveBeenCalled();
     });
-    it('Should valid form ', () => {
+    it('Should valid form with success toast', () => {
       component.formConnexion.setValue(connexionDTO);
-      authServiceMock.signin.mockReturnValue({
-        subscribe: jest.fn(),
-      });
-      fixture.detectChanges();
+      authServiceMock.signin.mockReturnValue(
+        of({ message: 'Register success' }),
+      );
       component.submitFormConnexion(eventClick);
+      fixture.detectChanges();
+
       expect(component.isSubmit).toBe(true);
       expect(authService.signin).toHaveBeenCalled();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+    });
+    it('Should valid form with fail toast', () => {
+      component.formConnexion.setValue(connexionDTO);
+      authServiceMock.signin.mockReturnValue(
+        throwError(() => ({
+          status: 404,
+          error: { message: 'Account not found' },
+        })),
+      );
+      component.submitFormConnexion(eventClick);
+      fixture.detectChanges();
+      expect(component.isSubmit).toBe(true);
+      expect(authService.signin).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
     });
   });
   describe('Function submitFormRegister', () => {
@@ -92,26 +113,40 @@ describe('AuthService', () => {
       confirmPassword: 'StrongP@ssword73',
       terme: true,
     };
+    const eventClick = new Event('click');
     beforeEach(() => {
       component.changeForm(true);
       fixture.detectChanges();
     });
     it('Should fail form not valid', () => {
-      const buttonSubmit: HTMLElement | null =
-        view.querySelector('#submitInscription');
-      buttonSubmit?.click();
+      component.submitFormRegister(eventClick);
       expect(component.isSubmit).toBe(true);
       expect(authService.signup).not.toHaveBeenCalled();
     });
-    it('Should valid form', () => {
+    it('Should valid form with success toast', () => {
       component.formRegister.setValue(registerDTO);
-      authServiceMock.signup.mockReturnValue(of());
+      authServiceMock.signup.mockReturnValue(
+        of({ message: 'Register success' }),
+      );
+      component.submitFormRegister(eventClick);
       fixture.detectChanges();
-      const buttonSubmit: HTMLElement | null =
-        view.querySelector('#submitInscription');
-      buttonSubmit?.click();
       expect(component.isSubmit).toBe(true);
       expect(authService.signup).toHaveBeenCalled();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+    });
+    it('Should valid form with fail toast', () => {
+      component.formRegister.setValue(registerDTO);
+      authServiceMock.signup.mockReturnValue(
+        throwError(() => ({
+          status: 404,
+          error: { message: 'Account not found' },
+        })),
+      );
+      component.submitFormRegister(eventClick);
+      fixture.detectChanges();
+      expect(component.isSubmit).toBe(true);
+      expect(authService.signup).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
     });
   });
 });

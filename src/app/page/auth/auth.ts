@@ -15,7 +15,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { AuthService } from '../../services/auth/auth-service';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType } from 'src/app/utils/type';
-import { take } from 'rxjs';
 @Component({
   selector: 'app-auth',
   imports: [
@@ -120,16 +119,14 @@ export class AuthComponent {
     this.isSubmit = true;
     if (this.formConnexion.valid) {
       const data = this.formConnexion.getRawValue();
-      this.#auth
-        .signin(data)
-        .subscribe({
-          next: (res) => {
-            this.#toast.openSuccesToast(res.message);
-          },
-          error: (err: HttpErrorResponseType) => {
-            this.#toast.openFailToast(err);
-          },
-        });
+      this.#auth.signin(data).subscribe({
+        next: (res) => {
+          this.#toast.openSuccesToast(res.message);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+        },
+      });
     }
   }
 }
