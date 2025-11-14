@@ -7,7 +7,7 @@ import { provideRouter } from '@angular/router';
 import { authServiceMock } from './mock/auth-service.mock';
 import { of, throwError } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast';
-import { authToastMock } from './mock/auth-toast.mock';
+import { toastMock } from './mock/toast.mock';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -21,7 +21,7 @@ describe('AuthService', () => {
         provideRouter([]),
         provideHttpClient(),
         { provide: AuthService, useValue: authServiceMock },
-        { provide: ToastService, useValue: authToastMock },
+        { provide: ToastService, useValue: toastMock },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(AuthComponent);
