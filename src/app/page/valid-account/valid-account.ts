@@ -16,17 +16,18 @@ import { HttpErrorResponseType } from 'src/app/utils/type';
     <main
       class="flex-1 flex flex-col justify-center items-center gap-20 text-center"
     >
-      <h1
+      <h1 class="text-4xl font-Julius">Validation de Compte</h1>
+      <h2
         class="text-[32px] font-Julius {{
           message() === undefined
             ? 'text-black'
             : isError()
               ? 'text-error'
-              : 'text-valid'
+              : 'text-black'
         }}"
       >
         {{ message() ? message() : 'Votre compte est en cours de validation' }}
-      </h1>
+      </h2>
       <mat-spinner />
     </main>
     <app-footer />
@@ -48,7 +49,7 @@ export class ValidAccountComponent implements OnInit {
   }
   activeAccount() {
     if (!this.token) {
-      this.message.set('Token incorrect ! Redirection en cours');
+      this.message.set('Token manquant ! Redirection en cours');
       this.isError.set(true);
       this.navigate();
     } else {
@@ -59,13 +60,13 @@ export class ValidAccountComponent implements OnInit {
           next: (res) => {
             this.#toast.openSuccesToast(res.message);
             this.isError.update(() => false);
-            this.message.update(() => 'Compte validé, redirection en cours');
+            this.message.update(() => 'Compte validé ! Redirection en cours');
             this.navigate();
           },
           error: (err: HttpErrorResponseType) => {
             this.#toast.openFailToast(err);
             this.isError.update(() => true);
-            this.message.update(() => 'Token invalid, redirection en cours');
+            this.message.update(() => 'Token incorrect ! Redirection en cours');
             console.log(err);
             this.navigate();
           },
