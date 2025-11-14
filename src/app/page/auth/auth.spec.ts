@@ -149,4 +149,84 @@ describe('AuthService', () => {
       expect(toast.openFailToast).toHaveBeenCalled();
     });
   });
+  describe('Form Connexion validator', () => {
+    it('Should fail form not valid, password is required', () => {
+      component.formConnexion.patchValue({});
+      fixture.detectChanges();
+      const password = component.formConnexion.controls['password'];
+      expect(password.hasError('required')).toBeTruthy();
+    });
+    it('Should fail form not valid, identifier is required', () => {
+      component.formConnexion.patchValue({});
+      fixture.detectChanges();
+      const identifier = component.formConnexion.controls['identifier'];
+      expect(identifier.hasError('required')).toBeTruthy();
+    });
+  });
+  describe('Form Register validator', () => {
+    it('Verify validity field Last Name ', () => {
+      component.formRegister.patchValue({});
+      fixture.detectChanges();
+      const lastName = component.formRegister.controls['lastName'];
+      expect(lastName.hasError('required')).toBeTruthy();
+      lastName.setValue('last name with more than 35 charactères');
+      expect(lastName.hasError('maxlength')).toBeTruthy();
+    });
+    it('Verify validity field First Name ', () => {
+      component.formRegister.patchValue({});
+      fixture.detectChanges();
+      const firstName = component.formRegister.controls['firstName'];
+      expect(firstName.hasError('required')).toBeTruthy();
+      firstName.setValue('last name with more than 35 charactères');
+      expect(firstName.hasError('maxlength')).toBeTruthy();
+    });
+    it('Verify validity field Username ', () => {
+      component.formRegister.patchValue({});
+      fixture.detectChanges();
+      const username = component.formRegister.controls['username'];
+      expect(username.hasError('required')).toBeTruthy();
+      username.setValue('o');
+      expect(username.hasError('minlength')).toBeTruthy();
+      username.setValue('last name with more than 35 charactères');
+      expect(username.hasError('maxlength')).toBeTruthy();
+    });
+    it('Verify validity field email', () => {
+      component.formRegister.patchValue({});
+      fixture.detectChanges();
+      const email = component.formRegister.controls['email'];
+      expect(email.hasError('required')).toBeTruthy();
+      email.setValue('email invalid');
+      expect(email.hasError('email')).toBeTruthy();
+      email.setValue(
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam commodi, iure ducimus quo exercitationem iusto quis asperiores unde itaque, expedita aut, pariatur consectetur aliquid adipisci. Maiores dolore possimus, cupiditate officia aperiam, dolorum, quasi illo unde facilis corrupti deserunt inventore iure? Consequuntur vero culpa placeat?',
+      );
+      expect(email.hasError('maxlength')).toBeTruthy();
+    });
+    it('Verify validity field password', () => {
+      component.formRegister.patchValue({});
+      fixture.detectChanges();
+      const password = component.formRegister.controls['password'];
+      expect(password.hasError('required')).toBeTruthy();
+      password.setValue('PASSWORD');
+      expect(password.hasError('lowercase')).toBeTruthy();
+      password.setValue('password');
+      expect(password.hasError('uppercase')).toBeTruthy();
+      password.setValue('Password');
+      expect(password.hasError('number')).toBeTruthy();
+      password.setValue('Password73');
+      expect(password.hasError('symbol')).toBeTruthy();
+      password.setValue('P@ssword73');
+      expect(password.hasError('minlength')).toBeTruthy();
+    });
+    it('Verify validity field Confirm Password ', () => {
+      const confirmPassword =
+        component.formRegister.controls['confirmPassword'];
+      confirmPassword.setValue('');
+      expect(confirmPassword.hasError('required')).toBeTruthy();
+      confirmPassword.setValue('StrongP@ssword733');
+      const password = component.formRegister.controls['password'];
+      password.setValue('Other P@ssword73');
+      expect(component.formRegister.hasError('notSamePassword')).toBeTruthy();
+    });
+  });
 });

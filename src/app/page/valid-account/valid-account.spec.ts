@@ -50,7 +50,7 @@ describe('ValidAccountComponent', () => {
       jest.spyOn(component, 'navigate').mockReturnValue();
       component.activeAccount();
       expect(component.isError()).toBe(true);
-      expect(component.message()).toContain('Token incorrect');
+      expect(component.message()).toContain('Token manquant');
       expect(component.navigate).toHaveBeenCalled();
     });
     it('Should fail token invalid', () => {
@@ -67,7 +67,7 @@ describe('ValidAccountComponent', () => {
       component.activeAccount();
       expect(toast.openFailToast).toHaveBeenCalled();
       expect(component.isError()).toBe(true);
-      expect(component.message()).toContain('Token invalid');
+      expect(component.message()).toContain('Token incorrect');
       expect(component.navigate).toHaveBeenCalled();
     });
     it('Should success valid account', () => {
