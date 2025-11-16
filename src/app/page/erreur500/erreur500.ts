@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Logo } from 'src/app/component/logo/logo';
 
 @Component({
   selector: 'app-erreur500',
-  imports: [Logo],
+  imports: [Logo, RouterLink],
   template: `<div class="flex flex-col text-center h-screen">
     <app-logo></app-logo>
     <div
@@ -13,6 +14,7 @@ import { Logo } from 'src/app/component/logo/logo';
       <p>DÉSOLER POUR LE DÉRANGEMENT OCCASIONNER.</p>
       <p>VEUILLEZ RÉESSAYER PLUS TARD</p>
       <button
+        routerLink="/projet"
         class="border w-[280px] h-[60px] text-[24px] rounded-[10px] bg-[#7C3DD4] text-white font-Agdasima"
       >
         Retour à l'accueil
