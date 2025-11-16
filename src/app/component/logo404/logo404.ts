@@ -1,0 +1,10 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-logo404',
+  imports: [],
+  template: `<div class="mt-[5px] flex flex-col items-center">
+    <img src="assets/Erreur404.png" alt="logo" />
+  </div>`,
+})
+export class Logo404 {}

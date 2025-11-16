@@ -19,6 +19,5 @@ import { Logo } from 'src/app/component/logo/logo';
       </button>
     </div>
   </div>`,
-  styleUrl: './erreur500.css',
 })
 export class Erreur500 {}
