@@ -72,9 +72,14 @@ export class ResetPasswordComponent implements OnInit {
           this.#router.navigate(['auth']);
         },
         error: (err: HttpErrorResponseType) => {
-          this.#toast.openFailToast(err);
           if (err.status !== 500 && err.status !== 0) {
             this.#router.navigate(['forgetPassword']);
+            this.#toast.openFailToast({
+              ...err,
+              error: { message: 'token expiré' },
+            });
+          } else {
+            this.#toast.openFailToast(err);
           }
         },
       });
