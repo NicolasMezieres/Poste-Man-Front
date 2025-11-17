@@ -58,7 +58,7 @@ import { Router } from '@angular/router';
           (click)="submitFormForgetPassword($event)"
           class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"
         >
-          Inscription
+          Confirmer
         </button>
       </form>
     </main>
