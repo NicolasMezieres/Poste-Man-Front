@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
   dataForgetPasswordType,
+  dataResetPasswordType,
   dataSigninType,
   dataSignupType,
   resMessageType,
@@ -43,6 +44,17 @@ export class AuthService {
     return this.#http
       .post<resMessageType>(`${this.#url}auth/forgetPassword`, data, {
         withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  resetPassword(
+    token: string,
+    data: dataResetPasswordType,
+  ): Observable<resMessageType> {
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.#http
+      .patch<resMessageType>(`${this.#url}auth/resetPasswordWithToken`, data, {
+        headers,
       })
       .pipe(take(1));
   }

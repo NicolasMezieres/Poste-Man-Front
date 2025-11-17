@@ -28,3 +28,8 @@ export type resMessageType = {
 export type dataForgetPasswordType = {
   email: string;
 };
+
+export type dataResetPasswordType = {
+  password: string;
+  confirmPassword: string;
+};
