@@ -10,5 +10,5 @@ export const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   { path: 'validAccount', component: ValidAccountComponent },
   { path: 'forgetPassword', component: ForgetPasswordComponent },
-  { path: 'resetPassword', component: ResetPasswordComponent },
+  { path: 'resetPassword/:token', component: ResetPasswordComponent },
 ];
