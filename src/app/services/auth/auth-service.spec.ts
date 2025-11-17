@@ -79,4 +79,12 @@ describe('AuthService', () => {
       req.flush(null, { statusText: 'Account not found', status: 404 });
     });
   });
+  describe('forget Password', () => {
+    it('Should Success', () => {
+      service.forgetPassword({ email: 'email@gmail.com' }).subscribe();
+      const req = http.expectOne(environment.apiURL + 'auth/forgetPassword');
+      expect(req.request.method).toEqual('POST');
+      req.flush({ message: 'A mail was send.' });
+    });
+  });
 });

@@ -24,3 +24,7 @@ export type resSigninType = {
 export type resMessageType = {
   message: string;
 };
+
+export type dataForgetPasswordType = {
+  email: string;
+};
