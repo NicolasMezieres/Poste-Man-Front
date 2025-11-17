@@ -6,6 +6,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { environment } from 'src/environments/environment';
+import { throwError } from 'rxjs';
 describe('AuthService', () => {
   let service: AuthService;
   let http: HttpTestingController;
@@ -85,6 +86,37 @@ describe('AuthService', () => {
       const req = http.expectOne(environment.apiURL + 'auth/forgetPassword');
       expect(req.request.method).toEqual('POST');
       req.flush({ message: 'A mail was send.' });
+    });
+  });
+  describe('Reset Password', () => {
+    it('Should Succes', () => {
+      service
+        .resetPassword('token', {
+          password: 'password',
+          confirmPassword: 'password',
+        })
+        .subscribe();
+      const req = http.expectOne(
+        environment.apiURL + 'auth/resetPasswordWithToken',
+      );
+      expect(req.request.method).toEqual('PATCH');
+      req.flush({ message: 'Password changed successfuly' });
+    });
+    it('Should fail', () => {
+      service
+        .resetPassword('token', {
+          password: 'password',
+          confirmPassword: 'password',
+        })
+        .subscribe(throwError);
+      const req = http.expectOne(
+        environment.apiURL + 'auth/resetPasswordWithToken',
+      );
+      expect(req.request.method).toEqual('PATCH');
+      req.flush(null, {
+        status: 401,
+        statusText: 'Unauthorized',
+      });
     });
   });
 });
