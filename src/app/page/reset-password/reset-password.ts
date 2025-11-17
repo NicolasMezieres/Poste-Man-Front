@@ -27,7 +27,6 @@ import { HttpErrorResponseType } from 'src/app/utils/type';
     ErrorMessage,
   ],
   templateUrl: './reset-password.html',
-  styleUrl: './reset-password.css',
 })
 export class ResetPasswordComponent implements OnInit {
   #router = inject(Router);
