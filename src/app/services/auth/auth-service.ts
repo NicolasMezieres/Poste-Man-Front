@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
+  dataForgetPasswordType,
   dataSigninType,
   dataSignupType,
   resMessageType,
@@ -36,6 +37,13 @@ export class AuthService {
         null,
         { withCredentials: true },
       )
+      .pipe(take(1));
+  }
+  forgetPassword(data: dataForgetPasswordType): Observable<resMessageType> {
+    return this.#http
+      .post<resMessageType>(`${this.#url}auth/forgetPassword`, data, {
+        withCredentials: true,
+      })
       .pipe(take(1));
   }
 }
