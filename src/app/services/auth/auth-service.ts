@@ -52,10 +52,10 @@ export class AuthService {
     data: dataResetPasswordType,
   ): Observable<resMessageType> {
     const headers = { Authorization: `Bearer ${token}` };
-    return this.#http.patch<resMessageType>(
-      `${this.#url}auth/resetPasswordWithToken`,
-      data,
-      { headers },
-    );
+    return this.#http
+      .patch<resMessageType>(`${this.#url}auth/resetPasswordWithToken`, data, {
+        headers,
+      })
+      .pipe(take(1));
   }
 }

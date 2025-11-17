@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, inject, model, OnInit } from '@angular/core';
 import { Logo } from 'src/app/component/logo/logo';
 import { Footer } from 'src/app/component/footer/footer';
 import { InputFormComponent } from 'src/app/component/input/input-form/input-form';
@@ -10,7 +10,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { matchPasswords, passwordValidator } from 'src/app/utils/function';
-import { ErrorMessage } from "src/app/component/error-message/error-message";
+import { ErrorMessage } from 'src/app/component/error-message/error-message';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth-service';
+import { ToastService } from 'src/app/services/toast/toast';
+import { HttpErrorResponseType } from 'src/app/utils/type';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,12 +24,25 @@ import { ErrorMessage } from "src/app/component/error-message/error-message";
     InputFormComponent,
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
-    ErrorMessage
-],
+    ErrorMessage,
+  ],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.css',
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
+  #router = inject(Router);
+  #route = inject(ActivatedRoute);
+  token: string = '';
+  ngOnInit() {
+    const data = this.#route.snapshot.paramMap.get('token');
+    if (!data) {
+      this.#router.navigate(['']);
+      return;
+    }
+    this.token = data;
+  }
+  #auth = inject(AuthService);
+  #toast = inject(ToastService);
   isSubmit = model<boolean>(false);
   formResetPassword = new FormGroup(
     {
@@ -48,7 +65,19 @@ export class ResetPasswordComponent {
     e.preventDefault();
     this.isSubmit.update(() => true);
     if (this.formResetPassword.valid) {
-      return;
+      const data = this.formResetPassword.getRawValue();
+      this.#auth.resetPassword(this.token, data).subscribe({
+        next: (res) => {
+          this.#toast.openSuccesToast(res.message);
+          this.#router.navigate(['auth']);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status !== 500 && err.status !== 0) {
+            this.#router.navigate(['forgetPassword']);
+          }
+        },
+      });
     }
   }
 }
