@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Logo } from 'src/app/component/logo/logo';
 
 @Component({
   selector: 'app-erreur500',
-  imports: [Logo, RouterLink],
+  imports: [Logo, MatButtonModule],
   template: `<div class="flex flex-col text-center h-screen">
     <app-logo></app-logo>
     <div
@@ -14,7 +16,8 @@ import { Logo } from 'src/app/component/logo/logo';
       <p>DÉSOLER POUR LE DÉRANGEMENT OCCASIONNER.</p>
       <p>VEUILLEZ RÉESSAYER PLUS TARD</p>
       <button
-        routerLink="/projet"
+        matButton
+        (click)="navigate()"
         class="border w-[280px] h-[60px] text-[24px] rounded-[10px] bg-[#7C3DD4] text-white font-Agdasima"
       >
         Retour à l'accueil
@@ -22,4 +25,11 @@ import { Logo } from 'src/app/component/logo/logo';
     </div>
   </div>`,
 })
-export class Erreur500 {}
+export class Erreur500 {
+  private router = inject(Router);
+  readonly dialog = inject(MatDialog);
+  navigate() {
+    this.dialog.closeAll();
+    this.router.navigate(['/']);
+  }
+}

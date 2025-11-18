@@ -4,6 +4,7 @@ import { Erreur404 } from './page/erreur404/erreur404';
 import { Erreur500 } from './page/erreur500/erreur500';
 import { PresentationComponent } from './page/presentation/presentation';
 import { Projet } from './page/projet/projet';
+import { Mention } from './page/mention/mention';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -11,4 +12,5 @@ export const routes: Routes = [
   { path: 'projet', component: Projet },
   { path: '500', component: Erreur500 },
   { path: '404', component: Erreur404 },
+  { path: 'mentions', component: Mention },
 ];
