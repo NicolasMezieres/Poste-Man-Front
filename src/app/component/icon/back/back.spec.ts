@@ -1,23 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Back } from './back';
+import { IconBackComponent } from './back';
+import { Location } from '@angular/common';
 
-describe('Back', () => {
-  let component: Back;
-  let fixture: ComponentFixture<Back>;
-
+describe('IconBackComponent', () => {
+  let component: IconBackComponent;
+  let fixture: ComponentFixture<IconBackComponent>;
+  let location: Location;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Back]
-    })
-    .compileComponents();
+      imports: [IconBackComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(Back);
+    fixture = TestBed.createComponent(IconBackComponent);
+    location = TestBed.inject(Location);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('Function backk To The Future', () => {
+    it('Should back to previous page', () => {
+      jest.spyOn(location, 'back').mockReturnValue();
+      component.backToTheFuture();
+      expect(location.back).toHaveBeenCalled();
+    });
   });
 });
