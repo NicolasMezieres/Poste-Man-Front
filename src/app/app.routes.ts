@@ -5,6 +5,7 @@ import { ValidAccountComponent } from './page/valid-account/valid-account';
 import { ForgetPasswordComponent } from './page/forget-password/forget-password';
 import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { HomeComponent } from './page/home/home';
+import { ProfilComponent } from './page/profil/profil';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -13,4 +14,5 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'profil', component: ProfilComponent },
 ];
