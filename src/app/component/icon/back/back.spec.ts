@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Back } from './back';
+import { IconBackComponent } from './back';
 
-describe('Back', () => {
-  let component: Back;
-  let fixture: ComponentFixture<Back>;
+describe('IconBackComponent', () => {
+  let component: IconBackComponent;
+  let fixture: ComponentFixture<IconBackComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Back]
-    })
-    .compileComponents();
+      imports: [IconBackComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(Back);
+    fixture = TestBed.createComponent(IconBackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
