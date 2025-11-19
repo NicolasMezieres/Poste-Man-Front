@@ -9,7 +9,7 @@ import { MatIcon } from '@angular/material/icon';
     <mat-icon fontIcon="arrow_back" />
   </button>`,
 })
-export class BackComponent {
+export class IconBackComponent {
   #location = inject(Location);
   backToTheFuture() {
     this.#location.back();
