@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { SideBarComponent } from "src/app/component/side-bar/side-bar";
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [MatIcon, SideBarComponent],
   templateUrl: './home.html',
-  styleUrl: './home.css',
 })
-export class HomeComponent {
-
-}
+export class HomeComponent {}
