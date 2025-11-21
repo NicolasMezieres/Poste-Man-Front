@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
   imports: [MatButtonModule],
   template: `<footer
     class="bg-black text-white text-2xl flex justify-around items-center font-Agdasima p-5"

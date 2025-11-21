@@ -2,8 +2,8 @@ import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { Footer } from 'src/app/component/footer/footer';
-import { Logo } from 'src/app/component/logo/logo';
+import { Footer } from '../../component/footer/footer';
+import { Logo } from '../../component/logo/logo';
 
 @Component({
   selector: 'app-mention',
