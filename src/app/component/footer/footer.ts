@@ -7,9 +7,11 @@ import { Router } from '@angular/router';
   selector: 'app-footer',
   imports: [MatButtonModule],
   template: `<footer
-    class="bg-black text-white text-2xl flex justify-around font-Agdasima p-5"
+    class="bg-black text-white text-2xl flex justify-around items-center font-Agdasima p-5"
   >
-    <button matButton (click)="navigate()">Mention légale</button>
+    <button matButton (click)="navigate()" class="">
+      <p class="text-white font-Agdasima text-[24px]">Mention Légales</p>
+    </button>
     <p>© Copyright 2025</p>
   </footer> `,
   styleUrl: './footer.css',

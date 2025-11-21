@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { SideBar } from '../side-bar/side-bar';
@@ -10,7 +10,7 @@ import { SideBar } from '../side-bar/side-bar';
   styleUrl: './header.css',
 })
 export class Header {
-  constructor(private dialogRef: MatDialogRef<SideBar>) {}
+  private dialogRef = inject(MatDialogRef<SideBar>);
 
   close() {
     this.dialogRef.close();
