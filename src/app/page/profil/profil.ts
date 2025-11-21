@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { MatIcon } from '@angular/material/icon';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
-import { InputFormComponent } from 'src/app/component/input/input-form/input-form';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
