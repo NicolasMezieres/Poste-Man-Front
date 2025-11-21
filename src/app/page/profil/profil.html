@@ -1,7 +1,52 @@
-<div class="bg-white flex min-h-screen">
+<div class="bg-white flex min-h-screen font-Agdasima">
   <app-side-bar>
     <app-icon-back />
     <mat-icon fontIcon="edit" />
     <mat-icon fontIcon="help_center" class="absolute bottom-5" />
   </app-side-bar>
+  <main class="flex-1 flex flex-col justify-center items-center">
+    <div class="flex items-center gap-10">
+      <!--Ici il y à image avatar-->
+      <h1 class="text-[32px] font-Julius">Pseudo</h1>
+    </div>
+    <form class="flex flex-col text-2xl w-full px-5 gap-5">
+      <div class="flex flex-col">
+        <label for="lastName">Nom : </label>
+        <input
+          id="lastName"
+          type="text"
+          class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          placeholder="Nom..."
+        />
+      </div>
+      <div class="flex flex-col">
+        <label for="firstName">Prénom : </label>
+        <input
+          id="firstName"
+          type="text"
+          class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          placeholder="Prénom..."
+        />
+      </div>
+      <div class="flex flex-col">
+        <label for="email">Email : </label>
+        <input
+          id="email"
+          type="email"
+          class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          placeholder="Email..."
+        />
+      </div>
+      <div class="flex flex-col">
+        <label for="username">Pseudonyme : </label>
+        <input
+          id="username"
+          type="text"
+          class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          placeholder="Pseudonyme..."
+        />
+      </div>
+      <!-- [formControl]="formProfil.controls.lastName" -->
+    </form>
+  </main>
 </div>
