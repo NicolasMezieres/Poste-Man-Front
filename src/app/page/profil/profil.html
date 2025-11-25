@@ -1,7 +1,7 @@
 <div class="bg-white flex min-h-screen font-Agdasima">
   <app-side-bar>
     <app-icon-back />
-    <mat-icon fontIcon="edit" />
+    <button (click)="changeDisabled()"><mat-icon fontIcon="edit" /></button>
     <mat-icon fontIcon="help_center" class="absolute bottom-5" />
   </app-side-bar>
   <main class="flex-1 flex flex-col justify-center items-center">
@@ -9,7 +9,10 @@
       <!--Ici il y à image avatar-->
       <h1 class="text-[32px] font-Julius">Pseudo</h1>
     </div>
-    <form class="flex flex-col text-2xl w-full px-5 gap-5">
+    <form
+      [formGroup]="this.formProfil"
+      class="flex flex-col text-2xl w-full px-5 gap-5"
+    >
       <div class="flex flex-col">
         <label for="lastName">Nom : </label>
         <input
@@ -17,6 +20,7 @@
           type="text"
           class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
           placeholder="Nom..."
+          [formControl]="this.formProfil.controls.lastName"
         />
       </div>
       <div class="flex flex-col">
@@ -26,6 +30,7 @@
           type="text"
           class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
           placeholder="Prénom..."
+          [formControl]="this.formProfil.controls.firstName"
         />
       </div>
       <div class="flex flex-col">
@@ -35,6 +40,7 @@
           type="email"
           class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
           placeholder="Email..."
+          [formControl]="this.formProfil.controls.email"
         />
       </div>
       <div class="flex flex-col">
@@ -44,9 +50,9 @@
           type="text"
           class="text-center bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
           placeholder="Pseudonyme..."
+          [formControl]="this.formProfil.controls.username"
         />
       </div>
-      <!-- [formControl]="formProfil.controls.lastName" -->
     </form>
   </main>
 </div>

@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 export class UserService {
   #http = inject(HttpClient);
   #url = environment.apiURL;
-
   myAccount(): Observable<resMyAccountType> {
     return this.#http
       .get<resMyAccountType>(`${this.#url}user/myAccount`, {
