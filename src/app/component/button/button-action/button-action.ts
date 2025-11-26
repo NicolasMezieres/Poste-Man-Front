@@ -3,8 +3,14 @@ import { Component, input, output } from '@angular/core';
 @Component({
   selector: 'app-button-action',
   imports: [],
-  templateUrl: './button-action.html',
-  styleUrl: './button-action.css',
+  template: `<button
+    [id]="id()"
+    [type]="type()"
+    (click)="handleClick($event)"
+    class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center"
+  >
+    {{ text() }}
+  </button> `,
 })
 export class ButtonActionComponent {
   type = input.required<string>();

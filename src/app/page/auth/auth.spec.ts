@@ -54,7 +54,7 @@ describe('AuthService', () => {
       expect(component.isRegisterModel()).toBe(false);
       const titleForm = view.querySelector('h2');
       expect(titleForm?.textContent).toContain('Connexion');
-      expect(component.isSubmit).toBe(false);
+      expect(component.isSubmit()).toBe(false);
     });
     it('Should isRegister true, form Register, submit false', () => {
       component.changeForm(true);
@@ -62,7 +62,7 @@ describe('AuthService', () => {
       expect(component.isRegisterModel()).toBe(true);
       const titleForm = view.querySelector('h2');
       expect(titleForm?.textContent).toContain('Inscription');
-      expect(component.isSubmit).toBe(false);
+      expect(component.isSubmit()).toBe(false);
     });
   });
   describe('Function submitFormConnexion', () => {
@@ -70,10 +70,9 @@ describe('AuthService', () => {
       identifier: 'test',
       password: 'StrongP@ssword73',
     };
-    const eventClick = new Event('click');
     it('Should fail form not valid', () => {
-      component.submitFormConnexion(eventClick);
-      expect(component.isSubmit).toBe(true);
+      component.submitFormConnexion();
+      expect(component.isSubmit()).toBe(true);
       expect(authService.signin).not.toHaveBeenCalled();
     });
     it('Should valid form with success toast', () => {
@@ -81,10 +80,10 @@ describe('AuthService', () => {
       authServiceMock.signin.mockReturnValue(
         of({ message: 'Register success' }),
       );
-      component.submitFormConnexion(eventClick);
+      component.submitFormConnexion();
       fixture.detectChanges();
 
-      expect(component.isSubmit).toBe(true);
+      expect(component.isSubmit()).toBe(true);
       expect(authService.signin).toHaveBeenCalled();
       expect(toast.openSuccesToast).toHaveBeenCalled();
     });
@@ -96,9 +95,9 @@ describe('AuthService', () => {
           error: { message: 'Account not found' },
         })),
       );
-      component.submitFormConnexion(eventClick);
+      component.submitFormConnexion();
       fixture.detectChanges();
-      expect(component.isSubmit).toBe(true);
+      expect(component.isSubmit()).toBe(true);
       expect(authService.signin).toHaveBeenCalled();
       expect(toast.openFailToast).toHaveBeenCalled();
     });
@@ -113,14 +112,13 @@ describe('AuthService', () => {
       confirmPassword: 'StrongP@ssword73',
       terme: true,
     };
-    const eventClick = new Event('click');
     beforeEach(() => {
       component.changeForm(true);
       fixture.detectChanges();
     });
     it('Should fail form not valid', () => {
-      component.submitFormRegister(eventClick);
-      expect(component.isSubmit).toBe(true);
+      component.submitFormRegister();
+      expect(component.isSubmit()).toBe(true);
       expect(authService.signup).not.toHaveBeenCalled();
     });
     it('Should valid form with success toast', () => {
@@ -128,9 +126,9 @@ describe('AuthService', () => {
       authServiceMock.signup.mockReturnValue(
         of({ message: 'Register success' }),
       );
-      component.submitFormRegister(eventClick);
+      component.submitFormRegister();
       fixture.detectChanges();
-      expect(component.isSubmit).toBe(true);
+      expect(component.isSubmit()).toBe(true);
       expect(authService.signup).toHaveBeenCalled();
       expect(toast.openSuccesToast).toHaveBeenCalled();
     });
@@ -142,9 +140,9 @@ describe('AuthService', () => {
           error: { message: 'Account not found' },
         })),
       );
-      component.submitFormRegister(eventClick);
+      component.submitFormRegister();
       fixture.detectChanges();
-      expect(component.isSubmit).toBe(true);
+      expect(component.isSubmit()).toBe(true);
       expect(authService.signup).toHaveBeenCalled();
       expect(toast.openFailToast).toHaveBeenCalled();
     });

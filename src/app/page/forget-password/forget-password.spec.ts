@@ -43,11 +43,10 @@ describe('ForgetPasswordComponent', () => {
     });
   });
   describe('Function submit Form Forget Password', () => {
-    const eventClick = new Event('click');
     it('Should fail form not valid', () => {
       component.formForgetPassword.patchValue({});
       fixture.detectChanges();
-      component.submitFormForgetPassword(eventClick);
+      component.submitFormForgetPassword();
       expect(component.isSubmit()).toBe(true);
       expect(authServiceMock.forgetPassword).not.toHaveBeenCalled();
     });
@@ -60,7 +59,7 @@ describe('ForgetPasswordComponent', () => {
         })),
       );
       fixture.detectChanges();
-      component.submitFormForgetPassword(eventClick);
+      component.submitFormForgetPassword();
       expect(component.isSubmit()).toBe(true);
       expect(authServiceMock.forgetPassword).toHaveBeenCalled();
       expect(toastMock.openFailToast).toHaveBeenCalled();
@@ -72,7 +71,7 @@ describe('ForgetPasswordComponent', () => {
       );
       jest.spyOn(router, 'navigate').mockResolvedValue(true);
       fixture.detectChanges();
-      component.submitFormForgetPassword(eventClick);
+      component.submitFormForgetPassword();
       expect(component.isSubmit()).toBe(true);
       expect(authServiceMock.forgetPassword).toHaveBeenCalled();
       expect(toastMock.openSuccesToast).toHaveBeenCalled();
