@@ -14,6 +14,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { Router } from '@angular/router';
 import { HttpErrorResponseType } from 'src/app/utils/type';
 import { ErrorMessage } from 'src/app/component/error-message/error-message';
+import { ButtonActionComponent } from "src/app/component/button/button-action/button-action";
 
 @Component({
   selector: 'app-profil',
@@ -24,7 +25,8 @@ import { ErrorMessage } from 'src/app/component/error-message/error-message';
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
     ErrorMessage,
-  ],
+    ButtonActionComponent
+],
   templateUrl: './profil.html',
   styleUrl: './profil.css',
 })

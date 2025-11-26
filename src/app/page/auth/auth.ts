@@ -1,4 +1,4 @@
-import { Component, inject, input, model } from '@angular/core';
+import { Component, inject, input, model, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,6 +15,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { AuthService } from '../../services/auth/auth-service';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType } from 'src/app/utils/type';
+import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
 @Component({
   selector: 'app-auth',
   imports: [
@@ -25,6 +26,7 @@ import { HttpErrorResponseType } from 'src/app/utils/type';
     RouterLink,
     ErrorMessage,
     MatCheckbox,
+    ButtonActionComponent,
   ],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
@@ -32,7 +34,7 @@ import { HttpErrorResponseType } from 'src/app/utils/type';
 export class AuthComponent {
   #toast = inject(ToastService);
   #auth = inject(AuthService);
-  isSubmit = false;
+  isSubmit = signal<boolean>(false);
   formConnexion = new FormGroup({
     identifier: new FormControl('', {
       nonNullable: true,
@@ -97,11 +99,10 @@ export class AuthComponent {
   });
   changeForm(value: boolean) {
     this.isRegisterModel.update(() => value);
-    this.isSubmit = false;
+    this.isSubmit.update(() => false);
   }
-  submitFormRegister(event: Event) {
-    event.preventDefault();
-    this.isSubmit = true;
+  submitFormRegister() {
+    this.isSubmit.update(() => true);
     if (this.formRegister.valid) {
       const data = this.formRegister.getRawValue();
       this.#auth.signup(data).subscribe({
@@ -114,9 +115,8 @@ export class AuthComponent {
       });
     }
   }
-  submitFormConnexion(event: Event) {
-    event.preventDefault();
-    this.isSubmit = true;
+  submitFormConnexion() {
+    this.isSubmit.update(() => true);
     if (this.formConnexion.valid) {
       const data = this.formConnexion.getRawValue();
       this.#auth.signin(data).subscribe({

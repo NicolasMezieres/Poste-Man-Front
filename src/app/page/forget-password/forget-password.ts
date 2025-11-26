@@ -13,6 +13,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { AuthService } from 'src/app/services/auth/auth-service';
 import { HttpErrorResponseType } from 'src/app/utils/type';
 import { Router } from '@angular/router';
+import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
 
 @Component({
   selector: 'app-forget-password',
@@ -22,6 +23,7 @@ import { Router } from '@angular/router';
     InputFormComponent,
     ɵInternalFormsSharedModule,
     ErrorMessage,
+    ButtonActionComponent,
   ],
   template: `<div class="flex flex-col bg-white min-h-screen">
     <app-logo />
@@ -42,7 +44,7 @@ import { Router } from '@angular/router';
             placeholder="Email"
             [control]="formForgetPassword.controls.email"
           />
-          @if (formForgetPassword.controls['email'].touched) {
+          @if (formForgetPassword.controls['email'].touched || isSubmit()) {
             @if (formForgetPassword.controls.email.hasError('required')) {
               <app-error-message message="Ce champ est requis" />
             } @else if (
@@ -52,14 +54,13 @@ import { Router } from '@angular/router';
             }
           }
         </div>
-        <button
-          id="submitForgetPassword"
+        <app-button-action
+          class="max-w-72 w-full col-span-2 place-self-center"
           type="submit"
-          (click)="submitFormForgetPassword($event)"
-          class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"
-        >
-          Confirmer
-        </button>
+          id="submitForgetPassword"
+          text="Confirmer"
+          (action)="submitFormForgetPassword()"
+        />
       </form>
     </main>
     <app-footer />
@@ -76,8 +77,7 @@ export class ForgetPasswordComponent {
       validators: [Validators.required, Validators.email],
     }),
   });
-  submitFormForgetPassword(e: Event) {
-    e.preventDefault();
+  submitFormForgetPassword() {
     this.isSubmit.update(() => true);
     if (this.formForgetPassword.valid) {
       const data = this.formForgetPassword.getRawValue();

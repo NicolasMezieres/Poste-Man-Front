@@ -1,1 +1,8 @@
-<p>button-action works!</p>
+<button
+  [id]="id()"
+  [type]="type()"
+  (click)="handleClick($event)"
+  class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center"
+>
+  {{text()}}
+</button>
