@@ -92,14 +92,15 @@ export class ProfilComponent implements OnInit {
       this.formProfil.enable();
     }
   }
-  submitFormProfil(e: Event) {
-    e.preventDefault();
+  submitFormProfil() {
     this.isSubmit.update(() => true);
     if (this.formProfil.valid) {
       const data = this.formProfil.getRawValue();
       this.#user.updateMyAccount(data).subscribe({
         next: (res) => {
           this.#toast.openSuccesToast(res.message);
+          this.changeDisabled();
+          this.username.update(() => this.formProfil.controls.username.value);
         },
         error: (err: HttpErrorResponseType) => {
           this.#toast.openFailToast(err);

@@ -101,23 +101,15 @@
         />
         } }
       </div>
-      <button
-        id="submitInscription"
+      <app-button-action
+        class="max-w-72 w-full"
         type="submit"
-        class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"
+        id="submitInscription"
+        text="Confirmer"
         [hidden]="isDisable()"
-        (click)="submitFormProfil($event)"
-      >
-        Confirmer
-      </button>
+        (action)="submitFormProfil()"
+      />
     </form>
-    <!-- <button
-      id="changePassword"
-      type="button"
-      class="bg-purple max-w-72 text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"
-    >
-      Changer son mot de passe
-    </button> -->
     <app-button-action
       class="max-w-72 w-full"
       type="button"
