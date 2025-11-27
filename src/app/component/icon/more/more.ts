@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-more',
-  imports: [],
-  templateUrl: './more.html',
-  styleUrl: './more.css',
+  selector: 'app-icon-more',
+  imports: [MatIcon],
+  template: `<button (click)="handleClick()" class="flex">
+    <mat-icon fontIcon="more_horiz" />
+  </button>`,
 })
-export class IconMoreComponent {}
+export class IconMoreComponent {
+  action = output<void>();
+  handleClick() {
+    this.action.emit();
+  }
+}

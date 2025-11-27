@@ -19,4 +19,9 @@ describe('IconMoreComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('Emit function', () => {
+    jest.spyOn(component.action, 'emit').mockReturnValue();
+    component.handleClick();
+    expect(component.action.emit).toHaveBeenCalled();
+  });
 });

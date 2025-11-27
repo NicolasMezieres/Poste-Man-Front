@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
-import { MatIcon } from '@angular/material/icon';
+import { IconMoreComponent } from 'src/app/component/icon/more/more';
 
 @Component({
   selector: 'app-tchat',
-  imports: [IconBackComponent, MatIcon],
+  imports: [IconBackComponent, IconMoreComponent],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
 })
-export class TchatComponent {}
+export class TchatComponent {
+  coucou() {
+    console.log('coucou');
+  }
+}
