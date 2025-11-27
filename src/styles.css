@@ -48,3 +48,25 @@ a {
 .shadowCast {
   box-shadow: 0 0 4px #21212133;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+mat-icon {
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  cursor: pointer;
+}
+.icon-color {
+  color: #7c3dd4;
+}
+:disabled {
+  background-color: #d8d8d8;
+}

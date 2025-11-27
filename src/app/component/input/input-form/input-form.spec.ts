@@ -25,4 +25,11 @@ describe('InputFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('Function updateValue', () => {
+    it('Should emit value update', () => {
+      jest.spyOn(component.value, 'emit').mockReturnValue();
+      component.updateValue('data');
+      expect(component.value.emit).toHaveBeenCalled();
+    });
+  });
 });

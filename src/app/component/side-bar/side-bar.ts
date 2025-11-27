@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { Header } from '../header/header';
-import { Search } from "../input/search/search";
-import { Create } from "../button/create/create";
-import { Footer } from "../footer/footer";
-import { Project } from "../project/project";
+import { MatIcon } from '@angular/material/icon';
+
 @Component({
   selector: 'app-side-bar',
-  imports: [Header, Search, Create, Footer, Project],
-  templateUrl: './side-bar.html',
-  styleUrl: './side-bar.css',
+  imports: [MatIcon],
+  template: `<aside
+    class="flex flex-col h-screen px-2.5 py-5 gap-10 bg-modal border-r"
+  >
+    <mat-icon fontIcon="menu" />
+    <ng-content></ng-content>
+  </aside> `,
 })
-export class SideBar {}
+export class SideBarComponent {}

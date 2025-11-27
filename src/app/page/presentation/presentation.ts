@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Logo } from '../../component/logo/logo';
-import { Footer } from '../../component/footer/footer';
+import { Logo } from 'src/app/component/logo/logo';
+import { Footer } from 'src/app/component/footer/footer';
 import { RouterLink } from '@angular/router';
 
 @Component({

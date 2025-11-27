@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-logo',
   imports: [],
   template: `<div class="mt-[5px] flex flex-col items-center">
-    <img src="assets/posteman.webp" alt="logo" />
+    <img src="assets/posteman.webp" alt="logo" class="h-20" />
     <h1 class="font-Alumni text-2xl md:text-5xl">POSTE MAN</h1>
   </div> `,
 })
