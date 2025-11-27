@@ -33,3 +33,12 @@ export type dataResetPasswordType = {
   password: string;
   confirmPassword: string;
 };
+export type myAccountType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+};
+export type resMyAccountType = {
+  data: myAccountType;
+};

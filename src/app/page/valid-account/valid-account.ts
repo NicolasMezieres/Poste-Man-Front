@@ -67,7 +67,6 @@ export class ValidAccountComponent implements OnInit {
             this.#toast.openFailToast(err);
             this.isError.update(() => true);
             this.message.update(() => 'Token incorrect ! Redirection en cours');
-            console.log(err);
             this.navigate();
           },
         });

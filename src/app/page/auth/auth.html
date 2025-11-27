@@ -36,7 +36,7 @@
             placeholder="Identifiant"
             [control]="formConnexion.controls['identifier']"
           />
-          @if (formConnexion.controls['identifier'].touched || isSubmit) {
+          @if (formConnexion.controls['identifier'].touched || isSubmit()) {
           @if(formConnexion.controls["identifier"].hasError("required")){
           <app-error-message message="Ce champs est requis" />
           } }
@@ -50,20 +50,19 @@
             placeholder="Mot de passe"
             [control]="formConnexion.controls.password"
           />
-          @if (formConnexion.controls['password'].touched || isSubmit) {
+          @if (formConnexion.controls['password'].touched || isSubmit()) {
           @if(formConnexion.controls["password"].hasError("required")){
           <app-error-message message="Ce champs est requis" />
           } }
         </div>
         <a [routerLink]="['/forgetPassword']">Mot de passe oublier ?</a>
-        <button
-          id="submitConnexion"
+        <app-button-action
+          class="max-w-72 w-full"
           type="submit"
-          (click)="submitFormConnexion($event)"
-          class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset"
-        >
-          Connexion
-        </button>
+          id="submitConnexion"
+          text="Connexion"
+          (action)="submitFormConnexion()"
+        />
       </form>
       <button
         class="hidden flex-1 border border-l-0 border-black text-white text-4xl font-Julius bg-purple px-5 py-2.5 rounded-[10px] rounded-l-none xl:block"
@@ -95,7 +94,7 @@
             placeholder="Nom"
             [control]="formRegister.controls.lastName"
           />
-          @if (formRegister.controls['lastName'].touched || isSubmit) {
+          @if (formRegister.controls['lastName'].touched || isSubmit()) {
           @if(formRegister.controls["lastName"].hasError("required")){
           <app-error-message message="Ce champs est requis" />
           } @if(formRegister.controls["lastName"].hasError("maxlength")){
@@ -112,7 +111,7 @@
             placeholder="Prénom"
             [control]="formRegister.controls.firstName"
           />
-          @if (formRegister.controls['firstName'].touched || isSubmit) {
+          @if (formRegister.controls['firstName'].touched || isSubmit()) {
           @if(formRegister.controls["firstName"].hasError("required")){
           <app-error-message message="Ce champs est requis" />
           } @if(formRegister.controls["firstName"].hasError("maxlength")){
@@ -131,7 +130,7 @@
             placeholder="Nom d'utilisateur"
             [control]="formRegister.controls.username"
           />
-          @if (formRegister.controls['username'].touched || isSubmit) {
+          @if (formRegister.controls['username'].touched || isSubmit()) {
           @if(formRegister.controls["username"].hasError("required")){
           <app-error-message message="Ce champs est requis" />
           } @if(formRegister.controls["username"].hasError("maxlength")){
@@ -153,7 +152,7 @@
             placeholder="Email"
             [control]="formRegister.controls.email"
           />
-          @if (formRegister.controls['email'].touched || isSubmit) {
+          @if (formRegister.controls['email'].touched || isSubmit()) {
           @if(formRegister.controls["email"].hasError("required")){
           <app-error-message message="Ce champs est requis" />
           } @if(formRegister.controls["email"].hasError("maxlength")){
@@ -173,7 +172,7 @@
             placeholder="Mot de passe"
             [control]="formRegister.controls.password"
           />
-          @if (formRegister.controls['password'].touched || isSubmit) {
+          @if (formRegister.controls['password'].touched || isSubmit()) {
           @if(formRegister.controls["password"].hasError("required")) {
           <app-error-message message="Ce champs est requis" />
           } @else if(formRegister.controls["password"].hasError("minlength")) {
@@ -201,7 +200,7 @@
             placeholder="Mot de passe"
             [control]="formRegister.controls['confirmPassword']"
           />
-          @if (formRegister.controls['confirmPassword'].touched || isSubmit) {
+          @if (formRegister.controls['confirmPassword'].touched || isSubmit()) {
           @if(formRegister.controls["confirmPassword"].hasError("required")) {
           <app-error-message message="Ce champs est requis" />
           } @else if (formRegister.errors) {
@@ -217,19 +216,18 @@
           >
             J'accepte les termes et conditions d'utilisation
           </mat-checkbox>
-          @if ((formRegister.controls['terme'].touched || isSubmit) &&
+          @if ((formRegister.controls['terme'].touched || isSubmit()) &&
           formRegister.controls['terme'].hasError("required")) {
           <app-error-message message="Ce champs est requis" />
           }
         </div>
-        <button
-          id="submitInscription"
+        <app-button-action
+          class="max-w-72 w-full col-span-2 place-self-center"
           type="submit"
-          (click)="submitFormRegister($event)"
-          class="bg-purple text-2xl text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"
-        >
-          Inscription
-        </button>
+          id="submitInscription"
+          text="Inscription"
+          (action)="submitFormRegister()"
+        />
       </form>
     </div>
     }
