@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-logo',
+  standalone: true,
   imports: [],
   template: `<div class="mt-[5px] flex flex-col items-center">
     <img src="assets/posteman.webp" alt="logo" class="h-20" />
