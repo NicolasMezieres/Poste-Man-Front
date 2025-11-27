@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
-import { resMyAccountType } from 'src/app/utils/type';
+import {
+  myAccountType,
+  resMessageType,
+  resMyAccountType,
+} from 'src/app/utils/type';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,6 +17,13 @@ export class UserService {
   myAccount(): Observable<resMyAccountType> {
     return this.#http
       .get<resMyAccountType>(`${this.#url}user/myAccount`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  updateMyAccount(data: myAccountType): Observable<resMessageType> {
+    return this.#http
+      .patch<resMessageType>(`${this.#url}user/myAccount`, data, {
         withCredentials: true,
       })
       .pipe(take(1));

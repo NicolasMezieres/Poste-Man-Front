@@ -1,4 +1,4 @@
-import { Component, inject, model, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { MatIcon } from '@angular/material/icon';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
@@ -14,7 +14,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { Router } from '@angular/router';
 import { HttpErrorResponseType } from 'src/app/utils/type';
 import { ErrorMessage } from 'src/app/component/error-message/error-message';
-import { ButtonActionComponent } from "src/app/component/button/button-action/button-action";
+import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
 
 @Component({
   selector: 'app-profil',
@@ -25,8 +25,8 @@ import { ButtonActionComponent } from "src/app/component/button/button-action/bu
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
     ErrorMessage,
-    ButtonActionComponent
-],
+    ButtonActionComponent,
+  ],
   templateUrl: './profil.html',
   styleUrl: './profil.css',
 })
@@ -95,5 +95,19 @@ export class ProfilComponent implements OnInit {
   submitFormProfil(e: Event) {
     e.preventDefault();
     this.isSubmit.update(() => true);
+    if (this.formProfil.valid) {
+      const data = this.formProfil.getRawValue();
+      this.#user.updateMyAccount(data).subscribe({
+        next: (res) => {
+          this.#toast.openSuccesToast(res.message);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          }
+        },
+      });
+    }
   }
 }

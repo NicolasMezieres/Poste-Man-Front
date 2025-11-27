@@ -36,4 +36,24 @@ describe('UserService', () => {
       req.flush(null, { status: 401, statusText: 'Unauthorized' });
     });
   });
+  describe('(PATCH) update my Account', () => {
+    const myAccountDTO = {
+      firstName: 'bidule',
+      lastName: 'Chouette',
+      username: 'roucoups',
+      email: 'email@gmail.com',
+    };
+    it('My account updated !', () => {
+      service.updateMyAccount(myAccountDTO).subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/myAccount');
+      expect(req.request.method).toEqual('PATCH');
+      req.flush({ message: 'Connexion' });
+    });
+    it('Update fail', () => {
+      service.updateMyAccount(myAccountDTO).subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/myAccount');
+      expect(req.request.method).toEqual('PATCH');
+      req.flush(null, { status: 401, statusText: 'email' });
+    });
+  });
 });
