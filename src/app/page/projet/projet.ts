@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { SideBar } from 'src/app/component/side-bar/side-bar';
+import { Changement } from 'src/app/component/modal/changement/changement';
 
 @Component({
   selector: 'app-projet',
@@ -11,7 +11,7 @@ import { SideBar } from 'src/app/component/side-bar/side-bar';
 })
 export class Projet {
   constructor(private dialog: MatDialog) {}
-  openSideBar() {
-    this.dialog.open(SideBar, {});
+  openTest() {
+    this.dialog.open(Changement, {});
   }
 }
