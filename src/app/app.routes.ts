@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
 import { AuthComponent } from './page/auth/auth';
+import { Erreur404 } from './page/erreur404/erreur404';
+import { Erreur500 } from './page/erreur500/erreur500';
 import { ForgetPasswordComponent } from './page/forget-password/forget-password';
 import { HomeComponent } from './page/home/home';
+import { Mention } from './page/mention/mention';
 import { PresentationComponent } from './page/presentation/presentation';
 import { ProfilComponent } from './page/profil/profil';
+import { Projet } from './page/projet/projet';
 import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { ValidAccountComponent } from './page/valid-account/valid-account';
-import { Projet } from './page/projet/projet';
-import { Mention } from './page/mention/mention';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
