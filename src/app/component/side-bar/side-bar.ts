@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   >
     <mat-icon fontIcon="menu" />
     <ng-content></ng-content>
+    <mat-icon fontIcon="help_center" class="absolute bottom-5" />
   </aside> `,
 })
 export class SideBarComponent {}
