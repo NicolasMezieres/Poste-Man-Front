@@ -39,6 +39,10 @@ a {
   box-shadow: 0 0 4px #21212133;
 }
 
+.shadowTitle {
+  box-shadow: 0 4px 4px #21212133;
+}
+
 html,
 body {
   height: 100%;

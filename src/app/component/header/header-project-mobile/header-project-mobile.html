@@ -1,9 +1,7 @@
 <header
-    class="flex items-center justify-between text-center text-white w-full px-2.5 py-5 bg-purple rounded-[10px] md:hidden"
-  >
-    <app-icon-back />
-    <h1 class="font-Julius text-[24px] wrap-anywhere">nom du projet</h1>
-    <button class="flex">
-      <mat-icon fontIcon="more_horiz" />
-    </button>
-  </header>
+  class="flex items-center justify-between text-center text-white w-full px-2.5 py-5 bg-purple rounded-[10px] md:hidden"
+>
+  <app-icon-back />
+  <h1 class="font-Julius text-[24px] wrap-anywhere">{{title()}}</h1>
+  <app-icon-more (action)="actionMore.emit()" />
+</header>
