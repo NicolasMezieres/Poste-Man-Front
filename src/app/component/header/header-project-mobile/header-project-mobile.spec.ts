@@ -13,6 +13,7 @@ describe('HeaderProjectMobileComponent', () => {
 
     fixture = TestBed.createComponent(HeaderProjectMobileComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('title', 'nom du projet');
     fixture.detectChanges();
   });
 
