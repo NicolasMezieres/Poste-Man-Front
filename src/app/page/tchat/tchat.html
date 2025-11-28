@@ -17,22 +17,45 @@
       Nom du projet
     </h1>
     <section
-      class="bg-purple20 p-2.5 rounded-[10px] text-xl flex-1 border overflow-scroll flex flex-col-reverse md:mx-5 md:px-5 lg:self-center lg:w-2/3 xl:w-1/2"
+      class="relative bg-purple20 p-2.5 rounded-[10px] removeScrollbar text-xl flex-1 border overflow-y-scroll scroll-0 flex flex-col-reverse md:mx-5 md:px-5 lg:self-center lg:w-2/3 xl:w-1/2"
     >
-      <article>
-        <div class="flex items-center justify-between">
-          <h1 class="text-2xl">Pseudo</h1>
-          <app-icon-more />
+      @for (message of messages(); track message.id) {
+      <article
+        class="{{message.user.username === username() ? 'md:place-self-end' : ''}} md:size-fit"
+      >
+        <div class="flex items-center justify-between gap-5">
+          <h1 class="text-2xl">{{message.user.username}}</h1>
+          <app-icon-more
+            [hidden]="message.user.username !== username() && !isModerator()"
+          />
         </div>
-        <p class="bg-purple rounded-[10px] p-2.5 text-white">premier message</p>
-        <p class="text-end">Date 1</p>
+        <p
+          class="{{message.user.username === username() ? 'bg-purple-dark' : 'bg-purple' }} rounded-[10px] p-2.5 text-white"
+        >
+          {{message.message}}
+        </p>
+        <p class="text-end">{{message.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
       </article>
+      }@empty {
+      <p class="absolute top-1/2 self-center text-[28px]">Aucun message</p>
+      }
     </section>
-    <form class="w-full flex justify-between self-center md:max-w-72">
-      <input
-        placeholder="Message..."
-        class="px-2.5 bg-purple20 flex-1 rounded-l-[10px] border"
-      />
+
+    <form
+      [formGroup]="formMessage"
+      class="w-full flex justify-between self-center md:max-w-72"
+    >
+      <div
+        class="px-2.5 bg-purple20 flex-1 flex gap-2 justify-between items-center rounded-l-[10px] border"
+      >
+        <input
+          placeholder="Message..."
+          type="text"
+          class="focus-visible:outline-0 flex-1"
+          [formControl]="formMessage.controls.message"
+        />
+        <span>0/255</span>
+      </div>
       <button class="bg-purple border">
         <mat-icon fontIcon="send" class="sendIcon" />
       </button>
