@@ -48,7 +48,7 @@ export class TchatComponent implements OnInit, OnDestroy {
   #router = inject(Router);
   #subscription!: Subscription;
   #socketMessage = inject(MessageSocketService);
-  projectId = model<string>();
+  projectId = model<string>('');
   messages = model<messageType[]>([]);
   username = model<string>();
   isModerator = signal<boolean>(false);
@@ -112,5 +112,21 @@ export class TchatComponent implements OnInit, OnDestroy {
   }
   submitFormMessage(e: Event) {
     e.preventDefault();
+    if (this.formMessage.valid) {
+      const data = this.formMessage.getRawValue();
+      this.#message.createMessage(data, this.projectId()).subscribe({
+        next: (res) => {
+          this.#toast.openSuccesToast(res.message);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          } else if (err.status === 404) {
+            this.#router.navigate(['home']);
+          }
+        },
+      });
+    }
   }
 }
