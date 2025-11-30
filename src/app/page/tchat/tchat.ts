@@ -1,4 +1,11 @@
-import { Component, inject, model, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  model,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
 import { IconMoreComponent } from 'src/app/component/icon/more/more';
 import { MatIcon } from '@angular/material/icon';
@@ -16,6 +23,8 @@ import {
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MessageSocketService } from 'src/app/services/message/message-socket';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tchat',
@@ -32,13 +41,15 @@ import { DatePipe } from '@angular/common';
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
 })
-export class TchatComponent {
+export class TchatComponent implements OnInit, OnDestroy {
   #toast = inject(ToastService);
   #message = inject(MessageService);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
+  #subscription!: Subscription;
+  #socketMessage = inject(MessageSocketService);
   projectId = model<string>();
-  messages = model<messageType[]>();
+  messages = model<messageType[]>([]);
   username = model<string>();
   isModerator = signal<boolean>(false);
   formMessage = new FormGroup({
@@ -57,7 +68,7 @@ export class TchatComponent {
     this.#message.getProjectMessages(params).subscribe({
       next: (res) => {
         console.log(res);
-        this.messages.update(() => res.data);
+        this.messages.set(res.data);
         this.username.update(() => res.user);
         this.isModerator.update(() => res.isModerator);
       },
@@ -70,6 +81,34 @@ export class TchatComponent {
         }
       },
     });
+    this.#socketMessage.joinRoom(params);
+    this.#subscription = this.#socketMessage.listenMessage().subscribe({
+      next: (data) => {
+        switch (data.action) {
+          case 'create':
+            this.messages.update((messages) => [data.message, ...messages]);
+            break;
+          case 'delete':
+            this.messages.update((messages) =>
+              messages.filter((message) => message.id != data.message.id),
+            );
+            break;
+          case 'reset':
+            this.messages.update(() => []);
+            break;
+          default:
+            break;
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+  ngOnDestroy() {
+    if (this.#subscription) {
+      this.#subscription.unsubscribe();
+    }
   }
   submitFormMessage(e: Event) {
     e.preventDefault();

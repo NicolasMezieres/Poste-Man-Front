@@ -55,3 +55,7 @@ export type messageType = {
   createdAt: string;
   updatedAt: string;
 };
+export type messageSocketType = {
+  action: string;
+  message: messageType;
+};
