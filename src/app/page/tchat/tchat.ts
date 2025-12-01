@@ -67,7 +67,6 @@ export class TchatComponent implements OnInit, OnDestroy {
     this.projectId.set(params);
     this.#message.getProjectMessages(params).subscribe({
       next: (res) => {
-        console.log(res);
         this.messages.set(res.data);
         this.username.update(() => res.user);
         this.isModerator.update(() => res.isModerator);
