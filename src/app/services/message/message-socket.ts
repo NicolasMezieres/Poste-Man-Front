@@ -7,7 +7,7 @@ import { messageSocketType } from 'src/app/utils/type';
   providedIn: 'root',
 })
 export class MessageSocketService {
-  #socket = io(environment.gatewayURL, {
+  private socket = io(environment.gatewayURL, {
     withCredentials: true,
     reconnection: true,
     reconnectionDelay: 1000,
@@ -15,10 +15,10 @@ export class MessageSocketService {
   });
 
   listenToException() {
-    this.#socket.on('exception', (error) => {
+    this.socket.on('exception', (error) => {
       console.log(error);
-      this.#socket.io.opts.reconnection = false;
-      this.#socket.disconnect();
+      this.socket.io.opts.reconnection = false;
+      this.socket.disconnect();
     });
   }
   constructor() {
@@ -26,15 +26,15 @@ export class MessageSocketService {
   }
   listenMessage(): Observable<messageSocketType> {
     return new Observable((observer) => {
-      this.#socket.on('message', (message: messageSocketType) => {
+      this.socket.on('message', (message: messageSocketType) => {
         observer.next(message);
       });
       return () => {
-        this.#socket.disconnect();
+        this.socket.disconnect();
       };
     });
   }
   joinRoom(projectId: string) {
-    this.#socket.emit('messageJoinRoom', projectId);
+    this.socket.emit('messageJoinRoom', projectId);
   }
 }
