@@ -1,16 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { SideBarComponent } from '../side-bar/side-bar';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-transfert-confirmation',
   imports: [MatIcon],
-  templateUrl: './header.html',
-  styleUrl: './header.css',
+  templateUrl: './transfert-confirmation.html',
+  styleUrl: './transfert-confirmation.css',
 })
-export class Header {
-  private dialogRef = inject(MatDialogRef<SideBarComponent>);
+export class TransfertConfirmation {
+  private dialogRef = inject(MatDialogRef<TransfertConfirmation>);
 
   close() {
     this.dialogRef.close();
