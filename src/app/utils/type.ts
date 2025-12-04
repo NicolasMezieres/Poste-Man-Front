@@ -44,6 +44,7 @@ export type resMyAccountType = {
   data: myAccountType;
 };
 export type resProjectMessage = {
+  res: messageType;
   data: messageType[];
   isModerator: boolean;
   user: string;

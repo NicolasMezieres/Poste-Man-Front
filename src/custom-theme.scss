@@ -53,6 +53,10 @@ $colorWhite: var(--color-white);
   justify-content: center;
   align-items: center;
 }
+.spinnerMessage {
+  width: 40px !important;
+  height: 40px !important;
+}
 html {
   @include mat.theme(
     (

@@ -11,11 +11,17 @@ export class MessageService {
   #http = inject(HttpClient);
   readonly #url = environment.apiURL;
 
-  getProjectMessages(projectId: string): Observable<resProjectMessage> {
+  getProjectMessages(
+    projectId: string,
+    page: number,
+  ): Observable<resProjectMessage> {
     return this.#http
-      .get<resProjectMessage>(`${this.#url}message/project/${projectId}`, {
-        withCredentials: true,
-      })
+      .get<resProjectMessage>(
+        `${this.#url}message/project/${projectId}?page=${page}`,
+        {
+          withCredentials: true,
+        },
+      )
       .pipe(take(1));
   }
 

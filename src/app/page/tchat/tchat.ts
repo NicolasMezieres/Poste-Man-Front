@@ -25,6 +25,8 @@ import {
 import { DatePipe } from '@angular/common';
 import { MessageSocketService } from 'src/app/services/message/message-socket';
 import { Subscription } from 'rxjs';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-tchat',
@@ -37,11 +39,14 @@ import { Subscription } from 'rxjs';
     IconBackComponent,
     ɵInternalFormsSharedModule,
     DatePipe,
+    InfiniteScrollDirective,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
 })
 export class TchatComponent implements OnInit, OnDestroy {
+  throttleGetMessage = 2000;
   #toast = inject(ToastService);
   #message = inject(MessageService);
   #route = inject(ActivatedRoute);
@@ -49,7 +54,7 @@ export class TchatComponent implements OnInit, OnDestroy {
   #subscription!: Subscription;
   #socketMessage = inject(MessageSocketService);
   projectId = model<string>('');
-  messages = model<messageType[]>([]);
+  messages = signal<messageType[]>([]);
   username = model<string>();
   isModerator = signal<boolean>(false);
   formMessage = new FormGroup({
@@ -58,16 +63,12 @@ export class TchatComponent implements OnInit, OnDestroy {
       validators: [Validators.required, Validators.maxLength(255)],
     }),
   });
-  ngOnInit() {
-    const params = this.#route.snapshot.paramMap.get('projectId');
-    if (!params) {
-      this.#router.navigate(['']);
-      return;
-    }
-    this.projectId.set(params);
-    this.#message.getProjectMessages(params).subscribe({
+  page = signal<number>(1);
+  isLoadingMessage = signal<boolean>(false);
+  getMessages() {
+    this.#message.getProjectMessages(this.projectId(), this.page()).subscribe({
       next: (res) => {
-        this.messages.set(res.data);
+        this.messages.update((oldValue) => [...oldValue, ...res.data]);
         this.username.update(() => res.user);
         this.isModerator.update(() => res.isModerator);
       },
@@ -80,6 +81,17 @@ export class TchatComponent implements OnInit, OnDestroy {
         }
       },
     });
+    this.isLoadingMessage.update(() => false);
+  }
+
+  ngOnInit() {
+    const params = this.#route.snapshot.paramMap.get('projectId');
+    if (!params) {
+      this.#router.navigate(['']);
+      return;
+    }
+    this.projectId.set(params);
+    this.getMessages();
     this.#socketMessage.joinRoom(params);
     this.#subscription = this.#socketMessage.listenMessage().subscribe({
       next: (data) => {
@@ -127,5 +139,14 @@ export class TchatComponent implements OnInit, OnDestroy {
         },
       });
     }
+  }
+
+  onScroll() {
+    this.isLoadingMessage.update(() => true);
+    this.page.update((oldValue) => oldValue + 1);
+
+    setTimeout(() => {
+      this.getMessages();
+    }, this.throttleGetMessage);
   }
 }

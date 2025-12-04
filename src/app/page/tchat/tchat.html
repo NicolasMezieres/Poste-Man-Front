@@ -17,9 +17,15 @@
       Nom du projet
     </h1>
     <section
-      class="relative bg-purple20 p-2.5 rounded-[10px] removeScrollbar text-xl flex-1 border overflow-y-scroll scroll-0 flex flex-col-reverse md:mx-5 md:px-5 lg:self-center lg:w-2/3 xl:w-1/2"
+      id="sectionScroll"
+      class="relative flex-1 bg-purple20 p-2.5 rounded-[10px] removeScrollbar text-xl border overflow-y-scroll scroll-0 flex flex-col-reverse md:mx-5 md:px-5 lg:self-center lg:w-2/3 xl:w-1/2"
+      infinite-scroll
+      [infiniteScrollUpDistance]="-1"
+      [infiniteScrollThrottle]="throttleGetMessage"
+      [scrollWindow]="false"
+      (scrolledUp)="onScroll()"
     >
-      @for (message of messages(); track message.id) {
+      @for (message of messages(); track $index) {
       <article
         class="{{message.user.username === username() ? 'md:place-self-end' : ''}} md:size-fit"
       >
@@ -38,6 +44,10 @@
       </article>
       }@empty {
       <p class="absolute top-1/2 self-center text-[28px]">Aucun message</p>
+      } @if(isLoadingMessage()){
+      <div class="flex justify-center py-2">
+        <mat-spinner class="spinnerMessage"></mat-spinner>
+      </div>
       }
     </section>
 
