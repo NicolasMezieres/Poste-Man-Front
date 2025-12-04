@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'home/:token', component: HomeComponent },
   { path: 'profil', component: ProfilComponent },
   {
     path: 'project',
