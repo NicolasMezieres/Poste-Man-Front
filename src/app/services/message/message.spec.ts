@@ -28,18 +28,19 @@ describe('MessageService', () => {
   });
   describe('(GET) get Project Messages', () => {
     const projectId = 'projectId';
+    const nbrMessage = 0;
     it('Should get message of project', () => {
-      service.getProjectMessages(projectId).subscribe();
+      service.getProjectMessages(projectId, nbrMessage).subscribe();
       const req = http.expectOne(
-        `${environment.apiURL}message/project/${projectId}`,
+        `${environment.apiURL}message/project/${projectId}?items=${nbrMessage}`,
       );
       expect(req.request.method).toEqual('GET');
       req.flush({ data: 'data' });
     });
     it('Should fail', () => {
-      service.getProjectMessages(projectId).subscribe();
+      service.getProjectMessages(projectId, nbrMessage).subscribe();
       const req = http.expectOne(
-        `${environment.apiURL}message/project/${projectId}`,
+        `${environment.apiURL}message/project/${projectId}?items=${nbrMessage}`,
       );
       expect(req.request.method).toEqual('GET');
       req.flush(null, { status: 401, statusText: 'Unauthorized' });

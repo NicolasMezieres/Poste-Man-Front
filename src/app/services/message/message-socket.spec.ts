@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { MessageSocketService } from './message-socket';
 import { socketMock } from './mock/socket.mock';
 import { Socket } from 'socket.io-client';
-import { Observable, Subscriber } from 'rxjs';
 describe('MessageSocketService', () => {
   let service: MessageSocketService;
   beforeEach(() => {
