@@ -13,11 +13,11 @@ export class MessageService {
 
   getProjectMessages(
     projectId: string,
-    page: number,
+    items: number,
   ): Observable<resProjectMessage> {
     return this.#http
       .get<resProjectMessage>(
-        `${this.#url}message/project/${projectId}?page=${page}`,
+        `${this.#url}message/project/${projectId}?items=${items}`,
         {
           withCredentials: true,
         },

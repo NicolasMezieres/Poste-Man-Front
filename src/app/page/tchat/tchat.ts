@@ -63,24 +63,25 @@ export class TchatComponent implements OnInit, OnDestroy {
       validators: [Validators.required, Validators.maxLength(255)],
     }),
   });
-  page = signal<number>(1);
   isLoadingMessage = signal<boolean>(false);
   getMessages() {
-    this.#message.getProjectMessages(this.projectId(), this.page()).subscribe({
-      next: (res) => {
-        this.messages.update((oldValue) => [...oldValue, ...res.data]);
-        this.username.update(() => res.user);
-        this.isModerator.update(() => res.isModerator);
-      },
-      error: (err: HttpErrorResponseType) => {
-        this.#toast.openFailToast(err);
-        if (err.status === 401) {
-          this.#router.navigate(['auth']);
-        } else if (err.status === 404 || err.status === 403) {
-          this.#router.navigate(['home']);
-        }
-      },
-    });
+    this.#message
+      .getProjectMessages(this.projectId(), this.messages().length)
+      .subscribe({
+        next: (res) => {
+          this.messages.update((oldValue) => [...oldValue, ...res.data]);
+          this.username.update(() => res.user);
+          this.isModerator.update(() => res.isModerator);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          } else if (err.status === 404 || err.status === 403) {
+            this.#router.navigate(['home']);
+          }
+        },
+      });
     this.isLoadingMessage.update(() => false);
   }
 
@@ -143,8 +144,6 @@ export class TchatComponent implements OnInit, OnDestroy {
 
   onScroll() {
     this.isLoadingMessage.update(() => true);
-    this.page.update((oldValue) => oldValue + 1);
-
     setTimeout(() => {
       this.getMessages();
     }, this.throttleGetMessage);
