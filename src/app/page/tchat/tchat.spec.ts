@@ -227,4 +227,13 @@ describe('TchatComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['home']);
     });
   });
+  describe('Function on Scroll', () => {
+    it('Should scroll', () => {
+      jest.useFakeTimers();
+      jest.spyOn(component, 'getMessages').mockReturnValue();
+      component.onScroll();
+      jest.advanceTimersByTime(component.throttleGetMessage);
+      expect(component.isLoadingMessage()).toBe(true);
+    });
+  });
 });
