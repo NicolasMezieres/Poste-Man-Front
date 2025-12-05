@@ -31,6 +31,7 @@
       >
         <div class="flex items-center justify-between gap-5">
           <h1 class="text-2xl">{{message.user.username}}</h1>
+
           <app-icon-more
             [hidden]="message.user.username !== username() && !isModerator()"
           />
@@ -67,7 +68,11 @@
         />
         <span>{{formMessage.value.message?.length || '0'}}/255</span>
       </div>
-      <button class="bg-purple border" (click)="submitFormMessage($event)">
+      <button
+        class="bg-purple border"
+        (click)="submitFormMessage($event)"
+        aria-label="send message"
+      >
         <mat-icon fontIcon="send" class="sendIcon" />
       </button>
     </form>
