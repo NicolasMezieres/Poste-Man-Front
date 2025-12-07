@@ -31,12 +31,12 @@ describe('TchatComponent', () => {
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(TchatComponent);
+    component = fixture.componentInstance;
     toast = TestBed.inject(ToastService);
     router = TestBed.inject(Router);
     messageService = TestBed.inject(MessageService);
     route = TestBed.inject(ActivatedRoute);
     messageSocket = TestBed.inject(MessageSocketService);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
