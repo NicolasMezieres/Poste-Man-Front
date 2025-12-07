@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { SectionService } from 'src/app/services/section/section';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType, sectionType } from 'src/app/utils/type';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-section',
@@ -14,15 +14,22 @@ import { Router } from '@angular/router';
   styleUrl: './section.css',
 })
 export class SectionComponent implements OnInit {
-  projectId = '06d0d448-b154-492e-8d15-0d4c487c496e';
   #sectionService = inject(SectionService);
+  #route = inject(ActivatedRoute);
   #router = inject(Router);
   #toast = inject(ToastService);
   sections = signal<sectionType[]>([]);
   isModerator = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
+  projectId = signal<string>('');
   ngOnInit(): void {
-    this.#sectionService.getSections(this.projectId).subscribe({
+    const params = this.#route.snapshot.paramMap.get('projectId');
+    if (!params) {
+      this.#router.navigate(['home']);
+      return;
+    }
+    this.projectId.update(() => params);
+    this.#sectionService.getSections(params).subscribe({
       next: (res) => {
         this.sections.update(() => res.data);
         this.isModerator.update(() => res.isModerator);
