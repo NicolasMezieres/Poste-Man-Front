@@ -60,3 +60,18 @@ export type messageSocketType = {
   action: string;
   message: messageType;
 };
+
+export type resSectionType = {
+  data: sectionType[];
+  isModerator: boolean;
+  isAdmin: boolean;
+};
+export type sectionType = {
+  id: string;
+  name: string;
+  isArchive: boolean;
+  projectId: string;
+};
+export type formSectionType = {
+  name: string;
+};

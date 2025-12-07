@@ -19,6 +19,7 @@
   --font-Agdasima: 'Agdasima', sans-serif;
   --font-Julius: 'Julius Sans One', sans-serif;
   --font-Alumni: 'Alumni Sans Collegiate One', sans-serif;
+  --shadow-title: 0 4px 4px #21212133;
 }
 
 .removeScrollbar {

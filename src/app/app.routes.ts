@@ -7,6 +7,7 @@ import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { HomeComponent } from './page/home/home';
 import { ProfilComponent } from './page/profil/profil';
 import { TchatComponent } from './page/tchat/tchat';
+import { SectionComponent } from './page/section/section';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -21,4 +22,5 @@ export const routes: Routes = [
     path: 'project',
     children: [{ path: ':projectId/tchat', component: TchatComponent }],
   },
+  { path: 'project/:projectId/section', component: SectionComponent },
 ];
