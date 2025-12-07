@@ -16,7 +16,9 @@ export class SectionService {
   #url = environment.apiURL;
   getSections(projectId: string): Observable<resSectionType> {
     return this.#http
-      .get<resSectionType>(`${this.#url}section/project/${projectId}`)
+      .get<resSectionType>(`${this.#url}section/project/${projectId}`, {
+        withCredentials: true,
+      })
       .pipe(take(1));
   }
   createSection(
