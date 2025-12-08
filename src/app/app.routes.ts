@@ -8,6 +8,7 @@ import { HomeComponent } from './page/home/home';
 import { ProfilComponent } from './page/profil/profil';
 import { TchatComponent } from './page/tchat/tchat';
 import { SectionComponent } from './page/section/section';
+import { PostComponent } from './page/post/post';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -20,7 +21,13 @@ export const routes: Routes = [
   { path: 'profil', component: ProfilComponent },
   {
     path: 'project',
-    children: [{ path: ':projectId/tchat', component: TchatComponent }],
+    children: [
+      { path: ':projectId/tchat', component: TchatComponent },
+      { path: ':projectId/section', component: SectionComponent },
+      {
+        path: ':projectId/section/:sectionId',
+        component: PostComponent,
+      },
+    ],
   },
-  { path: 'project/:projectId/section', component: SectionComponent },
 ];
