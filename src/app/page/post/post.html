@@ -1,2 +1,52 @@
-<p>post works!</p>
-<app-icon-back />
+<div
+  class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima gap-2.5 md:flex-row md:p-0 md:gap-0"
+>
+  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet" />
+
+  <app-side-bar class="hidden md:block">
+    <app-icon-back />
+    <mat-icon fontIcon="group" />
+    <mat-icon fontIcon="settings" />
+  </app-side-bar>
+  <main class="flex-1 relative">
+    <article class="w-72 grid grid-cols-1">
+      <header
+        class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2"
+      >
+        <div class="flex items-center gap-2.5">
+          <button aria-label="upVote" class="flex items-center">
+            <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
+          </button>
+          <span class="text-xl">12</span>
+          <button aria-label="downVote" class="flex items-center">
+            <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
+          </button>
+        </div>
+        <h2 class="text-2xl wrap-anywhere text-center">Auteur</h2>
+      </header>
+      <p class="text-xl p-2.5 border rounded-b-[5px]">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+        voluptatum accusantium quasi aperiam itaque! Culpa a earum saepe
+        aspernatur delectus tempore enim quos sit ipsam deleniti vero eum,
+        maiores consequuntur eos, natus facere magni aliquam tempora rem iusto
+        at sed iure nemo totam? Iste, explicabo? Illum odio consequatur repellat
+        corrupti.
+      </p>
+      <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
+        >04/06/2025 11:35
+      </time>
+      <!-- date:'dd/MM/yyyy HH:mm' -->
+      <div class="flex justify-between">
+        <button aria-label="modify post">
+          <mat-icon fontIcon="edit" />
+        </button>
+        <button aria-label="transfer post">
+          <mat-icon fontIcon="drive_file_move_outline" />
+        </button>
+        <button aria-label="delete post">
+          <mat-icon fontIcon="delete" />
+        </button>
+      </div>
+    </article>
+  </main>
+</div>
