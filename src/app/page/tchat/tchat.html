@@ -1,0 +1,80 @@
+<div
+  class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima gap-2.5 md:flex-row md:p-0 md:gap-0"
+>
+  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet" />
+  <app-side-bar class="hidden md:block">
+    <app-icon-back />
+    <mat-icon fontIcon="group" />
+    <mat-icon fontIcon="settings" />
+  </app-side-bar>
+
+  <main
+    class="flex-1 flex flex-col gap-2.5 min-h-0 p-2.5 md:p-0 md:gap-5 md:pb-5"
+  >
+    <h1
+      class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle"
+    >
+      Nom du projet
+    </h1>
+    <section
+      id="sectionScroll"
+      class="relative flex-1 bg-purple20 p-2.5 rounded-[10px] removeScrollbar text-xl border overflow-y-scroll scroll-0 flex flex-col-reverse md:mx-5 md:px-5 lg:self-center lg:w-2/3 xl:w-1/2"
+      infinite-scroll
+      [infiniteScrollUpDistance]="-1"
+      [infiniteScrollThrottle]="throttleGetMessage"
+      [scrollWindow]="false"
+      (scrolledUp)="onScroll()"
+    >
+      @for (message of messages(); track $index) {
+      <article
+        class="{{message.user.username === username() ? 'md:place-self-end' : ''}} md:size-fit"
+      >
+        <div class="flex items-center justify-between gap-5">
+          <h1 class="text-2xl">{{message.user.username}}</h1>
+
+          <app-icon-more
+            [hidden]="message.user.username !== username() && !isModerator()"
+          />
+        </div>
+        <p
+          class="{{message.user.username === username() ? 'bg-purple-dark' : 'bg-purple' }} rounded-[10px] p-2.5 text-white"
+        >
+          {{message.message}}
+        </p>
+        <p class="text-end">{{message.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
+      </article>
+      }@empty {
+      <p class="absolute top-1/2 self-center text-[28px]">Aucun message</p>
+      } @if(isLoadingMessage()){
+      <div class="flex justify-center py-2">
+        <mat-spinner class="spinnerMessage"></mat-spinner>
+      </div>
+      }
+    </section>
+
+    <form
+      [formGroup]="formMessage"
+      class="w-full flex justify-between self-center md:max-w-72"
+    >
+      <div
+        class="px-2.5 bg-purple20 flex-1 flex gap-2 justify-between items-center rounded-l-[10px] border"
+      >
+        <input
+          placeholder="Message..."
+          type="text"
+          class="focus-visible:outline-0 flex-1"
+          [formControl]="formMessage.controls.message"
+          [maxlength]="255"
+        />
+        <span>{{formMessage.value.message?.length || '0'}}/255</span>
+      </div>
+      <button
+        class="bg-purple border"
+        (click)="submitFormMessage($event)"
+        aria-label="send message"
+      >
+        <mat-icon fontIcon="send" class="sendIcon" />
+      </button>
+    </form>
+  </main>
+</div>

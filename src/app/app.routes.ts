@@ -9,6 +9,8 @@ import { PresentationComponent } from './page/presentation/presentation';
 import { ProfilComponent } from './page/profil/profil';
 import { Projet } from './page/projet/projet';
 import { ResetPasswordComponent } from './page/reset-password/reset-password';
+import { SectionComponent } from './page/section/section';
+import { TchatComponent } from './page/tchat/tchat';
 import { ValidAccountComponent } from './page/valid-account/valid-account';
 
 export const routes: Routes = [
@@ -18,9 +20,15 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'home/:token', component: HomeComponent },
   { path: 'profil', component: ProfilComponent },
   { path: 'projet', component: Projet },
   { path: '500', component: Erreur500 },
   { path: '404', component: Erreur404 },
   { path: 'mentions', component: Mention },
+  {
+    path: 'project',
+    children: [{ path: ':projectId/tchat', component: TchatComponent }],
+  },
+  { path: 'project/:projectId/section', component: SectionComponent },
 ];

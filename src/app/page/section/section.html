@@ -1,0 +1,52 @@
+<div class="flex h-screen bg-white overflow-hidden font-Agdasima">
+  <app-side-bar>
+    <app-icon-back />
+    <mat-icon fontIcon="group" />
+    @if(isModerator()){
+    <mat-icon fontIcon="add_box" />
+    } @if(isAdmin() || isModerator()){
+    <mat-icon fontIcon="settings" />
+    <button class="md:hidden" aria-label="delete all section">
+      <mat-icon fontIcon="delete" /></button
+    >}
+  </app-side-bar>
+  <main class="flex-1 flex flex-col items-center font-Agdasima relative gap-5">
+    @if(isAdmin()||isModerator()){
+    <button
+      class="hidden md:block absolute bottom-4 right-4"
+      aria-label="delete all section"
+    >
+      <mat-icon fontIcon="delete" />
+    </button>
+    }
+    <h1
+      class="text-4xl w-full md:border-b text-center py-2.5 wrap-anywhere md:shadow-title"
+    >
+      nom du projet
+    </h1>
+    <section
+      class="flex flex-wrap gap-20 justify-center items-center p-5 flex-1 overflow-x-scroll removeScrollbar border-0 text-[28px]"
+    >
+      @for (section of sections(); track $index) {
+      <article class="font-Julius relative grid grid-cols-2 gap-y-2.5">
+        <button
+          class="col-span-3 h-44 w-64 bg-purple20 border rounded-[10px] p-5 cursor-pointer"
+        >
+          <span class="text-center wrap-anywhere">{{section.name}}</span>
+        </button>
+        @if(isModerator()){
+        <button class="place-self-start">
+          <mat-icon fontIcon="edit" />
+        </button>
+        } @if(isModerator()|| isAdmin()){
+        <button class="place-self-end">
+          <mat-icon fontIcon="delete" />
+        </button>
+        }
+      </article>
+      }@empty {
+      <h1 class="text-4xl">Aucune Section</h1>
+      }
+    </section>
+  </main>
+</div>

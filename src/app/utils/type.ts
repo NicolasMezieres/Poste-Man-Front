@@ -20,6 +20,7 @@ export type HttpErrorResponseType = {
 export type resSigninType = {
   message: string;
   role: string;
+  user: string;
 };
 export type resMessageType = {
   message: string;
@@ -41,4 +42,36 @@ export type myAccountType = {
 };
 export type resMyAccountType = {
   data: myAccountType;
+};
+export type resProjectMessage = {
+  res: messageType;
+  data: messageType[];
+  isModerator: boolean;
+  user: string;
+};
+export type messageType = {
+  id: string;
+  message: string;
+  user: { username: string };
+  createdAt: string;
+  updatedAt: string;
+};
+export type messageSocketType = {
+  action: string;
+  message: messageType;
+};
+
+export type resSectionType = {
+  data: sectionType[];
+  isModerator: boolean;
+  isAdmin: boolean;
+};
+export type sectionType = {
+  id: string;
+  name: string;
+  isArchive: boolean;
+  projectId: string;
+};
+export type formSectionType = {
+  name: string;
 };
