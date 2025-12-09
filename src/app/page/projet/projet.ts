@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { CreatePost } from 'src/app/component/modal/create-post/create-post';
+import { DeletePost } from 'src/app/component/modal/delete-post/delete-post';
 
 @Component({
   selector: 'app-projet',
@@ -12,6 +12,6 @@ import { CreatePost } from 'src/app/component/modal/create-post/create-post';
 export class Projet {
   constructor(private dialog: MatDialog) {}
   openTest() {
-    this.dialog.open(CreatePost, {});
+    this.dialog.open(DeletePost, {});
   }
 }
