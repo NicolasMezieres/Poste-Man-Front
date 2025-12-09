@@ -83,6 +83,12 @@ export type formPostType = {
 };
 
 export type resPostType = {
+  data: postType[];
+  isModerator: boolean;
+  isAdmin: boolean;
+  user:  string ;
+};
+export type postType = {
   id: string;
   text: string;
   poseX: string;

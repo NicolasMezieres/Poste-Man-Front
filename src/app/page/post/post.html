@@ -8,7 +8,8 @@
     <mat-icon fontIcon="group" />
     <mat-icon fontIcon="settings" />
   </app-side-bar>
-  <main class="flex-1 relative">
+  <main class="flex-1 relative overflow-scroll">
+    @for (post of posts(); track $index) {
     <article class="w-72 grid grid-cols-1">
       <header
         class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2"
@@ -17,29 +18,25 @@
           <button aria-label="upVote" class="flex items-center">
             <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
           </button>
-          <span class="text-xl">12</span>
+          <span class="text-xl">{{post.score}}</span>
           <button aria-label="downVote" class="flex items-center">
             <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
           </button>
         </div>
-        <h2 class="text-2xl wrap-anywhere text-center">Auteur</h2>
+        <h2 class="text-2xl wrap-anywhere text-center">
+          {{post.user.username}}
+        </h2>
       </header>
-      <p class="text-xl p-2.5 border rounded-b-[5px]">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-        voluptatum accusantium quasi aperiam itaque! Culpa a earum saepe
-        aspernatur delectus tempore enim quos sit ipsam deleniti vero eum,
-        maiores consequuntur eos, natus facere magni aliquam tempora rem iusto
-        at sed iure nemo totam? Iste, explicabo? Illum odio consequatur repellat
-        corrupti.
-      </p>
+      <p class="text-xl p-2.5 border rounded-b-[5px]">{{post.text}}</p>
       <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
-        >04/06/2025 11:35
+        >{{post.createdAt | date:'dd/MM/yyyy HH:mm'}}
       </time>
-      <!-- date:'dd/MM/yyyy HH:mm' -->
+      @if(isAdmin() || isModerator() || post.user.username === username()){
       <div class="flex justify-between">
+        @if(!isAdmin()){
         <button aria-label="modify post">
-          <mat-icon fontIcon="edit" />
-        </button>
+          <mat-icon fontIcon="edit" /></button
+        >}
         <button aria-label="transfer post">
           <mat-icon fontIcon="drive_file_move_outline" />
         </button>
@@ -47,6 +44,10 @@
           <mat-icon fontIcon="delete" />
         </button>
       </div>
+      }
     </article>
+    }@empty {
+    <h1>Aucun post</h1>
+    }
   </main>
 </div>
