@@ -75,3 +75,35 @@ export type sectionType = {
 export type formSectionType = {
   name: string;
 };
+
+export type formPostType = {
+  text: string;
+  poseX?: number;
+  poseY?: number;
+};
+
+export type resPostType = {
+  data: postType[];
+  isModerator: boolean;
+  isAdmin: boolean;
+  user: string;
+};
+export type postType = {
+  id: string;
+  text: string;
+  poseX: number;
+  poseY: number;
+  score: number;
+  isArchive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user: userType;
+  vote: voteType[];
+};
+export type userType = {
+  username: string;
+  id: string;
+};
+export type voteType = {
+  isUp: boolean;
+};

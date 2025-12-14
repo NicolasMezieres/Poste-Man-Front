@@ -29,11 +29,13 @@
     >
       @for (section of sections(); track $index) {
       <article class="font-Julius relative grid grid-cols-2 gap-y-2.5">
-        <button
-          class="col-span-3 h-44 w-64 bg-purple20 border rounded-[10px] p-5 cursor-pointer"
+        <a
+          class="flex justify-center items-center wrap-anywhere col-span-3 h-44 w-64 bg-purple20 border rounded-[10px] p-5 cursor-pointer"
+          [routerLink]="[`${section.id}`]"
         >
-          <span class="text-center wrap-anywhere">{{section.name}}</span>
-        </button>
+          {{section.name}}
+        </a>
+
         @if(isModerator()){
         <button class="place-self-start">
           <mat-icon fontIcon="edit" />

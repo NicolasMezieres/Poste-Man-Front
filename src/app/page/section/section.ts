@@ -5,11 +5,11 @@ import { MatIcon } from '@angular/material/icon';
 import { SectionService } from 'src/app/services/section/section';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType, sectionType } from 'src/app/utils/type';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-section',
-  imports: [SideBarComponent, IconBackComponent, MatIcon],
+  imports: [SideBarComponent, IconBackComponent, MatIcon, RouterLink],
   templateUrl: './section.html',
   styleUrl: './section.css',
 })
