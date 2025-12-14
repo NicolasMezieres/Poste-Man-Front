@@ -2,23 +2,20 @@
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima md:flex-row md:p-0 md:gap-0"
 >
   <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet" />
-  <!-- todo: absolute z-10 -->
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <mat-icon fontIcon="group" />
-    <mat-icon fontIcon="settings" />
+    <mat-icon fontIcon="add" />
+    <mat-icon fontIcon="drive_file_move_outline" />
+    <mat-icon fontIcon="delete" />
   </app-side-bar>
-  <main
-    class="flex-1 relative overflow-hidden removeScrollbar"
-    (pointerdown)="toggleMove(true, $event)"
-    (pointerup)="toggleMove(false,$event)"
-    (pointermove)="move($event)"
-  >
-    <div
-      id="table"
-      class="absolute overflow-hidden h-[5000px] w-[5000px] bg-gray-600 origin-top-left active:cursor-grabbing"
-      [style]="`transform: translate(${originX()}px, ${originY()}px) scale(${zoom()})`"
+  <main class="flex flex-col flex-1">
+    <h1
+      class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle"
     >
+      Nom de Section
+    </h1>
+    <app-ground class="flex flex-1" [(zoom)]="zoom">
       <article
         class="w-72 grid grid-cols-1 absolute"
         draggable="true"
@@ -61,136 +58,7 @@
           </button>
         </div>
       </article>
-      <article
-        id="card2"
-        class="w-72 grid grid-cols-1 absolute"
-        draggable="true"
-        (dragend)="moveCard($event)"
-      >
-        <header
-          class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2 cursor-grab"
-        >
-          <div class="flex items-center gap-2.5">
-            <button aria-label="upVote" class="flex items-center">
-              <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
-            </button>
-            <span class="text-xl">12</span>
-            <button aria-label="downVote" class="flex items-center">
-              <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
-            </button>
-          </div>
-          <h2 class="text-2xl wrap-anywhere text-center">Auteur</h2>
-        </header>
-        <p class="text-xl p-2.5 border rounded-b-[5px] bg-white">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-          voluptatum accusantium quasi aperiam itaque! Culpa a earum saepe
-          aspernatur delectus tempore enim quos sit ipsam deleniti vero eum,
-          maiores consequuntur eos, natus facere magni aliquam tempora rem iusto
-          at sed iure nemo totam? Iste, explicabo? Illum odio consequatur
-          repellat corrupti.
-        </p>
-        <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
-          >04/06/2025 11:35
-        </time>
-        <div class="flex justify-between">
-          <button aria-label="modify post">
-            <mat-icon fontIcon="edit" />
-          </button>
-          <button aria-label="transfer post">
-            <mat-icon fontIcon="drive_file_move_outline" />
-          </button>
-          <button aria-label="delete post">
-            <mat-icon fontIcon="delete" />
-          </button>
-        </div>
-      </article>
-      <article
-        id="card3"
-        class="w-72 grid grid-cols-1 absolute"
-        draggable="true"
-        (dragend)="moveCard($event)"
-      >
-        <header
-          class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2 cursor-grab"
-        >
-          <div class="flex items-center gap-2.5">
-            <button aria-label="upVote" class="flex items-center">
-              <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
-            </button>
-            <span class="text-xl">12</span>
-            <button aria-label="downVote" class="flex items-center">
-              <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
-            </button>
-          </div>
-          <h2 class="text-2xl wrap-anywhere text-center">Auteur</h2>
-        </header>
-        <p class="text-xl p-2.5 border rounded-b-[5px] bg-white">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-          voluptatum accusantium quasi aperiam itaque! Culpa a earum saepe
-          aspernatur delectus tempore enim quos sit ipsam deleniti vero eum,
-          maiores consequuntur eos, natus facere magni aliquam tempora rem iusto
-          at sed iure nemo totam? Iste, explicabo? Illum odio consequatur
-          repellat corrupti.
-        </p>
-        <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
-          >04/06/2025 11:35
-        </time>
-        <div class="flex justify-between">
-          <button aria-label="modify post">
-            <mat-icon fontIcon="edit" />
-          </button>
-          <button aria-label="transfer post">
-            <mat-icon fontIcon="drive_file_move_outline" />
-          </button>
-          <button aria-label="delete post">
-            <mat-icon fontIcon="delete" />
-          </button>
-        </div>
-      </article>
-      <article
-        id="card4"
-        class="w-72 grid grid-cols-1 absolute"
-        draggable="true"
-        (dragend)="moveCard($event)"
-      >
-        <header
-          class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2 cursor-grab"
-        >
-          <div class="flex items-center gap-2.5">
-            <button aria-label="upVote" class="flex items-center">
-              <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
-            </button>
-            <span class="text-xl">12</span>
-            <button aria-label="downVote" class="flex items-center">
-              <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
-            </button>
-          </div>
-          <h2 class="text-2xl wrap-anywhere text-center">Auteur</h2>
-        </header>
-        <p class="text-xl p-2.5 border rounded-b-[5px] bg-white">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-          voluptatum accusantium quasi aperiam itaque! Culpa a earum saepe
-          aspernatur delectus tempore enim quos sit ipsam deleniti vero eum,
-          maiores consequuntur eos, natus facere magni aliquam tempora rem iusto
-          at sed iure nemo totam? Iste, explicabo? Illum odio consequatur
-          repellat corrupti.
-        </p>
-        <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
-          >04/06/2025 11:35
-        </time>
-        <div class="flex justify-between">
-          <button aria-label="modify post">
-            <mat-icon fontIcon="edit" />
-          </button>
-          <button aria-label="transfer post">
-            <mat-icon fontIcon="drive_file_move_outline" />
-          </button>
-          <button aria-label="delete post">
-            <mat-icon fontIcon="delete" />
-          </button>
-        </div>
-      </article>
-    </div>
+    </app-ground>
     <!-- @for (post of posts(); track $index) {
     <article class="w-72 grid grid-cols-1">
       <header

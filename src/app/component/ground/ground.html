@@ -1,0 +1,14 @@
+<div
+  class="flex-1 relative overflow-hidden removeScrollbar"
+  (pointerdown)="toggleMove(true, $event)"
+  (pointerup)="toggleMove(false,$event)"
+  (pointermove)="move($event)"
+>
+  <section
+    id="table"
+    class="absolute overflow-hidden h-[5000px] w-[5000px] origin-top-left active:cursor-grabbing"
+    [style]="`transform: translate(${originX()}px, ${originY()}px) scale(${zoom()})`"
+  >
+    <ng-content></ng-content>
+  </section>
+</div>
