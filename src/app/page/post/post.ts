@@ -38,7 +38,6 @@ export class PostComponent implements OnInit {
   moveCard(e: DragEvent) {
     const table = document.getElementById('table');
     const card = e.target as HTMLElement;
-    console.log(card);
     if (!card || !table) return;
     const boundingTable = table.getBoundingClientRect();
     const boundingCard = card.getBoundingClientRect();

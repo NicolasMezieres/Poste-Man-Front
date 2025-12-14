@@ -86,13 +86,13 @@ export type resPostType = {
   data: postType[];
   isModerator: boolean;
   isAdmin: boolean;
-  user:  string ;
+  user: string;
 };
 export type postType = {
   id: string;
   text: string;
-  poseX: string;
-  poseY: string;
+  poseX: number;
+  poseY: number;
   score: number;
   isArchive: boolean;
   createdAt: string;
