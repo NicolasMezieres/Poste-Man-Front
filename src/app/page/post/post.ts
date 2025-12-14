@@ -5,9 +5,10 @@ import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from 'src/app/services/post/post';
-import { postType } from 'src/app/utils/type';
+import { HttpErrorResponseType, postType } from 'src/app/utils/type';
 import { DatePipe } from '@angular/common';
 import { GroundComponent } from 'src/app/component/ground/ground';
+import { ToastService } from 'src/app/services/toast/toast';
 
 @Component({
   selector: 'app-post',
@@ -26,6 +27,7 @@ export class PostComponent implements OnInit {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #postService = inject(PostService);
+  #toast = inject(ToastService);
   isModerator = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   username = signal<string>('');
@@ -36,6 +38,7 @@ export class PostComponent implements OnInit {
   moveCard(e: DragEvent) {
     const table = document.getElementById('table');
     const card = e.target as HTMLElement;
+    console.log(card);
     if (!card || !table) return;
     const boundingTable = table.getBoundingClientRect();
     const boundingCard = card.getBoundingClientRect();
@@ -57,19 +60,27 @@ export class PostComponent implements OnInit {
   }
   //todo: essayer le déplacer en tenant une card et se déplacer  à gauche ou autre
   ngOnInit() {
-    //   const paramsProject = this.#route.snapshot.paramMap.get('projectId');
-    //   const paramsSection = this.#route.snapshot.paramMap.get('sectionId');
-    //   if (!paramsProject || !paramsSection) {
-    //     this.#router.navigate(['home']);
-    //     return;
-    //   }
-    //   this.#postService.getPosts(paramsSection).subscribe({
-    //     next: (res) => {
-    //       this.posts.update(() => res.data);
-    //       this.isAdmin.update(() => res.isAdmin);
-    //       this.isModerator.update(() => res.isModerator);
-    //       this.username.update(() => res.user);
-    //     },
-    //   });
+    const paramsProject = this.#route.snapshot.paramMap.get('projectId');
+    const paramsSection = this.#route.snapshot.paramMap.get('sectionId');
+    if (!paramsProject || !paramsSection) {
+      this.#router.navigate(['home']);
+      return;
+    }
+    this.#postService.getPosts(paramsSection).subscribe({
+      next: (res) => {
+        this.posts.update(() => res.data);
+        this.isAdmin.update(() => res.isAdmin);
+        this.isModerator.update(() => res.isModerator);
+        this.username.update(() => res.user);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 404 || err.status === 403) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
   }
 }

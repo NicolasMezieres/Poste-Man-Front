@@ -5,9 +5,12 @@
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <mat-icon fontIcon="group" />
+    @if(!isAdmin()){
     <mat-icon fontIcon="add" />
+    } @if(isAdmin() || isModerator()){
     <mat-icon fontIcon="drive_file_move_outline" />
     <mat-icon fontIcon="delete" />
+    }
   </app-side-bar>
   <main class="flex flex-col flex-1">
     <h1
@@ -16,40 +19,40 @@
       Nom de Section
     </h1>
     <app-ground class="flex flex-1" [(zoom)]="zoom">
+      @for (post of posts(); track $index) {
       <article
         class="w-72 grid grid-cols-1 absolute"
         draggable="true"
         (dragend)="moveCard($event)"
       >
         <header
-          class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2 cursor-grab"
+          class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2"
         >
           <div class="flex items-center gap-2.5">
             <button aria-label="upVote" class="flex items-center">
               <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
             </button>
-            <span class="text-xl">12</span>
+            <span class="text-xl">{{post.score}}</span>
             <button aria-label="downVote" class="flex items-center">
               <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
             </button>
           </div>
-          <h2 class="text-2xl wrap-anywhere text-center">Auteur</h2>
+          <h2 class="text-2xl wrap-anywhere text-center">
+            {{post.user.username}}
+          </h2>
         </header>
         <p class="text-xl p-2.5 border rounded-b-[5px] bg-white">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-          voluptatum accusantium quasi aperiam itaque! Culpa a earum saepe
-          aspernatur delectus tempore enim quos sit ipsam deleniti vero eum,
-          maiores consequuntur eos, natus facere magni aliquam tempora rem iusto
-          at sed iure nemo totam? Iste, explicabo? Illum odio consequatur
-          repellat corrupti.
+          {{post.text}}
         </p>
         <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
-          >04/06/2025 11:35
+          >{{post.createdAt | date:'dd/MM/yyyy HH:mm'}}
         </time>
+        @if(isAdmin() || isModerator() || post.user.username === username()){
         <div class="flex justify-between">
+          @if(!isAdmin()){
           <button aria-label="modify post">
-            <mat-icon fontIcon="edit" />
-          </button>
+            <mat-icon fontIcon="edit" /></button
+          >}
           <button aria-label="transfer post">
             <mat-icon fontIcon="drive_file_move_outline" />
           </button>
@@ -57,47 +60,11 @@
             <mat-icon fontIcon="delete" />
           </button>
         </div>
+        }
       </article>
-    </app-ground>
-    <!-- @for (post of posts(); track $index) {
-    <article class="w-72 grid grid-cols-1">
-      <header
-        class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2"
-      >
-        <div class="flex items-center gap-2.5">
-          <button aria-label="upVote" class="flex items-center">
-            <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
-          </button>
-          <span class="text-xl">{{post.score}}</span>
-          <button aria-label="downVote" class="flex items-center">
-            <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
-          </button>
-        </div>
-        <h2 class="text-2xl wrap-anywhere text-center">
-          {{post.user.username}}
-        </h2>
-      </header>
-      <p class="text-xl p-2.5 border rounded-b-[5px]">{{post.text}}</p>
-      <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
-        >{{post.createdAt | date:'dd/MM/yyyy HH:mm'}}
-      </time>
-      @if(isAdmin() || isModerator() || post.user.username === username()){
-      <div class="flex justify-between">
-        @if(!isAdmin()){
-        <button aria-label="modify post">
-          <mat-icon fontIcon="edit" /></button
-        >}
-        <button aria-label="transfer post">
-          <mat-icon fontIcon="drive_file_move_outline" />
-        </button>
-        <button aria-label="delete post">
-          <mat-icon fontIcon="delete" />
-        </button>
-      </div>
+      }@empty {
+      <h1>Aucun post</h1>
       }
-    </article>
-    }@empty {
-    <h1>Aucun post</h1>
-    } -->
+    </app-ground>
   </main>
 </div>
