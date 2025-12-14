@@ -31,10 +31,10 @@ export class GroundComponent implements OnInit {
     });
   }
   detectZoom() {
-    const main = document.querySelector('main');
+    const ground = document.getElementById('ground');
     const table = document.getElementById('table');
-    if (!table || !main) return;
-    main.addEventListener('wheel', (e: WheelEvent) => {
+    if (!table || !ground) return;
+    ground.addEventListener('wheel', (e: WheelEvent) => {
       if (e.ctrlKey) {
         if (e.deltaY) {
           this.updateZooming(e);
@@ -43,19 +43,20 @@ export class GroundComponent implements OnInit {
     });
   }
   updateZooming(e: WheelEvent) {
-    const main = document.querySelector('main');
+    const ground = document.getElementById('ground');
     const table = document.getElementById('table');
-    if (!main || !table) return;
-    const boundingMain = main.getBoundingClientRect();
+    if (!ground || !table) return;
+    const boundingGround = ground.getBoundingClientRect();
     const boundingTable = table.getBoundingClientRect();
-    const cursorX = e.clientX - boundingMain.x;
+    const cursorX = e.clientX - boundingGround.x;
     const posX = cursorX - this.originX();
-    const cursorY = e.clientY - boundingMain.y;
+    const cursorY = e.clientY - boundingGround.y;
     const posY = cursorY - this.originY();
     const oldZoom = this.zoom();
-    const viewportWidth = boundingMain.width;
-    const viewportHeight = boundingMain.height;
+    const viewportWidth = boundingGround.width;
+    const viewportHeight = boundingGround.height;
     if (e.deltaY > 0) {
+      console.log(viewportWidth, viewportHeight);
       if (
         viewportWidth - (boundingTable.width / oldZoom) * (this.zoom() - 0.1) <
           0 &&
@@ -86,8 +87,6 @@ export class GroundComponent implements OnInit {
     this.cursorX.update(() => e.clientX);
     this.cursorY.update(() => e.clientY);
     this.isMovable.update(() => value);
-    const main = document.querySelector('main');
-    if (!main) return;
     this.previousCursorX.update(() => this.originX());
     this.previousCursorY.update(() => this.originY());
   }
@@ -95,13 +94,13 @@ export class GroundComponent implements OnInit {
     if (this.isMovable()) {
       const posX = e.clientX - this.cursorX() + this.previousCursorX();
       const posY = e.clientY - this.cursorY() + this.previousCursorY();
-      const main = document.querySelector('main');
+      const ground = document.querySelector('#ground');
       const table = document.getElementById('table');
-      if (!main || !table) return;
-      const boundingMain = main.getBoundingClientRect();
+      if (!ground || !table) return;
+      const boundingGround = ground.getBoundingClientRect();
       const boundingTable = table.getBoundingClientRect();
-      const viewportWidth = boundingMain.width;
-      const viewportHeight = boundingMain.height;
+      const viewportWidth = boundingGround.width;
+      const viewportHeight = boundingGround.height;
       const totalWidth = boundingTable.width;
       const totalHeight = boundingTable.height;
       const minX = viewportWidth - totalWidth;
