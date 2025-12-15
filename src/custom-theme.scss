@@ -11,6 +11,7 @@ $julius: var(--font-Julius);
 $placeholder: var(--color-placeholder);
 $colorError: var(--color-error);
 $colorValid: var(--color-valid);
+$colorWhite: var(--color-white);
 .agdasima {
   @include mat.theme(
     (
@@ -45,7 +46,22 @@ $colorValid: var(--color-valid);
   );
   text-align: center;
 }
-
+.sendIcon {
+  color: $colorWhite;
+  font-size: 24px !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.spinnerMessage {
+  width: 40px !important;
+  height: 40px !important;
+}
+.arrowIcon {
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
 html {
   @include mat.theme(
     (

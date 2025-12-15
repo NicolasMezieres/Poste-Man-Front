@@ -7,6 +7,9 @@ import { HomeComponent } from './page/home/home';
 import { Mention } from './page/mention/mention';
 import { PresentationComponent } from './page/presentation/presentation';
 import { ProfilComponent } from './page/profil/profil';
+import { TchatComponent } from './page/tchat/tchat';
+import { SectionComponent } from './page/section/section';
+import { PostComponent } from './page/post/post';
 import { Projet } from './page/projet/projet';
 import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { ValidAccountComponent } from './page/valid-account/valid-account';
@@ -18,9 +21,21 @@ export const routes: Routes = [
   { path: 'forgetPassword', component: ForgetPasswordComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'home/:token', component: HomeComponent },
   { path: 'profil', component: ProfilComponent },
+  {
+    path: 'project',
+    children: [
+      { path: ':projectId/tchat', component: TchatComponent },
+      { path: ':projectId/section', component: SectionComponent },
+      {
+        path: ':projectId/section/:sectionId',
+        component: PostComponent,
+      },
+    ],
+  },
   { path: 'projet', component: Projet },
   { path: '500', component: Erreur500 },
-  { path: '404', component: Erreur404 },
   { path: 'mentions', component: Mention },
+  { path: '**', component: Erreur404 },
 ];
