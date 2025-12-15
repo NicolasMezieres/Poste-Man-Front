@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteAccount } from './delete-account';
+import { MatDialogRef } from '@angular/material/dialog';
+import { dialogMock } from '../create-post/mock/dialog.mock';
 
 describe('DeleteAccount', () => {
   let component: DeleteAccount;
@@ -8,9 +10,9 @@ describe('DeleteAccount', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeleteAccount]
-    })
-    .compileComponents();
+      imports: [DeleteAccount],
+      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DeleteAccount);
     component = fixture.componentInstance;
