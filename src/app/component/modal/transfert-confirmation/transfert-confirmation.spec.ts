@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TransfertConfirmation } from './transfert-confirmation';
+import { MatDialogRef } from '@angular/material/dialog';
+import { dialogMock } from '../create-post/mock/dialog.mock';
 
 describe('TransfertConfirmation', () => {
   let component: TransfertConfirmation;
@@ -8,9 +10,9 @@ describe('TransfertConfirmation', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TransfertConfirmation]
-    })
-    .compileComponents();
+      imports: [TransfertConfirmation],
+      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TransfertConfirmation);
     component = fixture.componentInstance;
