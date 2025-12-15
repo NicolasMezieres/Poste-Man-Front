@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Erreur404 } from './erreur404';
+import { provideRouter } from '@angular/router';
 
 describe('Erreur404', () => {
   let component: Erreur404;
@@ -8,9 +9,9 @@ describe('Erreur404', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Erreur404]
-    })
-    .compileComponents();
+      imports: [Erreur404],
+      providers: [provideRouter([])],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Erreur404);
     component = fixture.componentInstance;
