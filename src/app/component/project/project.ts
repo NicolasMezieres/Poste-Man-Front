@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -7,4 +7,6 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './project.html',
   styleUrl: './project.css',
 })
-export class Project {}
+export class Project {
+  // #projectService = inject(Project)
+}
