@@ -5,10 +5,32 @@
   <div class="p-4 flex-1 flex flex-col overflow-hidden">
     <div class="flex flex-col m-4 gap-4">
       <app-create></app-create>
-      <app-search></app-search>
+      <app-search [(search)]="search"></app-search>
     </div>
     <hr />
-    <app-project class="overflow-scroll removeScrollbar"></app-project>
+    <div
+      class="p-4 bg-purple20 m-4 rounded-[10px] border overflow-y-scroll removeScrollbar"
+    >
+      <ul class="px-2 flex flex-col gap-2 select-none">
+        @for (project of projects(); track $index) {
+        <li
+          class="flex flex-col relative items-center justify-evenly text-center"
+        >
+          <a
+            [routerLink]="['project', project.id]"
+            (click)="closeDialog()"
+            class="flex-1 font-Agdasima text-[32px] text-center wrap-anywhere px-5"
+            >{{ project.name }}</a
+          >
+          <mat-icon class="absolute right-0">notifications</mat-icon>
+
+          @if ($index < projects().length - 1) {
+          <hr class="w-full" />
+          }
+        </li>
+        }
+      </ul>
+    </div>
   </div>
   <app-footer></app-footer>
 </div>

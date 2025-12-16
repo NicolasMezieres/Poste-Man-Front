@@ -13,6 +13,7 @@ import { PostComponent } from './page/post/post';
 import { Projet } from './page/projet/projet';
 import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { ValidAccountComponent } from './page/valid-account/valid-account';
+import { ProjectComponent } from './page/project/project';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -26,6 +27,7 @@ export const routes: Routes = [
   {
     path: 'project',
     children: [
+      { path: ':projectId', component: ProjectComponent },
       { path: ':projectId/tchat', component: TchatComponent },
       { path: ':projectId/section', component: SectionComponent },
       {

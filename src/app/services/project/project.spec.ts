@@ -64,7 +64,7 @@ describe('ProjectService', () => {
   describe('(POST) joinProject', () => {
     it('Should join project', () => {
       service.joinProject('linkId').subscribe();
-      const req = http.expectOne(`${environment.apiURL}project/linkId/link`);
+      const req = http.expectOne(`${environment.apiURL}project/linkId/join`);
       expect(req.request.method).toEqual('POST');
     });
   });

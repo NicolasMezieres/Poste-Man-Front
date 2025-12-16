@@ -111,7 +111,11 @@ export type voteType = {
 export type resSearchProject = {
   total: number;
   isEndList: boolean;
-  data: { name: string; id: string }[];
+  data: searchProjectType[];
+};
+export type searchProjectType = {
+  name: string;
+  id: string;
 };
 export type querySearchType = {
   page: number;

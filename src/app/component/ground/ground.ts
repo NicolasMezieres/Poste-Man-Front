@@ -56,7 +56,6 @@ export class GroundComponent implements OnInit {
     const viewportWidth = boundingGround.width;
     const viewportHeight = boundingGround.height;
     if (e.deltaY > 0) {
-      console.log(viewportWidth, viewportHeight);
       if (
         viewportWidth - (boundingTable.width / oldZoom) * (this.zoom() - 0.1) <
           0 &&

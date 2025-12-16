@@ -8,7 +8,7 @@ import {
 import { Logo } from 'src/app/component/logo/logo';
 import { Footer } from 'src/app/component/footer/footer';
 import { InputFormComponent } from 'src/app/component/input/input-form/input-form';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ErrorMessage } from 'src/app/component/error-message/error-message';
 import { matchPasswords, passwordValidator } from 'src/app/utils/function';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -32,6 +32,7 @@ import { ButtonActionComponent } from 'src/app/component/button/button-action/bu
   styleUrl: './auth.css',
 })
 export class AuthComponent {
+  #router = inject(Router);
   #toast = inject(ToastService);
   #auth = inject(AuthService);
   isSubmit = signal<boolean>(false);
@@ -122,6 +123,7 @@ export class AuthComponent {
       this.#auth.signin(data).subscribe({
         next: (res) => {
           this.#toast.openSuccesToast(res.message);
+          this.#router.navigate(['home']);
         },
         error: (err: HttpErrorResponseType) => {
           this.#toast.openFailToast(err);

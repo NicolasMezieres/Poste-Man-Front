@@ -8,12 +8,12 @@ describe('Search', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Search]
-    })
-    .compileComponents();
+      imports: [Search],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Search);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('search', '');
     fixture.detectChanges();
   });
 

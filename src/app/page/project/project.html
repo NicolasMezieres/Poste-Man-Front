@@ -1,0 +1,18 @@
+<div class="flex min-h-screen bg-white">
+  <app-side-bar />
+  <main
+    class="flex-1 flex flex-col xl:flex-row justify-evenly items-center font-Julius text-[28px] px-5"
+  >
+    <a
+      [routerLink]="['section']"
+      class="rounded-[10px] border w-64 h-48 flex items-center justify-center bg-purple20"
+      >Section</a
+    >
+    <a
+      [routerLink]="['tchat']"
+      class="rounded-[10px] border w-64 h-48 flex items-center justify-center bg-purple20"
+    >
+      Tchat
+    </a>
+  </main>
+</div>
