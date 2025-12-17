@@ -107,3 +107,52 @@ export type userType = {
 export type voteType = {
   isUp: boolean;
 };
+
+export type resSearchProject = {
+  total: number;
+  isEndList: boolean;
+  data: searchProjectType[];
+};
+export type searchProjectType = {
+  name: string;
+  id: string;
+};
+export type querySearchType = {
+  page: number;
+  search: string;
+};
+export type querySearchAdminType = {
+  page: number;
+  search: string;
+  fromDate: string;
+  toDate: string;
+};
+
+export type resSearchProjectByAdmin = {
+  total: number;
+  isEndList: boolean;
+  data: projectByAdmin[];
+};
+export type projectByAdmin = {
+  id: string;
+  name: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
+  totalUser: number;
+  totalSection: number;
+  totalPost: number;
+};
+
+export type nameType = {
+  name: string;
+};
+
+export type resCreateInvitationLikeType = {
+  message: string;
+  data: linkType;
+};
+export type linkType = {
+  id: string;
+  outdatedAt: Date;
+};

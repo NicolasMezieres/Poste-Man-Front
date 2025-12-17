@@ -8,6 +8,7 @@ import { authServiceMock } from './mock/auth-service.mock';
 import { of, throwError } from 'rxjs';
 import { ToastService } from 'src/app/services/toast/toast';
 import { toastMock } from './mock/toast.mock';
+import { HomeComponent } from '../home/home';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -18,7 +19,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideRouter([]),
+        provideRouter([{ path: 'home', component: HomeComponent }]),
         provideHttpClient(),
         { provide: AuthService, useValue: authServiceMock },
         { provide: ToastService, useValue: toastMock },

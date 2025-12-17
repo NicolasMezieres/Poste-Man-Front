@@ -164,7 +164,6 @@ describe('PostComponent', () => {
       fixture.detectChanges();
       const card = view.querySelector('article');
       const dragEvent = { target: card } as DragEvent;
-      console.log(card);
       fixture.detectChanges();
       component.moveCard(dragEvent);
     });

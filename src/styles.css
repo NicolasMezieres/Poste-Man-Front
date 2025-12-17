@@ -20,14 +20,27 @@
   --font-Julius: 'Julius Sans One', sans-serif;
   --font-Alumni: 'Alumni Sans Collegiate One', sans-serif;
   --shadow-title: 0 4px 4px #21212133;
+  --animate-slide-in-right: slide-in-right 0.6s;
 }
 
 .removeScrollbar {
   scrollbar-width: none;
 }
+.scrollbarThin {
+  scrollbar-width: thin;
+}
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
 html {
   color: #212121;
+  background-color: #f5f5f5;
 }
 button,
 a {
