@@ -21,12 +21,16 @@
   --font-Alumni: 'Alumni Sans Collegiate One', sans-serif;
   --animate-slide-in-right: slide-in-right 0.6s;
   --shadow-title: 0 4px 4px #21212133;
+  --animate-slide-in-right: slide-in-right 0.6s;
 }
 
 .removeScrollbar {
   scrollbar-width: none;
 }
 
+.scrollbarThin {
+  scrollbar-width: thin;
+}
 @keyframes slide-in-right {
   0% {
     transform: translateX(-100%);

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreatePost } from './create-post';
+import { MatDialogRef } from '@angular/material/dialog';
+import { dialogMock } from './mock/dialog.mock';
 
 describe('CreatePost', () => {
   let component: CreatePost;
@@ -8,9 +10,9 @@ describe('CreatePost', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreatePost]
-    })
-    .compileComponents();
+      imports: [CreatePost],
+      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CreatePost);
     component = fixture.componentInstance;

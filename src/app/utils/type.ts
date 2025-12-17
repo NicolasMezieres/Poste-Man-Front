@@ -75,3 +75,84 @@ export type sectionType = {
 export type formSectionType = {
   name: string;
 };
+
+export type formPostType = {
+  text: string;
+  poseX?: number;
+  poseY?: number;
+};
+
+export type resPostType = {
+  data: postType[];
+  isModerator: boolean;
+  isAdmin: boolean;
+  user: string;
+};
+export type postType = {
+  id: string;
+  text: string;
+  poseX: number;
+  poseY: number;
+  score: number;
+  isArchive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user: userType;
+  vote: voteType[];
+};
+export type userType = {
+  username: string;
+  id: string;
+};
+export type voteType = {
+  isUp: boolean;
+};
+
+export type resSearchProject = {
+  total: number;
+  isEndList: boolean;
+  data: searchProjectType[];
+};
+export type searchProjectType = {
+  name: string;
+  id: string;
+};
+export type querySearchType = {
+  page: number;
+  search: string;
+};
+export type querySearchAdminType = {
+  page: number;
+  search: string;
+  fromDate: string;
+  toDate: string;
+};
+
+export type resSearchProjectByAdmin = {
+  total: number;
+  isEndList: boolean;
+  data: projectByAdmin[];
+};
+export type projectByAdmin = {
+  id: string;
+  name: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
+  totalUser: number;
+  totalSection: number;
+  totalPost: number;
+};
+
+export type nameType = {
+  name: string;
+};
+
+export type resCreateInvitationLikeType = {
+  message: string;
+  data: linkType;
+};
+export type linkType = {
+  id: string;
+  outdatedAt: Date;
+};

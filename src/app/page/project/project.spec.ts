@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Erreur500 } from './erreur500';
+import { ProjectComponent } from './project';
 import { provideRouter } from '@angular/router';
 
-describe('Erreur500', () => {
-  let component: Erreur500;
-  let fixture: ComponentFixture<Erreur500>;
+describe('ProjectComponent', () => {
+  let component: ProjectComponent;
+  let fixture: ComponentFixture<ProjectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Erreur500],
+      imports: [ProjectComponent],
       providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Erreur500);
+    fixture = TestBed.createComponent(ProjectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
