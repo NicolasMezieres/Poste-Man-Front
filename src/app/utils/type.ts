@@ -156,3 +156,9 @@ export type linkType = {
   id: string;
   outdatedAt: Date;
 };
+
+export type resGetProjectType = {
+  projectName: string;
+  isModerator: boolean;
+  isAdmin: boolean;
+};

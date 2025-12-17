@@ -6,6 +6,7 @@ import {
   querySearchAdminType,
   querySearchType,
   resCreateInvitationLikeType,
+  resGetProjectType,
   resMessageType,
   resSearchProject,
   resSearchProjectByAdmin,
@@ -39,6 +40,13 @@ export class ProjectService {
       )
       .pipe(take(1));
   }
+  getProject(projectId: string): Observable<resGetProjectType> {
+    return this.#http
+      .get<resGetProjectType>(`${this.#url}${projectId}`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
   create(data: nameType): Observable<resMessageType> {
     return this.#http
       .post<resMessageType>(`${this.#url}create`, data, {
@@ -46,6 +54,7 @@ export class ProjectService {
       })
       .pipe(take(1));
   }
+
   createInvitationLink(
     projectId: string,
   ): Observable<resCreateInvitationLikeType> {
