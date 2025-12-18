@@ -17,9 +17,9 @@ import { MenuComponent } from '../icon/menu/menu';
   </aside> `,
 })
 export class SideBarComponent {
-  #dialog = inject(MatDialog);
+  private readonly dialog = inject(MatDialog);
   openMenu() {
-    this.#dialog.open(MenuComponent, {
+    this.dialog.open(MenuComponent, {
       position: { top: '0', left: '0' },
     });
   }
