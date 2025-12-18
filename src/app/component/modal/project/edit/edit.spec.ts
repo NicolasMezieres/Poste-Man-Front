@@ -21,22 +21,28 @@ describe('EditProjectComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   describe('Function Close Dialog', () => {
     it('Should close dialog', () => {
+      jest.spyOn(component.dialog, 'close');
       component.closeDialog();
-      expect(component['dialog'].close).toHaveBeenCalled();
+      expect(component.dialog.close).toHaveBeenCalled();
     });
   });
   describe('Function Submit Form Edit', () => {
     it('Should nothing form not valid', () => {
+      component.formEditProject.setValue({ name: '' });
+      jest.spyOn(component.dialog, 'close');
       component.submitFormEdit();
-      expect(component['dialog'].close).not.toHaveBeenCalled();
+      expect(component.dialog.close).not.toHaveBeenCalled();
     });
     it('Should dialog close with data', () => {
+      jest.spyOn(component.dialog, 'close');
       component.formEditProject.setValue({ name: 'project' });
       component.submitFormEdit();
-      expect(component['dialog'].close).toHaveBeenCalledWith({
+      expect(component.dialog.close).toHaveBeenCalledWith({
         name: 'project',
         isSubmit: true,
       });

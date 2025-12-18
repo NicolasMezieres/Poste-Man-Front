@@ -8,9 +8,8 @@ describe('Logo404', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Logo404]
-    })
-    .compileComponents();
+      imports: [Logo404],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Logo404);
     component = fixture.componentInstance;
