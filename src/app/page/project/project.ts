@@ -76,12 +76,12 @@ export class ProjectComponent implements OnInit {
       .subscribe({
         next: (data: { isLeave: boolean }) => {
           if (data && data.isLeave) {
-            this.leave();
+            this.#leave();
           }
         },
       });
   }
-  leave() {
+  #leave() {
     this.#projectService.remove(this.projectId()).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
@@ -106,12 +106,12 @@ export class ProjectComponent implements OnInit {
       .subscribe({
         next: (data: { name: string; isSubmit: boolean }) => {
           if (data && data.isSubmit) {
-            this.renameProject(data.name);
+            this.#renameProject(data.name);
           }
         },
       });
   }
-  renameProject(name: string) {
+  #renameProject(name: string) {
     const data = { name };
     this.#projectService.rename(this.projectId(), data).subscribe({
       next: (res) => {
