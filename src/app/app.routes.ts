@@ -13,6 +13,7 @@ import { PostComponent } from './page/post/post';
 import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { ValidAccountComponent } from './page/valid-account/valid-account';
 import { ProjectComponent } from './page/project/project';
+import { JoinProjectComponent } from './page/join-project/join-project';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -33,6 +34,7 @@ export const routes: Routes = [
         path: ':projectId/section/:sectionId',
         component: PostComponent,
       },
+      { path: ':linkId/join', component: JoinProjectComponent },
     ],
   },
   { path: '500', component: Erreur500 },
