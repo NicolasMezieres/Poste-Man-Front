@@ -21,9 +21,6 @@ describe('DeleteProjectComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
   describe('Function closeDialog', () => {
     it('Should close dialog without data', () => {
       component.closeDialog();

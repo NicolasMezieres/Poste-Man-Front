@@ -29,7 +29,7 @@ import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/bu
   </div>`,
 })
 export class DeleteProjectComponent {
-  dialog = inject(MatDialogRef<DeleteProjectComponent>);
+  readonly dialog = inject(MatDialogRef<DeleteProjectComponent>);
   data = inject<{ isDelete: boolean; projectName: string }>(MAT_DIALOG_DATA);
   closeDialog() {
     this.dialog.close();

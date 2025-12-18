@@ -23,11 +23,43 @@ import { ErrorMessage } from 'src/app/component/error-message/error-message';
     ReactiveFormsModule,
     ErrorMessage,
   ],
-  templateUrl: './edit.html',
-  styleUrl: './edit.css',
+  template: `<div class="w-80 flex flex-col p-5">
+    <button (click)="closeDialog()" aria-label="cancel" class="self-end">
+      <mat-icon fontIcon="close" />
+    </button>
+    <form [formGroup]="formEditProject" class="flex flex-col gap-10">
+      <div>
+        <app-input-form
+          inputId="nameProjectId"
+          label="Nom de projet"
+          type="text"
+          placeholder="Nom de projet"
+          [control]="formEditProject.controls['name']"
+        />
+        @if (formEditProject.controls.name.touched) {
+          @if (formEditProject.controls['name'].hasError('required')) {
+            <app-error-message message="Ce champs est requis" />
+          } @else if (formEditProject.controls['name'].hasError('minlength')) {
+            <app-error-message
+              message="Ce champs doit contenir au moin 3 caractères"
+            />
+          } @else if (formEditProject.controls['name'].hasError('maxlength')) {
+            <app-error-message
+              message="Ce champs ne peut pas dépasser 16 caractères."
+            />
+          }
+        }
+      </div>
+      <app-button-action
+        text="Renommer"
+        type="submit"
+        (action)="submitFormEdit()"
+      />
+    </form>
+  </div> `,
 })
 export class EditProjectComponent {
-  #dialog = inject(MatDialogRef<EditProjectComponent>);
+  readonly dialog = inject(MatDialogRef<EditProjectComponent>);
   data: nameType = inject<nameType>(MAT_DIALOG_DATA);
   formEditProject = new FormGroup({
     name: new FormControl(this.data.name, {
@@ -40,12 +72,12 @@ export class EditProjectComponent {
     }),
   });
   closeDialog() {
-    this.#dialog.close();
+    this.dialog.close();
   }
   submitFormEdit() {
     if (this.formEditProject.valid) {
       const dataForm = this.formEditProject.getRawValue();
-      this.#dialog.close({ ...dataForm, isSubmit: true });
+      this.dialog.close({ ...dataForm, isSubmit: true });
     }
   }
 }
