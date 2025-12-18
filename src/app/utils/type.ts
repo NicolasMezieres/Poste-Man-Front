@@ -162,3 +162,8 @@ export type resGetProjectType = {
   isModerator: boolean;
   isAdmin: boolean;
 };
+
+export type resJoinProjectType = {
+  message: string;
+  projectId: string;
+};

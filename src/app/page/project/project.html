@@ -1,7 +1,9 @@
 <div class="flex min-h-screen bg-white">
   <app-side-bar>
     <mat-icon fontIcon="group" />
-
+    <button aria-label="invitation" (click)="openInvitation()">
+      <mat-icon fontIcon="attach_email" />
+    </button>
     <button aria-label="show options" (click)="toggleVisbile()">
       <mat-icon fontIcon="settings" />
     </button>
@@ -13,7 +15,7 @@
     >
       <h1 class="text-4xl wrap-anywhere font-Julius">{{projectName()}}</h1>
       @if(isVisible() && (isModerator() || isAdmin())){
-      <button class="flex" aria-label="edit name of project">
+      <button class="flex" aria-label="edit name of project" (click)="edit()">
         <mat-icon fontIcon="edit" />
       </button>
       }
@@ -37,7 +39,7 @@
     <button
       class="absolute bottom-5 right-5"
       aria-label="delete or leave project"
-      (click)="leaveProject()"
+      (click)="openModalLeave()"
     >
       <mat-icon fontIcon="delete" />
     </button>

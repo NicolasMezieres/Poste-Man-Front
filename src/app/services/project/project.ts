@@ -7,6 +7,7 @@ import {
   querySearchType,
   resCreateInvitationLikeType,
   resGetProjectType,
+  resJoinProjectType,
   resMessageType,
   resSearchProject,
   resSearchProjectByAdmin,
@@ -68,9 +69,9 @@ export class ProjectService {
       )
       .pipe(take(1));
   }
-  joinProject(linkId: string): Observable<resMessageType> {
+  joinProject(linkId: string): Observable<resJoinProjectType> {
     return this.#http
-      .post<resMessageType>(`${this.#url}${linkId}/join`, null, {
+      .post<resJoinProjectType>(`${this.#url}${linkId}/join`, null, {
         withCredentials: true,
       })
       .pipe(take(1));

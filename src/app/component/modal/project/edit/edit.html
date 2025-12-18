@@ -1,0 +1,33 @@
+<div class="w-80 flex flex-col p-5">
+  <button (click)="closeDialog()" aria-label="cancel" class="self-end">
+    <mat-icon fontIcon="close" />
+  </button>
+  <form [formGroup]="formEditProject" class="flex flex-col gap-10">
+    <div>
+      <app-input-form
+        inputId="nameProjectId"
+        label="Nom de projet"
+        type="text"
+        placeholder="Nom de projet"
+        [control]="formEditProject.controls['name']"
+      />
+      @if(formEditProject.controls.name.touched){
+      @if(formEditProject.controls['name'].hasError("required")){
+      <app-error-message message="Ce champs est requis" />
+      }@else if (formEditProject.controls["name"].hasError("minlength")) {
+      <app-error-message
+        message="Ce champs doit contenir au moin 3 caractères"
+      />
+      }@else if (formEditProject.controls['name'].hasError("maxlength")) {
+      <app-error-message
+        message="Ce champs ne peut pas dépasser 16 caractères."
+      />
+      } }
+    </div>
+    <app-button-action
+      text="Renommer"
+      type="submit"
+      (action)="submitFormEdit()"
+    />
+  </form>
+</div>
