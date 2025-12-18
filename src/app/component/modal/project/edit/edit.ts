@@ -59,7 +59,7 @@ import { ErrorMessage } from 'src/app/component/error-message/error-message';
   </div> `,
 })
 export class EditProjectComponent {
-  readonly dialog = inject(MatDialogRef<EditProjectComponent>);
+  private readonly dialog = inject(MatDialogRef<EditProjectComponent>);
   data: nameType = inject<nameType>(MAT_DIALOG_DATA);
   formEditProject = new FormGroup({
     name: new FormControl(this.data.name, {

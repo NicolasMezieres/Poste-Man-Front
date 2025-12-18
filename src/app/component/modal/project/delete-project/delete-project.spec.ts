@@ -24,13 +24,13 @@ describe('DeleteProjectComponent', () => {
   describe('Function closeDialog', () => {
     it('Should close dialog without data', () => {
       component.closeDialog();
-      expect(component.dialog.close).toHaveBeenCalled();
+      expect(component['dialog'].close).toHaveBeenCalled();
     });
   });
   describe('Function leave Project', () => {
     it('Should close dialog without data', () => {
       component.leaveProject();
-      expect(component.dialog.close).toHaveBeenCalledWith({ isLeave: true });
+      expect(component['dialog'].close).toHaveBeenCalledWith({ isLeave: true });
     });
   });
 });

@@ -25,18 +25,18 @@ describe('EditProjectComponent', () => {
   describe('Function Close Dialog', () => {
     it('Should close dialog', () => {
       component.closeDialog();
-      expect(component.dialog.close).toHaveBeenCalled();
+      expect(component['dialog'].close).toHaveBeenCalled();
     });
   });
   describe('Function Submit Form Edit', () => {
     it('Should nothing form not valid', () => {
       component.submitFormEdit();
-      expect(component.dialog.close).not.toHaveBeenCalled();
+      expect(component['dialog'].close).not.toHaveBeenCalled();
     });
     it('Should dialog close with data', () => {
       component.formEditProject.setValue({ name: 'project' });
       component.submitFormEdit();
-      expect(component.dialog.close).toHaveBeenCalledWith({
+      expect(component['dialog'].close).toHaveBeenCalledWith({
         name: 'project',
         isSubmit: true,
       });
