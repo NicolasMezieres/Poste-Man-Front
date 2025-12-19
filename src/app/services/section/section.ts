@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
   formSectionType,
+  resCreateSectionType,
   resMessageType,
   resSectionType,
 } from 'src/app/utils/type';
@@ -24,9 +25,9 @@ export class SectionService {
   createSection(
     data: formSectionType,
     projectId: string,
-  ): Observable<resMessageType> {
+  ): Observable<resCreateSectionType> {
     return this.#http
-      .post<resMessageType>(
+      .post<resCreateSectionType>(
         `${this.#url}section/project/${projectId}/create`,
         data,
         { withCredentials: true },
