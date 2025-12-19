@@ -24,7 +24,7 @@ export type resSigninType = {
 };
 export type resMessageType = {
   message: string;
-}
+};
 export type dataForgetPasswordType = {
   email: string;
 };
@@ -167,7 +167,7 @@ export type resJoinProjectType = {
   projectId: string;
 };
 
-export type resCreateSectionType = {
-  message:string;
-  data:sectionType;
-} 
+export type resFormSectionType = {
+  message: string;
+  data: sectionType;
+};

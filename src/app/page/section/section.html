@@ -46,7 +46,11 @@
         </a>
 
         @if(isVisible() && isModerator()){
-        <button class="place-self-start">
+        <button
+          class="place-self-start"
+          aria-label="open dialog edit section"
+          (click)="openModalEditSection(section.name,section.id)"
+        >
           <mat-icon fontIcon="edit" />
         </button>
         } @if(isVisible() && (isModerator()|| isAdmin())){

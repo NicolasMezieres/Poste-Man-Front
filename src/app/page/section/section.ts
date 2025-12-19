@@ -81,4 +81,42 @@ export class SectionComponent implements OnInit {
       },
     });
   }
+  openModalEditSection(name: string, sectionId: string) {
+    this.#dialog
+      .open(FormSectionnComponent, { data: { name } })
+      .afterClosed()
+      .subscribe({
+        next: (data: { name: string }) => {
+          if (data && data.name) {
+            this.#editSection(data.name, sectionId);
+          }
+        },
+      });
+  }
+  #editSection(name: string, sectionId: string) {
+    const data = { name };
+    this.#sectionService
+      .updateSection(data, sectionId, this.projectId())
+      .subscribe({
+        next: (res) => {
+          this.#toast.succesToast(res.message);
+          this.sections.update((oldData) =>
+            oldData.map((section) =>
+              section.id === sectionId
+                ? { ...section, name: res.data.name }
+                : section,
+            ),
+          );
+          console.log(res);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          } else if (err.status === 403 || err.status === 404) {
+            this.#router.navigate(['home']);
+          }
+        },
+      });
+  }
 }
