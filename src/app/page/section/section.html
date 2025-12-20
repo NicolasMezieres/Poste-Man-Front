@@ -22,6 +22,7 @@
     <button
       class="hidden md:block absolute bottom-4 right-4"
       aria-label="delete all section"
+      (click)="openModalRemoveAllSection()"
     >
       <mat-icon fontIcon="delete" />
     </button>
@@ -30,7 +31,7 @@
     <h1
       class="text-4xl w-full md:border-b text-center py-2.5 wrap-anywhere md:shadow-title font-Julius"
     >
-      nom du projet
+      {{projectName()}}
     </h1>
 
     <section
@@ -54,7 +55,10 @@
           <mat-icon fontIcon="edit" />
         </button>
         } @if(isVisible() && (isModerator()|| isAdmin())){
-        <button class="place-self-end">
+        <button
+          class="place-self-end"
+          (click)="openModalDeleteSection(section.id, section.name)"
+        >
           <mat-icon fontIcon="delete" />
         </button>
         }

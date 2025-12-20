@@ -19,8 +19,8 @@ import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/bu
     </button>
     <h1 class="font-Julius text-2xl wrap-anywhere">{{ data.projectName }}</h1>
     @if (data.isDelete) {
-      <p class="font-Julius">Cet action et irréversible</p>
-      <p class="font-Julius">Supprimer définitivement toutes les section ?</p>
+      <p class="font-Julius">Cette action et irréversible</p>
+      <p class="font-Julius">Supprimer définitivement le projet ?</p>
     } @else {
       <p class="font-Julius">Voulez vous vraiment quitter le projet ?</p>
     }

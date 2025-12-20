@@ -8,6 +8,8 @@ import { HttpErrorResponseType, sectionType } from 'src/app/utils/type';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormSectionnComponent } from 'src/app/component/modal/section/form-section/form-section';
+import { DeleteSectionComponent } from 'src/app/component/modal/section/delete-section/delete-section';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-section',
@@ -26,6 +28,7 @@ export class SectionComponent implements OnInit {
   isAdmin = signal<boolean>(false);
   projectId = signal<string>('');
   isVisible = signal<boolean>(false);
+  projectName = signal<string>('');
   ngOnInit(): void {
     const params = this.#route.snapshot.paramMap.get('projectId');
     if (!params) {
@@ -33,21 +36,25 @@ export class SectionComponent implements OnInit {
       return;
     }
     this.projectId.update(() => params);
-    this.#sectionService.getSections(params).subscribe({
-      next: (res) => {
-        this.sections.update(() => res.data);
-        this.isModerator.update(() => res.isModerator);
-        this.isAdmin.update(() => res.isAdmin);
-      },
-      error: (err: HttpErrorResponseType) => {
-        this.#toast.openFailToast(err);
-        if (err.status === 401) {
-          this.#router.navigate(['auth']);
-        } else if (err.status === 403 || err.status === 404) {
-          this.#router.navigate(['home']);
-        }
-      },
-    });
+    this.#sectionService
+      .getSections(params)
+      .pipe(take(1))
+      .subscribe({
+        next: (res) => {
+          this.sections.update(() => res.data);
+          this.isModerator.update(() => res.isModerator);
+          this.isAdmin.update(() => res.isAdmin);
+          this.projectName.set(res.projectName);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          } else if (err.status === 403 || err.status === 404) {
+            this.#router.navigate(['home']);
+          }
+        },
+      });
   }
   toggleVisible() {
     this.isVisible.update((old) => !old);
@@ -118,5 +125,68 @@ export class SectionComponent implements OnInit {
           }
         },
       });
+  }
+  // mettre cette fonction sur le bouton
+  openModalDeleteSection(sectionId: string, sectionName: string) {
+    this.#dialog
+      .open(DeleteSectionComponent, {
+        data: { title: sectionName, isAllSection: false },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#deleteSection(sectionId);
+          }
+        },
+      });
+  }
+  #deleteSection(sectionId: string) {
+    this.#sectionService.removeSection(sectionId).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.sections.update((data) =>
+          data.filter((section) => section.id != sectionId),
+        );
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalRemoveAllSection() {
+    this.#dialog
+      .open(DeleteSectionComponent, {
+        data: { title: this.projectName(), isAllSection: true },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#removeAllSection();
+          }
+        },
+      });
+  }
+  #removeAllSection() {
+    this.#sectionService.removeAllSection(this.projectId()).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.sections.update(() => []);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
   }
 }

@@ -64,6 +64,7 @@ export type resSectionType = {
   data: sectionType[];
   isModerator: boolean;
   isAdmin: boolean;
+  projectName: string;
 };
 export type sectionType = {
   id: string;

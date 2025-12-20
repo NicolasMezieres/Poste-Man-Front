@@ -54,4 +54,11 @@ export class SectionService {
       })
       .pipe(take(1));
   }
+  removeAllSection(projectId: string): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}section/project/${projectId}`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
 }
