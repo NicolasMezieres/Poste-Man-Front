@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Leaveprojet } from './leaveprojet';
+import { MatDialogRef } from '@angular/material/dialog';
+import { dialogMock } from '../create-post/mock/dialog.mock';
 
 describe('Leaveprojet', () => {
   let component: Leaveprojet;
@@ -8,9 +10,9 @@ describe('Leaveprojet', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Leaveprojet]
-    })
-    .compileComponents();
+      imports: [Leaveprojet],
+      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Leaveprojet);
     component = fixture.componentInstance;
