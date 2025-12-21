@@ -7,7 +7,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType, sectionType } from 'src/app/utils/type';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FormSectionnComponent } from 'src/app/component/modal/section/form-section/form-section';
+import { FormSectionComponent } from 'src/app/component/modal/section/form-section/form-section';
 import { DeleteSectionComponent } from 'src/app/component/modal/section/delete-section/delete-section';
 import { take } from 'rxjs';
 
@@ -61,7 +61,7 @@ export class SectionComponent implements OnInit {
   }
   openModalCreateSection() {
     this.#dialog
-      .open(FormSectionnComponent)
+      .open(FormSectionComponent)
       .afterClosed()
       .subscribe({
         next: (data: { name: string }) => {
@@ -75,7 +75,7 @@ export class SectionComponent implements OnInit {
     const data = { name };
     this.#sectionService.createSection(data, this.projectId()).subscribe({
       next: (res) => {
-        this.#toast.succesToast(res.message);
+        this.#toast.openSuccesToast(res.message);
         this.sections.update((oldData) => [...oldData, res.data]);
       },
       error: (err: HttpErrorResponseType) => {
@@ -90,7 +90,7 @@ export class SectionComponent implements OnInit {
   }
   openModalEditSection(name: string, sectionId: string) {
     this.#dialog
-      .open(FormSectionnComponent, { data: { name } })
+      .open(FormSectionComponent, { data: { name } })
       .afterClosed()
       .subscribe({
         next: (data: { name: string }) => {
@@ -106,7 +106,7 @@ export class SectionComponent implements OnInit {
       .updateSection(data, sectionId, this.projectId())
       .subscribe({
         next: (res) => {
-          this.#toast.succesToast(res.message);
+          this.#toast.openSuccesToast(res.message);
           this.sections.update((oldData) =>
             oldData.map((section) =>
               section.id === sectionId
@@ -126,7 +126,6 @@ export class SectionComponent implements OnInit {
         },
       });
   }
-  // mettre cette fonction sur le bouton
   openModalDeleteSection(sectionId: string, sectionName: string) {
     this.#dialog
       .open(DeleteSectionComponent, {

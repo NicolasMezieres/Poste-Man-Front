@@ -42,8 +42,8 @@ import { InputFormComponent } from 'src/app/component/input/input-form/input-for
     </form>
   </div>`,
 })
-export class FormSectionnComponent {
-  private dialog = inject(MatDialogRef<FormSectionnComponent>);
+export class FormSectionComponent {
+  private dialog = inject(MatDialogRef<FormSectionComponent>);
   readonly data = inject<{ name: string }>(MAT_DIALOG_DATA);
   formSection = new FormGroup({
     name: new FormControl(this.data?.name, {

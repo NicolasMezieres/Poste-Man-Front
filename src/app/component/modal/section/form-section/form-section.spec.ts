@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormSectionnComponent } from './form-section';
+import { FormSectionComponent } from './form-section';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { dialogMock } from '../../create-post/mock/dialog.mock';
 
-describe('FormSectionnComponent', () => {
-  let component: FormSectionnComponent;
-  let fixture: ComponentFixture<FormSectionnComponent>;
+describe('FormSectionComponent', () => {
+  let component: FormSectionComponent;
+  let fixture: ComponentFixture<FormSectionComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormSectionnComponent],
+      imports: [FormSectionComponent],
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: MAT_DIALOG_DATA, useValue: jest.fn() },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FormSectionnComponent);
+    fixture = TestBed.createComponent(FormSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
