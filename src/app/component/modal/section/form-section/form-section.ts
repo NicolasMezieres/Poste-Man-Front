@@ -43,7 +43,7 @@ import { InputFormComponent } from 'src/app/component/input/input-form/input-for
   </div>`,
 })
 export class FormSectionnComponent {
-  #dialog = inject(MatDialogRef<FormSectionnComponent>);
+  private dialog = inject(MatDialogRef<FormSectionnComponent>);
   readonly data = inject<{ name: string }>(MAT_DIALOG_DATA);
   formSection = new FormGroup({
     name: new FormControl(this.data?.name, {
@@ -56,12 +56,12 @@ export class FormSectionnComponent {
     }),
   });
   closeDialog() {
-    this.#dialog.close();
+    this.dialog.close();
   }
   submit() {
     if (this.formSection.valid) {
       const dataForm = this.formSection.getRawValue();
-      this.#dialog.close(dataForm);
+      this.dialog.close(dataForm);
     }
   }
 }
