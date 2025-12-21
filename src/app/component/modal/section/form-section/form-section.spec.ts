@@ -20,7 +20,9 @@ describe('FormSectionnComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   describe('close Dialog', () => {
     it('Should close dialog', () => {
       component.closeDialog();
