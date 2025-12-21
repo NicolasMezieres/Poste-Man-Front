@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeletePost } from './delete-post';
+import { MatDialogRef } from '@angular/material/dialog';
+import { dialogMock } from '../create-post/mock/dialog.mock';
 
 describe('DeletePost', () => {
   let component: DeletePost;
@@ -8,9 +10,9 @@ describe('DeletePost', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeletePost]
-    })
-    .compileComponents();
+      imports: [DeletePost],
+      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DeletePost);
     component = fixture.componentInstance;
