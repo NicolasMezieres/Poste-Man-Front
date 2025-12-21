@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import {
   ActivatedRoute,
@@ -14,13 +14,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteProjectComponent } from 'src/app/component/modal/project/delete-project/delete-project';
 import { EditProjectComponent } from 'src/app/component/modal/project/edit/edit';
 import { LinkComponent } from 'src/app/component/modal/project/link/link';
+import { Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-project',
   imports: [SideBarComponent, RouterLink, MatIcon],
   templateUrl: './project.html',
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, OnDestroy {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #projectService = inject(ProjectService);
@@ -31,13 +32,17 @@ export class ProjectComponent implements OnInit {
   isAdmin = signal<boolean>(false);
   isVisible = signal<boolean>(false);
   #dialog = inject(MatDialog);
+  subscribeRouter!: Subscription;
   ngOnInit(): void {
-    this.#router.events.subscribe((event) => {
+    this.subscribeRouter = this.#router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.initPage();
       }
     });
     this.initPage();
+  }
+  ngOnDestroy(): void {
+    this.subscribeRouter.unsubscribe();
   }
   initPage() {
     const paramProjectId = this.#route.snapshot.paramMap.get('projectId');
@@ -46,21 +51,24 @@ export class ProjectComponent implements OnInit {
       return;
     }
     this.projectId.update(() => paramProjectId);
-    this.#projectService.getProject(paramProjectId).subscribe({
-      next: (res) => {
-        this.projectName.update(() => res.projectName);
-        this.isAdmin.update(() => res.isAdmin);
-        this.isModerator.update(() => res.isModerator);
-      },
-      error: (err: HttpErrorResponseType) => {
-        this.#toast.openFailToast(err);
-        if (err.status === 401) {
-          this.#router.navigate(['auth']);
-        } else if (err.status === 404 || err.status === 403) {
-          this.#router.navigate(['home']);
-        }
-      },
-    });
+    this.#projectService
+      .getProject(paramProjectId)
+      .pipe(take(1))
+      .subscribe({
+        next: (res) => {
+          this.projectName.update(() => res.projectName);
+          this.isAdmin.update(() => res.isAdmin);
+          this.isModerator.update(() => res.isModerator);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          } else if (err.status === 404 || err.status === 403) {
+            this.#router.navigate(['home']);
+          }
+        },
+      });
   }
   toggleVisbile() {
     this.isVisible.update((old) => !old);

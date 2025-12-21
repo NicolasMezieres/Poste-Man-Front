@@ -5,10 +5,10 @@ import { ButtonDeleteComponent } from 'src/app/component/button/button-delete/bu
 import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/button-cancel';
 
 @Component({
-  selector: 'app-delete-project',
+  selector: 'app-delete-section',
   imports: [MatIcon, ButtonDeleteComponent, ButtonCancelComponent],
   template: `<div
-    class="flex flex-col p-5 pt-14 font-Agdasima gap-5 text-xl w-80 text-center"
+    class="flex flex-col p-5 pt-14 font-Agdasima gap-5 text-xl w-[335px] text-center"
   >
     <button
       aria-label="close"
@@ -17,26 +17,27 @@ import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/bu
     >
       <mat-icon fontIcon="close" />
     </button>
-    <h1 class="font-Julius text-2xl wrap-anywhere">{{ data.projectName }}</h1>
-    @if (data.isDelete) {
-      <p class="font-Julius">Cette action et irréversible</p>
-      <p class="font-Julius">Supprimer définitivement le projet ?</p>
-    } @else {
-      <p class="font-Julius">Voulez vous vraiment quitter le projet ?</p>
-    }
-    <app-button-delete type="button" text="Oui" (action)="leaveProject()" />
+    <h1 class="font-Julius text-2xl wrap-anywhere">{{ data.title }}</h1>
+
+    <p class="font-Julius">Cette action et irréversible</p>
+    <p class="font-Julius text-xl">
+      Supprimer définitivement
+      {{ data.isAllSection ? 'toutes les section ' : '' }}?
+    </p>
+
+    <app-button-delete type="button" text="Oui" (action)="deleteSection()" />
     <app-button-cancel type="button" text="Non" (action)="closeDialog()" />
-  </div>`,
+  </div> `,
 })
-export class DeleteProjectComponent {
-  private readonly dialog = inject(MatDialogRef<DeleteProjectComponent>);
-  readonly data = inject<{ isDelete: boolean; projectName: string }>(
+export class DeleteSectionComponent {
+  private dialog = inject(MatDialogRef<DeleteSectionComponent>);
+  readonly data = inject<{ title: string; isAllSection: boolean }>(
     MAT_DIALOG_DATA,
   );
   closeDialog() {
     this.dialog.close();
   }
-  leaveProject() {
-    this.dialog.close({ isLeave: true });
+  deleteSection() {
+    this.dialog.close({ isSubmit: true });
   }
 }

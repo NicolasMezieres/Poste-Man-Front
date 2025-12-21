@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
   formSectionType,
+  resFormSectionType,
   resMessageType,
   resSectionType,
 } from 'src/app/utils/type';
@@ -24,9 +25,9 @@ export class SectionService {
   createSection(
     data: formSectionType,
     projectId: string,
-  ): Observable<resMessageType> {
+  ): Observable<resFormSectionType> {
     return this.#http
-      .post<resMessageType>(
+      .post<resFormSectionType>(
         `${this.#url}section/project/${projectId}/create`,
         data,
         { withCredentials: true },
@@ -37,9 +38,9 @@ export class SectionService {
     data: formSectionType,
     sectionId: string,
     projectId: string,
-  ): Observable<resMessageType> {
+  ): Observable<resFormSectionType> {
     return this.#http
-      .patch<resMessageType>(
+      .patch<resFormSectionType>(
         `${this.#url}section/${sectionId}/project/${projectId}`,
         data,
         { withCredentials: true },
@@ -49,6 +50,13 @@ export class SectionService {
   removeSection(sectionId: string): Observable<resMessageType> {
     return this.#http
       .delete<resMessageType>(`${this.#url}section/${sectionId}`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  removeAllSection(projectId: string): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}section/project/${projectId}`, {
         withCredentials: true,
       })
       .pipe(take(1));

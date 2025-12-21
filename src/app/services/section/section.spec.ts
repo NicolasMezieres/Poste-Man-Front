@@ -57,10 +57,19 @@ describe('SectionService', () => {
       expect(req.request.method).toEqual('PATCH');
     });
   });
-  describe('(DELETE) createSection', () => {
+  describe('(DELETE) removeSection', () => {
     it('Should section deleted', () => {
       service.removeSection(sectionId).subscribe();
       const req = http.expectOne(`${environment.apiURL}section/${sectionId}`);
+      expect(req.request.method).toEqual('DELETE');
+    });
+  });
+  describe('(DELETE) remove All Section', () => {
+    it('Should all section deleted', () => {
+      service.removeAllSection(projectId).subscribe();
+      const req = http.expectOne(
+        `${environment.apiURL}section/project/${projectId}`,
+      );
       expect(req.request.method).toEqual('DELETE');
     });
   });

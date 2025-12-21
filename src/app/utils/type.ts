@@ -25,7 +25,6 @@ export type resSigninType = {
 export type resMessageType = {
   message: string;
 };
-
 export type dataForgetPasswordType = {
   email: string;
 };
@@ -65,6 +64,7 @@ export type resSectionType = {
   data: sectionType[];
   isModerator: boolean;
   isAdmin: boolean;
+  projectName: string;
 };
 export type sectionType = {
   id: string;
@@ -166,4 +166,9 @@ export type resGetProjectType = {
 export type resJoinProjectType = {
   message: string;
   projectId: string;
+};
+
+export type resFormSectionType = {
+  message: string;
+  data: sectionType;
 };
