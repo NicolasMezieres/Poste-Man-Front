@@ -62,9 +62,12 @@
         </div>
         }
       </article>
-      }@empty {
-      <h1>Aucun post</h1>
       }
     </app-ground>
+    @if(posts().length === 0){
+    <h1 class="font-Julius text-[32px] fixed top-1/2 self-center">
+      Aucun post
+    </h1>
+    }
   </main>
 </div>
