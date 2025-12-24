@@ -16,6 +16,7 @@
   --color-purple-over: #7c3dd4b2;
   --color-purple-dark: #5500cc;
   --color-logout: #aaa;
+  --color-disableGray: #d8d8d8;
   --font-Agdasima: 'Agdasima', sans-serif;
   --font-Julius: 'Julius Sans One', sans-serif;
   --font-Alumni: 'Alumni Sans Collegiate One', sans-serif;
@@ -79,7 +80,4 @@ mat-icon {
 }
 .icon-color {
   color: #7c3dd4;
-}
-:disabled {
-  background-color: #d8d8d8;
 }

@@ -18,7 +18,12 @@ import { Clipboard } from '@angular/cdk/clipboard';
       <mat-icon fontIcon="close" />
     </button>
     <h1 class="font-Julius text-2xl wrap-anywhere">Invitation</h1>
-    <input type="text" disabled [value]="data.linkId" class="text-center" />
+    <input
+      type="text"
+      disabled
+      [value]="data.linkId"
+      class="text-center disabled:bg-disableGray"
+    />
     <app-button-action
       type="button"
       [text]="'Copier ' + (isCopied() ? '✓' : '')"

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TransfertConfirmation } from './transfert-confirmation';
 import { MatDialogRef } from '@angular/material/dialog';
-import { dialogMock } from '../create-post/mock/dialog.mock';
+import { dialogMock } from '../dialogMock/dialog-mock';
 
 describe('TransfertConfirmation', () => {
   let component: TransfertConfirmation;

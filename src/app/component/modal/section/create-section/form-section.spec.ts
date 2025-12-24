@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormSectionComponent } from './form-section';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { dialogMock } from '../../create-post/mock/dialog.mock';
+import { dialogMock } from '../../dialogMock/dialog-mock';
 
 describe('FormSectionComponent', () => {
   let component: FormSectionComponent;

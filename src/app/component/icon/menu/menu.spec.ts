@@ -5,11 +5,11 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { toastMock } from 'src/app/page/auth/mock/toast.mock';
 import { MatDialogRef } from '@angular/material/dialog';
 import { provideHttpClient } from '@angular/common/http';
-import { dialogMock } from '../../modal/create-post/mock/dialog.mock';
 import { ProjectService } from 'src/app/services/project/project';
 import { projectServiceMock } from './mock/project.service.mock';
 import { of, throwError } from 'rxjs';
 import { provideRouter, Router } from '@angular/router';
+import { dialogMock } from '../../modal/dialogMock/dialog-mock';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;

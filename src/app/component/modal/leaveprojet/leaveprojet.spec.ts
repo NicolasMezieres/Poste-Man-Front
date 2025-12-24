@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatePost } from './create-post';
+import { Leaveprojet } from './leaveprojet';
 import { MatDialogRef } from '@angular/material/dialog';
-import { dialogMock } from './mock/dialog.mock';
+import { dialogMock } from '../dialogMock/dialog-mock';
 
-describe('CreatePost', () => {
-  let component: CreatePost;
-  let fixture: ComponentFixture<CreatePost>;
+describe('Leaveprojet', () => {
+  let component: Leaveprojet;
+  let fixture: ComponentFixture<Leaveprojet>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreatePost],
+      imports: [Leaveprojet],
       providers: [{ provide: MatDialogRef, useValue: dialogMock }],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CreatePost);
+    fixture = TestBed.createComponent(Leaveprojet);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
