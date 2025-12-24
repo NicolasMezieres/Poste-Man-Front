@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditProjectComponent } from './edit';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { dialogMock } from '../../create-post/mock/dialog.mock';
+import { dialogMock } from '../../dialogMock/dialog-mock';
 
 describe('EditProjectComponent', () => {
   let component: EditProjectComponent;

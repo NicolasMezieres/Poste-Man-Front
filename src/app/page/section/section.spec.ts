@@ -9,7 +9,7 @@ import { sectionServiceMock } from './mock/section-service.mock';
 import { HomeComponent } from '../home/home';
 import { of, throwError } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormSectionComponent } from 'src/app/component/modal/section/form-section/form-section';
+import { FormSectionComponent } from 'src/app/component/modal/section/create-section/form-section';
 import { DeleteSectionComponent } from 'src/app/component/modal/section/delete-section/delete-section';
 
 describe('SectionComponent', () => {

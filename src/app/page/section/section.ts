@@ -7,7 +7,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType, sectionType } from 'src/app/utils/type';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FormSectionComponent } from 'src/app/component/modal/section/form-section/form-section';
+import { FormSectionComponent } from 'src/app/component/modal/section/create-section/form-section';
 import { DeleteSectionComponent } from 'src/app/component/modal/section/delete-section/delete-section';
 import { take } from 'rxjs';
 

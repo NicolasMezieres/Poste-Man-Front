@@ -78,8 +78,8 @@ export type formSectionType = {
 
 export type formPostType = {
   text: string;
-  poseX?: number;
-  poseY?: number;
+  poseX: number;
+  poseY: number;
 };
 
 export type resPostType = {
@@ -87,6 +87,10 @@ export type resPostType = {
   isModerator: boolean;
   isAdmin: boolean;
   user: string;
+};
+export type resEditPostType = {
+  message: string;
+  data: postType;
 };
 export type postType = {
   id: string;

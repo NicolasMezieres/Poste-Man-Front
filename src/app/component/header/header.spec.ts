@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Header } from './header';
 import { MatDialogRef } from '@angular/material/dialog';
-import { dialogMock } from '../modal/create-post/mock/dialog.mock';
+import { dialogMock } from '../modal/dialogMock/dialog-mock';
 
 describe('Header', () => {
   let component: Header;

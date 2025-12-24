@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
   formPostType,
+  resEditPostType,
   resMessageType,
   resPostType,
   voteType,
@@ -26,8 +27,8 @@ export class PostService {
   createPost(
     sectionId: string,
     data: formPostType,
-  ): Observable<resMessageType> {
-    return this.#http.post<resMessageType>(
+  ): Observable<resEditPostType> {
+    return this.#http.post<resEditPostType>(
       `${this.#url}post/section/${sectionId}`,
       data,
       {
@@ -35,8 +36,8 @@ export class PostService {
       },
     );
   }
-  updatePost(postId: string, data: formPostType): Observable<resMessageType> {
-    return this.#http.patch<resMessageType>(
+  updatePost(postId: string, data: formPostType): Observable<resEditPostType> {
+    return this.#http.patch<resEditPostType>(
       `${this.#url}post/${postId}`,
       data,
       {
