@@ -22,7 +22,7 @@
     >
       <mat-icon fontIcon="drive_file_move_outline" />
     </button>
-    <button aria-label="delte all post" (click)="getPosition()">
+    <button aria-label="delte all post" (click)="openModalDeleteAllPost()">
       <mat-icon fontIcon="delete" />
     </button>
     }
@@ -38,7 +38,7 @@
       <article
         [id]="post.id"
         class="w-72 flex flex-col absolute"
-        [style]="`left:${post.poseX}px;top:${post.poseY}px`"
+        [style]="`left:${post.poseX || 0}px;top:${post.poseY || 0}px`"
         draggable="true"
         (dragend)="moveCard($event)"
       >

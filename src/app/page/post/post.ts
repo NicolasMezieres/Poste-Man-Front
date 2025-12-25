@@ -170,7 +170,7 @@ export class PostComponent implements OnInit {
   }
   openModalDeletePost(post: postType) {
     this.#dialog
-      .open(DeletePostComponent, { data: post })
+      .open(DeletePostComponent, { data: { post } })
       .afterClosed()
       .subscribe({
         next: (data: { isSubmit: boolean }) => {
@@ -223,6 +223,7 @@ export class PostComponent implements OnInit {
         this.posts.update((arrayPost) =>
           arrayPost.filter((post) => post.id != postId),
         );
+        console.log(this.posts());
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -254,6 +255,34 @@ export class PostComponent implements OnInit {
   }
   #transfertAllPost(otherSection: string) {
     this.#postService.moveAllPost(this.sectionId(), otherSection).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update(() => []);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalDeleteAllPost() {
+    this.#dialog
+      .open(DeletePostComponent, { data: { isAllPost: true } })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#deleteAllPost();
+          }
+        },
+      });
+  }
+  #deleteAllPost() {
+    this.#postService.deleteAll(this.sectionId()).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
         this.posts.update(() => []);

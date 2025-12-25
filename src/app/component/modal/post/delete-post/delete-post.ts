@@ -24,9 +24,15 @@ import { CardPostComponent } from 'src/app/component/card/post/post';
       Cette action et irréversible
     </h1>
     <h2 class="text-xl font-Julius text-center">
-      Supprimer définitivement ce post ?
+      {{
+        data.isAllPost
+          ? 'Supprimer définitivement tous les postes ?'
+          : 'Supprimer définitivement ce post ?'
+      }}
     </h2>
-    <app-card-post [post]="data" />
+    @if (!data.isAllPost) {
+      <app-card-post [post]="data.post" />
+    }
     <app-button-delete
       type="button"
       text="Oui"
@@ -43,7 +49,9 @@ import { CardPostComponent } from 'src/app/component/card/post/post';
 })
 export class DeletePostComponent {
   private readonly dialog = inject(MatDialogRef<DeletePostComponent>);
-  readonly data = inject<postType>(MAT_DIALOG_DATA);
+  readonly data = inject<{ post: postType; isAllPost: boolean }>(
+    MAT_DIALOG_DATA,
+  );
   closeDialog() {
     this.dialog.close();
   }
