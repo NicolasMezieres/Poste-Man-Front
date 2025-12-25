@@ -12,6 +12,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
 import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
+import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
 
 @Component({
   selector: 'app-post',
@@ -181,6 +182,42 @@ export class PostComponent implements OnInit {
   }
   #deletePost(postId: string) {
     this.#postService.delete(postId).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update((arrayPost) =>
+          arrayPost.filter((post) => post.id != postId),
+        );
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalTransfertPost(post: postType) {
+    this.#dialog
+      .open(TransfertPostComponent, {
+        data: {
+          post,
+          projectId: this.projectId(),
+          sectionId: this.sectionId(),
+        },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean; sectionId: string }) => {
+          if (data && data.isSubmit) {
+            this.#transfertPost(post.id, data.sectionId);
+          }
+        },
+      });
+  }
+  #transfertPost(postId: string, sectionId: string) {
+    this.#postService.movePost(postId, sectionId).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
         this.posts.update((arrayPost) =>

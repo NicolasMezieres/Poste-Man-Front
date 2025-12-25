@@ -6,7 +6,7 @@ import { postType } from 'src/app/utils/type';
 @Component({
   selector: 'app-card-post',
   imports: [MatIcon, DatePipe],
-  template: `<article class="w-72 flex flex-col overflow-y-auto">
+  template: `<article class="w-72 max-h-96 flex flex-col overflow-y-auto">
     <header
       class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2"
     >

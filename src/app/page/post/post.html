@@ -65,7 +65,10 @@
           <button aria-label="modify post" (click)="openModalUpdatePost(post)">
             <mat-icon fontIcon="edit" /></button
           >}
-          <button aria-label="transfer post">
+          <button
+            aria-label="transfer post"
+            (click)="openModalTransfertPost(post)"
+          >
             <mat-icon fontIcon="drive_file_move_outline" />
           </button>
           <button aria-label="delete post" (click)="openModalDeletePost(post)">
