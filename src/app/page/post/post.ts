@@ -234,4 +234,38 @@ export class PostComponent implements OnInit {
       },
     });
   }
+  openModalTransfertAllPost() {
+    this.#dialog
+      .open(TransfertPostComponent, {
+        data: {
+          isAllPost: true,
+          projectId: this.projectId(),
+          sectionId: this.sectionId(),
+        },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean; sectionId: string }) => {
+          if (data && data.isSubmit) {
+            this.#transfertAllPost(data.sectionId);
+          }
+        },
+      });
+  }
+  #transfertAllPost(otherSection: string) {
+    this.#postService.moveAllPost(this.sectionId(), otherSection).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update(() => []);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
 }

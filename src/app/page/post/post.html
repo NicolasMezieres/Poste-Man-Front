@@ -1,7 +1,10 @@
 <div
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima md:flex-row md:p-0 md:gap-0"
 >
-  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet" />
+  <app-header-project-mobile
+    class="md:hidden p-2.5 select-none"
+    title="nom du projet"
+  />
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <mat-icon fontIcon="group" />
@@ -13,7 +16,12 @@
       <mat-icon fontIcon="add" />
     </button>
     } @if(isAdmin() || isModerator()){
-    <mat-icon fontIcon="drive_file_move_outline" />
+    <button
+      aria-label="transfert all post"
+      (click)="openModalTransfertAllPost()"
+    >
+      <mat-icon fontIcon="drive_file_move_outline" />
+    </button>
     <button aria-label="delte all post" (click)="getPosition()">
       <mat-icon fontIcon="delete" />
     </button>
@@ -21,7 +29,7 @@
   </app-side-bar>
   <main class="flex flex-col flex-1">
     <h1
-      class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle"
+      class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle select-none"
     >
       Nom de Section
     </h1>

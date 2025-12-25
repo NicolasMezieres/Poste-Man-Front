@@ -32,6 +32,7 @@ export class TransfertPostComponent implements OnInit {
   private readonly dialog = inject(MatDialogRef<TransfertPostComponent>);
   readonly data = inject<{
     post: postType;
+    isAllPost: boolean;
     projectId: string;
     sectionId: string;
   }>(MAT_DIALOG_DATA);
@@ -46,7 +47,11 @@ export class TransfertPostComponent implements OnInit {
     }),
   });
   ngOnInit(): void {
-    if (!this.data.projectId || !this.data.sectionId) {
+    if (
+      !this.data.projectId ||
+      !this.data.sectionId ||
+      (!this.data.post && !this.data.isAllPost)
+    ) {
       this.#router.navigate(['home']);
       this.closeDialog();
       return;
