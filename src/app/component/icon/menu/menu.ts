@@ -46,6 +46,7 @@ export class MenuComponent implements OnInit {
   searchProject() {
     this.#projectService.search({ search: '', page: 1 }).subscribe({
       next: (res) => {
+        console.log(res);
         this.projects.update(() => res.data);
       },
       error: (err: HttpErrorResponseType) => {
