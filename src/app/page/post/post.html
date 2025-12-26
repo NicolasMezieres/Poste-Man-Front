@@ -31,7 +31,7 @@
     <h1
       class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle select-none"
     >
-      Nom de Section
+      {{sectionName()}}
     </h1>
     <app-ground class="flex flex-1" [(zoom)]="zoom">
       @for (post of posts(); track $index) {

@@ -40,6 +40,7 @@ export class PostComponent implements OnInit {
   projectId = signal<string>('');
   sectionId = signal<string>('');
   zoom = signal<number>(1);
+  sectionName = signal<string>('');
   moveCard(e: DragEvent) {
     const table = document.getElementById('table');
     const card = e.target as HTMLElement;
@@ -78,6 +79,7 @@ export class PostComponent implements OnInit {
         this.isAdmin.update(() => res.isAdmin);
         this.isModerator.update(() => res.isModerator);
         this.username.update(() => res.user);
+        this.sectionName.set(res.sectionName);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);

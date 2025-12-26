@@ -87,6 +87,7 @@ export type resPostType = {
   isModerator: boolean;
   isAdmin: boolean;
   user: string;
+  sectionName: string;
 };
 export type resEditPostType = {
   message: string;

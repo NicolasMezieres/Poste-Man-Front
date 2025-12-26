@@ -78,6 +78,7 @@ describe('PostComponent', () => {
           isAdmin: false,
           isModerator: false,
           user: 'username',
+          sectionName: 'name',
         }),
       );
       component.ngOnInit();
