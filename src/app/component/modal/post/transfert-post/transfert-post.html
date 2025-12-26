@@ -1,0 +1,31 @@
+<div
+  class="w-[335px] max-h-screen flex flex-col items-center p-5 gap-5 font-Agdasima overflow-hidden"
+>
+  <button class="flex w-full justify-end">
+    <mat-icon class="" (click)="closeDialog()">close</mat-icon>
+  </button>
+  <form [formGroup]="formMovePost" class="flex flex-col items-center gap-5">
+    <label for="selectSection" class="text-2xl font-Julius text-center"
+      >{{data.isAllPost ? 'Tout transferé vers' : 'Transferé vers'}}</label
+    >
+    <select
+      id="selectSection"
+      [formControl]="formMovePost.controls['sectionId']"
+      class="text-center text-[28px] bg-purple text-white w-full rounded-[10px] py-2.5"
+    >
+      @for(section of sections(); track $index){
+      <option [value]="section.id">{{section.name}}</option>
+      }
+    </select>
+    @if(!data.isAllPost){
+    <app-card-post [post]="data.post" />
+    }
+
+    <app-button-action
+      type="button"
+      text="Transferer"
+      class="w-full"
+      (action)="submitTransfertPost()"
+    />
+  </form>
+</div>

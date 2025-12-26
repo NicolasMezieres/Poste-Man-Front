@@ -12,6 +12,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
 import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
+import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
 
 @Component({
   selector: 'app-post',
@@ -169,7 +170,7 @@ export class PostComponent implements OnInit {
   }
   openModalDeletePost(post: postType) {
     this.#dialog
-      .open(DeletePostComponent, { data: post })
+      .open(DeletePostComponent, { data: { post } })
       .afterClosed()
       .subscribe({
         next: (data: { isSubmit: boolean }) => {
@@ -186,6 +187,105 @@ export class PostComponent implements OnInit {
         this.posts.update((arrayPost) =>
           arrayPost.filter((post) => post.id != postId),
         );
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalTransfertPost(post: postType) {
+    this.#dialog
+      .open(TransfertPostComponent, {
+        data: {
+          post,
+          projectId: this.projectId(),
+          sectionId: this.sectionId(),
+        },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean; sectionId: string }) => {
+          if (data && data.isSubmit) {
+            this.#transfertPost(post.id, data.sectionId);
+          }
+        },
+      });
+  }
+  #transfertPost(postId: string, sectionId: string) {
+    this.#postService.movePost(postId, sectionId).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update((arrayPost) =>
+          arrayPost.filter((post) => post.id != postId),
+        );
+        console.log(this.posts());
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalTransfertAllPost() {
+    this.#dialog
+      .open(TransfertPostComponent, {
+        data: {
+          isAllPost: true,
+          projectId: this.projectId(),
+          sectionId: this.sectionId(),
+        },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean; sectionId: string }) => {
+          if (data && data.isSubmit) {
+            this.#transfertAllPost(data.sectionId);
+          }
+        },
+      });
+  }
+  #transfertAllPost(otherSection: string) {
+    this.#postService.moveAllPost(this.sectionId(), otherSection).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update(() => []);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalDeleteAllPost() {
+    this.#dialog
+      .open(DeletePostComponent, { data: { isAllPost: true } })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#deleteAllPost();
+          }
+        },
+      });
+  }
+  #deleteAllPost() {
+    this.#postService.deleteAll(this.sectionId()).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update(() => []);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);

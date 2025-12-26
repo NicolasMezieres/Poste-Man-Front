@@ -14,6 +14,7 @@ import { dialogMock } from 'src/app/component/modal/dialogMock/dialog-mock';
 import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
 import { postMock } from 'src/app/component/modal/post/mock/post-mock';
 import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
+import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
 
 describe('PostComponent', () => {
   let component: PostComponent;
@@ -390,7 +391,7 @@ describe('PostComponent', () => {
       jest.spyOn(postService, 'delete');
       component.openModalDeletePost(postMock);
       expect(dialog.open).toHaveBeenCalledWith(DeletePostComponent, {
-        data: postMock,
+        data: { post: postMock },
       });
       expect(postService.delete).toHaveBeenCalled();
     });
@@ -445,6 +446,224 @@ describe('PostComponent', () => {
       jest.spyOn(router, 'navigate').mockResolvedValue(true);
       component.openModalDeletePost(postMock);
       expect(postService.delete).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
+    });
+  });
+  describe('open Modal Transfert Post', () => {
+    it('Should call endpoint movePost from postService', () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest
+          .fn()
+          .mockReturnValue(of({ isSubmit: true, sectionId: 'id' })),
+      } as unknown as MatDialogRef<TransfertPostComponent>);
+      jest.spyOn(postService, 'movePost');
+      component.openModalTransfertPost(postMock);
+      expect(dialog.open).toHaveBeenCalledWith(TransfertPostComponent, {
+        data: {
+          post: postMock,
+          projectId: component.projectId(),
+          sectionId: component.sectionId(),
+        },
+      });
+      expect(postService.movePost).toHaveBeenCalled();
+    });
+  });
+  describe('transfert Post', () => {
+    const dialogMock = () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest
+          .fn()
+          .mockReturnValue(of({ isSubmit: true, sectionId: 'id' })),
+      } as unknown as MatDialogRef<TransfertPostComponent>);
+    };
+    it('Should success', () => {
+      dialogMock();
+      component.posts.set([postMock]);
+      jest
+        .spyOn(postService, 'movePost')
+        .mockReturnValue(of({ message: 'succes' }));
+      jest.spyOn(toast, 'openSuccesToast');
+      component.openModalTransfertPost(postMock);
+      expect(postService.movePost).toHaveBeenCalled();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+      expect(component.posts()).toEqual([]);
+    });
+    it('Should fail, unauthorized (401), navigate to page auth', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'movePost')
+        .mockReturnValue(throwError(() => ({ status: 401 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalTransfertPost(postMock);
+      expect(postService.movePost).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
+      expect(toast.openFailToast).toHaveBeenCalled();
+    });
+    it('Should fail, post already in section (403), navigate to page home', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'movePost')
+        .mockReturnValue(throwError(() => ({ status: 403 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalTransfertPost(postMock);
+      expect(postService.movePost).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
+      expect(toast.openFailToast).toHaveBeenCalled();
+    });
+    it('Should fail, post or section not found (404), navigate to page home', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'movePost')
+        .mockReturnValue(throwError(() => ({ status: 404 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalTransfertPost(postMock);
+      expect(postService.movePost).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
+      expect(toast.openFailToast).toHaveBeenCalled();
+    });
+  });
+  describe('open Modal Transfert All Post', () => {
+    it('Should call move All Post from postService', () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest
+          .fn()
+          .mockReturnValue(of({ isSubmit: true, sectionId: 'id' })),
+      } as unknown as MatDialogRef<TransfertPostComponent>);
+      jest.spyOn(postService, 'moveAllPost');
+      component.openModalTransfertAllPost();
+      expect(dialog.open).toHaveBeenCalledWith(TransfertPostComponent, {
+        data: {
+          isAllPost: true,
+          projectId: component.projectId(),
+          sectionId: component.sectionId(),
+        },
+      });
+      expect(postService.moveAllPost).toHaveBeenCalled();
+    });
+  });
+  describe('transfert All Post', () => {
+    const dialogMock = () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest
+          .fn()
+          .mockReturnValue(of({ isSubmit: true, sectionId: 'id' })),
+      } as unknown as MatDialogRef<TransfertPostComponent>);
+    };
+    it('Should success', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'moveAllPost')
+        .mockReturnValue(of({ message: 'success' }));
+      jest.spyOn(toast, 'openSuccesToast');
+      component.openModalTransfertAllPost();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+      expect(postService.moveAllPost).toHaveBeenCalled();
+      expect(component.posts()).toEqual([]);
+    });
+    it('Should fail unauthorized (401), redirect to page auth', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'moveAllPost')
+        .mockReturnValue(throwError(() => ({ status: 401 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalTransfertAllPost();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(postService.moveAllPost).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
+    });
+    it('Should fail post already in this section (403), redirect to page home', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'moveAllPost')
+        .mockReturnValue(throwError(() => ({ status: 403 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalTransfertAllPost();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(postService.moveAllPost).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
+    });
+    it('Should fail section not found (404), redirect to page home', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'moveAllPost')
+        .mockReturnValue(throwError(() => ({ status: 404 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalTransfertAllPost();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(postService.moveAllPost).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
+    });
+  });
+  describe('open Modal Delete All Post', () => {
+    it('Should call endpoint deleteAll from postService', () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of({ isSubmit: true })),
+      } as unknown as MatDialogRef<DeletePostComponent>);
+      jest.spyOn(postService, 'deleteAll').mockReturnValue(of());
+      component.openModalDeleteAllPost();
+      expect(postService.deleteAll).toHaveBeenCalled();
+      expect(dialog.open).toHaveBeenCalledWith(DeletePostComponent, {
+        data: { isAllPost: true },
+      });
+    });
+  });
+  describe('delete All Post', () => {
+    const dialogMock = () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of({ isSubmit: true })),
+      } as unknown as MatDialogRef<DeletePostComponent>);
+    };
+    it('Should success', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'deleteAll')
+        .mockReturnValue(of({ message: 'success' }));
+      jest.spyOn(toast, 'openSuccesToast');
+      component.openModalDeleteAllPost();
+      expect(postService.deleteAll).toHaveBeenCalled();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+      expect(component.posts()).toEqual([]);
+    });
+    it('Should fail unauthorized (401), redirect to page auth', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'deleteAll')
+        .mockReturnValue(throwError(() => ({ status: 401 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalDeleteAllPost();
+      expect(postService.deleteAll).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
+    });
+    it('Should fail not a moderator (403), redirect to page home', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'deleteAll')
+        .mockReturnValue(throwError(() => ({ status: 403 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalDeleteAllPost();
+      expect(postService.deleteAll).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
+    });
+    it('Should fail section not found (404), redirect to page home', () => {
+      dialogMock();
+      jest
+        .spyOn(postService, 'deleteAll')
+        .mockReturnValue(throwError(() => ({ status: 404 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openModalDeleteAllPost();
+      expect(postService.deleteAll).toHaveBeenCalled();
       expect(toast.openFailToast).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['home']);
     });
