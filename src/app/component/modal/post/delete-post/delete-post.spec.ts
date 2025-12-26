@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DeletePostComponent } from './delete-post';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { dialogMock } from '../../dialogMock/dialog-mock';
-import { postMock } from '../mock/post-mock';
 
 describe('DeletePostComponent', () => {
   let component: DeletePostComponent;
@@ -15,14 +13,12 @@ describe('DeletePostComponent', () => {
         { provide: MatDialogRef, useValue: dialogMock },
         {
           provide: MAT_DIALOG_DATA,
-          useValue: postMock,
+          useValue: jest.fn(),
         },
       ],
     }).compileComponents();
-
     fixture = TestBed.createComponent(DeletePostComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   describe('close Dialog', () => {
