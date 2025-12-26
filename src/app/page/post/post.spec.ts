@@ -390,7 +390,7 @@ describe('PostComponent', () => {
       jest.spyOn(postService, 'delete');
       component.openModalDeletePost(postMock);
       expect(dialog.open).toHaveBeenCalledWith(DeletePostComponent, {
-        data: postMock,
+        data: { post: postMock },
       });
       expect(postService.delete).toHaveBeenCalled();
     });
