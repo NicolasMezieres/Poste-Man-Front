@@ -3,27 +3,37 @@
     <app-icon-back />
     <mat-icon fontIcon="group" />
     @if(isModerator()){
-    <mat-icon fontIcon="add_box" />
+    <button
+      aria-label="open dialog create section"
+      (click)="openModalCreateSection()"
+    >
+      <mat-icon fontIcon="add_box" />
+    </button>
     } @if(isAdmin() || isModerator()){
-    <mat-icon fontIcon="settings" />
+    <button aria-label="show buttons action" (click)="toggleVisible()">
+      <mat-icon fontIcon="settings" />
+    </button>
     <button class="md:hidden" aria-label="delete all section">
       <mat-icon fontIcon="delete" /></button
     >}
   </app-side-bar>
   <main class="flex-1 flex flex-col items-center font-Agdasima relative gap-5">
-    @if(isAdmin()||isModerator()){
+    @if(isVisible() && (isAdmin()||isModerator())){
     <button
       class="hidden md:block absolute bottom-4 right-4"
       aria-label="delete all section"
+      (click)="openModalRemoveAllSection()"
     >
       <mat-icon fontIcon="delete" />
     </button>
     }
+
     <h1
       class="text-4xl w-full md:border-b text-center py-2.5 wrap-anywhere md:shadow-title font-Julius"
     >
-      nom du projet
+      {{projectName()}}
     </h1>
+
     <section
       class="flex flex-wrap gap-20 justify-center items-center p-5 flex-1 overflow-x-scroll removeScrollbar border-0 text-[28px]"
     >
@@ -36,12 +46,19 @@
           {{section.name}}
         </a>
 
-        @if(isModerator()){
-        <button class="place-self-start">
+        @if(isVisible() && isModerator()){
+        <button
+          class="place-self-start"
+          aria-label="open dialog edit section"
+          (click)="openModalEditSection(section.name,section.id)"
+        >
           <mat-icon fontIcon="edit" />
         </button>
-        } @if(isModerator()|| isAdmin()){
-        <button class="place-self-end">
+        } @if(isVisible() && (isModerator()|| isAdmin())){
+        <button
+          class="place-self-end"
+          (click)="openModalDeleteSection(section.id, section.name)"
+        >
           <mat-icon fontIcon="delete" />
         </button>
         }

@@ -6,10 +6,17 @@
     <app-icon-back />
     <mat-icon fontIcon="group" />
     @if(!isAdmin()){
-    <mat-icon fontIcon="add" />
+    <button
+      aria-label="open modal creation post"
+      (click)="openModalCreatePost()"
+    >
+      <mat-icon fontIcon="add" />
+    </button>
     } @if(isAdmin() || isModerator()){
     <mat-icon fontIcon="drive_file_move_outline" />
-    <mat-icon fontIcon="delete" />
+    <button aria-label="delte all post" (click)="getPosition()">
+      <mat-icon fontIcon="delete" />
+    </button>
     }
   </app-side-bar>
   <main class="flex flex-col flex-1">
@@ -21,7 +28,9 @@
     <app-ground class="flex flex-1" [(zoom)]="zoom">
       @for (post of posts(); track $index) {
       <article
-        class="w-72 grid grid-cols-1 absolute"
+        [id]="post.id"
+        class="w-72 flex flex-col absolute"
+        [style]="`left:${post.poseX}px;top:${post.poseY}px`"
         draggable="true"
         (dragend)="moveCard($event)"
       >
@@ -41,7 +50,10 @@
             {{post.user.username}}
           </h2>
         </header>
-        <p class="text-xl p-2.5 border rounded-b-[5px] bg-white">
+        <p
+          [id]="post.id"
+          class="text-xl flex-1 p-2 border rounded-b-[5px] bg-white disabled:bg-white whitespace-pre-line"
+        >
           {{post.text}}
         </p>
         <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
@@ -50,21 +62,24 @@
         @if(isAdmin() || isModerator() || post.user.username === username()){
         <div class="flex justify-between">
           @if(!isAdmin()){
-          <button aria-label="modify post">
+          <button aria-label="modify post" (click)="openModalUpdatePost(post)">
             <mat-icon fontIcon="edit" /></button
           >}
           <button aria-label="transfer post">
             <mat-icon fontIcon="drive_file_move_outline" />
           </button>
-          <button aria-label="delete post">
+          <button aria-label="delete post" (click)="openModalDeletePost(post)">
             <mat-icon fontIcon="delete" />
           </button>
         </div>
         }
       </article>
-      }@empty {
-      <h1>Aucun post</h1>
       }
     </app-ground>
+    @if(posts().length === 0){
+    <h1 class="font-Julius text-[32px] fixed top-1/2 self-center">
+      Aucun post
+    </h1>
+    }
   </main>
 </div>

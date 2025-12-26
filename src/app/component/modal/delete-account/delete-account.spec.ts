@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteAccount } from './delete-account';
 import { MatDialogRef } from '@angular/material/dialog';
-import { dialogMock } from '../create-post/mock/dialog.mock';
+import { dialogMock } from '../dialogMock/dialog-mock';
 
 describe('DeleteAccount', () => {
   let component: DeleteAccount;

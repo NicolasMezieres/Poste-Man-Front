@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
     </button>
     <p>© Copyright 2025</p>
   </footer> `,
-  styleUrl: './footer.css',
 })
 export class Footer {
   private router = inject(Router);

@@ -34,7 +34,7 @@ describe('PostService', () => {
   describe('/(POST) createPost', () => {
     it('Should create post', () => {
       const sectionId = 'sectionId';
-      const data = { text: 'post' };
+      const data = { text: 'post', poseX: 0, poseY: 0 };
       const path = `${environment.apiURL}post/section/${sectionId}`;
       service.createPost(sectionId, data).subscribe();
       const req = http.expectOne(path);
@@ -44,7 +44,7 @@ describe('PostService', () => {
   describe('/(PATCH) updatePost', () => {
     it('Should update post', () => {
       const postId = 'postId';
-      const data = { text: 'post' };
+      const data = { text: 'post', poseX: 0, poseY: 0 };
       const path = `${environment.apiURL}post/${postId}`;
       service.updatePost(postId, data).subscribe();
       const req = http.expectOne(path);

@@ -25,7 +25,6 @@ export type resSigninType = {
 export type resMessageType = {
   message: string;
 };
-
 export type dataForgetPasswordType = {
   email: string;
 };
@@ -65,6 +64,7 @@ export type resSectionType = {
   data: sectionType[];
   isModerator: boolean;
   isAdmin: boolean;
+  projectName: string;
 };
 export type sectionType = {
   id: string;
@@ -78,8 +78,8 @@ export type formSectionType = {
 
 export type formPostType = {
   text: string;
-  poseX?: number;
-  poseY?: number;
+  poseX: number;
+  poseY: number;
 };
 
 export type resPostType = {
@@ -87,6 +87,10 @@ export type resPostType = {
   isModerator: boolean;
   isAdmin: boolean;
   user: string;
+};
+export type resEditPostType = {
+  message: string;
+  data: postType;
 };
 export type postType = {
   id: string;
@@ -155,4 +159,20 @@ export type resCreateInvitationLikeType = {
 export type linkType = {
   id: string;
   outdatedAt: Date;
+};
+
+export type resGetProjectType = {
+  projectName: string;
+  isModerator: boolean;
+  isAdmin: boolean;
+};
+
+export type resJoinProjectType = {
+  message: string;
+  projectId: string;
+};
+
+export type resFormSectionType = {
+  message: string;
+  data: sectionType;
 };

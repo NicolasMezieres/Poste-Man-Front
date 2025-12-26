@@ -9,6 +9,9 @@ import { HttpErrorResponseType, postType } from 'src/app/utils/type';
 import { DatePipe } from '@angular/common';
 import { GroundComponent } from 'src/app/component/ground/ground';
 import { ToastService } from 'src/app/services/toast/toast';
+import { MatDialog } from '@angular/material/dialog';
+import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
+import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
 
 @Component({
   selector: 'app-post',
@@ -28,6 +31,7 @@ export class PostComponent implements OnInit {
   #route = inject(ActivatedRoute);
   #postService = inject(PostService);
   #toast = inject(ToastService);
+  #dialog = inject(MatDialog);
   isModerator = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   username = signal<string>('');
@@ -65,6 +69,8 @@ export class PostComponent implements OnInit {
       this.#router.navigate(['home']);
       return;
     }
+    this.projectId.set(paramsProject);
+    this.sectionId.set(paramsSection);
     this.#postService.getPosts(paramsSection).subscribe({
       next: (res) => {
         this.posts.update(() => res.data);
@@ -77,6 +83,115 @@ export class PostComponent implements OnInit {
         if (err.status === 401) {
           this.#router.navigate(['auth']);
         } else if (err.status === 404 || err.status === 403) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalCreatePost() {
+    this.#dialog
+      .open(EditPostComponent)
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean; text: string }) => {
+          if (data && data.isSubmit) {
+            this.#createPost(data.text);
+          }
+        },
+      });
+  }
+  #createPost(text: string) {
+    const { poseX, poseY } = this.getPosition();
+    const data = { text, poseX, poseY };
+    this.#postService.createPost(this.sectionId(), data).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update((old) => [...old, res.data]);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status == 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  getPosition(): { poseX: number; poseY: number } {
+    const ground = document.getElementById('ground');
+    const table = document.getElementById('table');
+    if (!table || !ground) return { poseX: 0, poseY: 0 };
+    const boundingTable = table.getBoundingClientRect();
+    const boundingGround = ground.getBoundingClientRect();
+    const poseX = Math.round(
+      (boundingGround.width / 2 - boundingTable.x) / this.zoom(),
+    );
+    const poseY = Math.round(
+      (boundingGround.height / 2 - boundingTable.y) / this.zoom(),
+    );
+    return { poseX, poseY };
+  }
+  openModalUpdatePost(post: postType) {
+    this.#dialog
+      .open(EditPostComponent, { data: { text: post.text } })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean; text: string }) => {
+          if (data && data.isSubmit) {
+            this.#updatePost(data.text, post.id);
+          }
+        },
+      });
+  }
+  #updatePost(text: string, postId: string) {
+    const post = document.getElementById(postId);
+    if (!post) return;
+    const poseX = Number(post.style.left.slice(0, -2));
+    const poseY = Number(post.style.top.slice(0, -2));
+    const data = { text, poseX, poseY };
+    this.#postService.updatePost(postId, data).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update((arrayPost) =>
+          arrayPost.map((post) => (post.id === res.data.id ? res.data : post)),
+        );
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openModalDeletePost(post: postType) {
+    this.#dialog
+      .open(DeletePostComponent, { data: post })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#deletePost(post.id);
+          }
+        },
+      });
+  }
+  #deletePost(postId: string) {
+    this.#postService.delete(postId).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.posts.update((arrayPost) =>
+          arrayPost.filter((post) => post.id != postId),
+        );
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
           this.#router.navigate(['home']);
         }
       },

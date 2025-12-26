@@ -4,18 +4,16 @@ import { Erreur404 } from './page/erreur404/erreur404';
 import { Erreur500 } from './page/erreur500/erreur500';
 import { ForgetPasswordComponent } from './page/forget-password/forget-password';
 import { HomeComponent } from './page/home/home';
+import { JoinProjectComponent } from './page/join-project/join-project';
 import { Mention } from './page/mention/mention';
+import { PostComponent } from './page/post/post';
 import { PresentationComponent } from './page/presentation/presentation';
 import { ProfilComponent } from './page/profil/profil';
-
-import { ResetPasswordComponent } from './page/reset-password/reset-password';
-import { ValidAccountComponent } from './page/valid-account/valid-account';
-import { TchatComponent } from './page/tchat/tchat';
-import { SectionComponent } from './page/section/section';
-import { Projet } from './page/projet/projet';
-import { PostComponent } from './page/post/post';
 import { ProjectComponent } from './page/project/project';
-
+import { ResetPasswordComponent } from './page/reset-password/reset-password';
+import { SectionComponent } from './page/section/section';
+import { TchatComponent } from './page/tchat/tchat';
+import { ValidAccountComponent } from './page/valid-account/valid-account';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -26,12 +24,6 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'home/:token', component: HomeComponent },
   { path: 'profil', component: ProfilComponent },
-
-  { path: 'projet', component: Projet },
-  { path: '500', component: Erreur500 },
-  { path: '404', component: Erreur404 },
-  { path: 'mentions', component: Mention },
-
   {
     path: 'project',
     children: [
@@ -42,6 +34,7 @@ export const routes: Routes = [
         path: ':projectId/section/:sectionId',
         component: PostComponent,
       },
+      { path: ':linkId/join', component: JoinProjectComponent },
     ],
   },
   { path: '500', component: Erreur500 },

@@ -26,6 +26,7 @@ describe('ProjectService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
   describe('(GET) search', () => {
     const query = { page: 0, search: '' };
     it('Should get projects', () => {
@@ -43,6 +44,13 @@ describe('ProjectService', () => {
       const req = http.expectOne(
         `${environment.apiURL}project/searchAdmin?search=${query.search}&page=${query.page}&fromDate=${query.fromDate}&toDate=${query.toDate}`,
       );
+      expect(req.request.method).toEqual('GET');
+    });
+  });
+  describe('(GET) get Project', () => {
+    it('Should get name of project, is moderator and is an admin', () => {
+      service.getProject('projectId').subscribe();
+      const req = http.expectOne(`${environment.apiURL}project/projectId`);
       expect(req.request.method).toEqual('GET');
     });
   });
