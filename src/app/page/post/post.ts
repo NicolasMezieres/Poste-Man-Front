@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
 import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
 import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
+import { PostSocketService } from 'src/app/services/post/post-socket';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post',
@@ -27,12 +29,14 @@ import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-p
   templateUrl: './post.html',
   styleUrl: './post.css',
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit, OnDestroy {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #postService = inject(PostService);
   #toast = inject(ToastService);
   #dialog = inject(MatDialog);
+  #postSocket = inject(PostSocketService);
+  #subscriptionPost!: Subscription;
   isModerator = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   username = signal<string>('');
@@ -41,6 +45,7 @@ export class PostComponent implements OnInit {
   sectionId = signal<string>('');
   zoom = signal<number>(1);
   sectionName = signal<string>('');
+
   moveCard(e: DragEvent) {
     const table = document.getElementById('table');
     const card = e.target as HTMLElement;
@@ -90,10 +95,55 @@ export class PostComponent implements OnInit {
         }
       },
     });
+    this.#postSocket.joinRoom(paramsProject);
+    this.#subscriptionPost = this.#postSocket.listenPost().subscribe({
+      next: (data) => {
+        switch (data.action) {
+          case 'create':
+            this.posts.update((arrayPost) => [...arrayPost, data.post]);
+            break;
+          case 'update':
+            this.posts.update((arrayPost) =>
+              arrayPost.map((post) =>
+                post.id === data.post.id ? data.post : post,
+              ),
+            );
+            break;
+          case 'delete':
+            this.posts.update((arrayPost) =>
+              arrayPost.filter((post) => post.id != data.post.id),
+            );
+            break;
+          case 'move':
+            this.posts.update((arrayPost) =>
+              arrayPost.filter((post) => post.id != data.post.id),
+            );
+            break;
+          case 'vote':
+            this.posts.update((arrayPost) =>
+              arrayPost.map((post) => {
+                if (post.id === data.post.id) {
+                  post.score = data.post.score;
+                }
+                return post;
+              }),
+            );
+            break;
+          case 'reset':
+            this.posts.set([]);
+            break;
+        }
+      },
+    });
+  }
+  ngOnDestroy() {
+    if (this.#subscriptionPost) {
+      this.#subscriptionPost.unsubscribe();
+    }
   }
   openModalCreatePost() {
     this.#dialog
-      .open(EditPostComponent)
+      .open(EditPostComponent, { data: { text: '' } })
       .afterClosed()
       .subscribe({
         next: (data: { isSubmit: boolean; text: string }) => {
@@ -109,7 +159,7 @@ export class PostComponent implements OnInit {
     this.#postService.createPost(this.sectionId(), data).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((old) => [...old, res.data]);
+        // this.posts.update((old) => [...old, res.data]);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -156,9 +206,9 @@ export class PostComponent implements OnInit {
     this.#postService.updatePost(postId, data).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((arrayPost) =>
-          arrayPost.map((post) => (post.id === res.data.id ? res.data : post)),
-        );
+        // this.posts.update((arrayPost) =>
+        //   arrayPost.map((post) => (post.id === res.data.id ? res.data : post)),
+        // );
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -186,9 +236,9 @@ export class PostComponent implements OnInit {
     this.#postService.delete(postId).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((arrayPost) =>
-          arrayPost.filter((post) => post.id != postId),
-        );
+        // this.posts.update((arrayPost) =>
+        //   arrayPost.filter((post) => post.id != postId),
+        // );
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -222,10 +272,9 @@ export class PostComponent implements OnInit {
     this.#postService.movePost(postId, sectionId).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((arrayPost) =>
-          arrayPost.filter((post) => post.id != postId),
-        );
-        console.log(this.posts());
+        // this.posts.update((arrayPost) =>
+        //   arrayPost.filter((post) => post.id != postId),
+        // );
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -259,7 +308,7 @@ export class PostComponent implements OnInit {
     this.#postService.moveAllPost(this.sectionId(), otherSection).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update(() => []);
+        // this.posts.update(() => []);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -287,7 +336,7 @@ export class PostComponent implements OnInit {
     this.#postService.deleteAll(this.sectionId()).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update(() => []);
+        // this.posts.update(() => []);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);

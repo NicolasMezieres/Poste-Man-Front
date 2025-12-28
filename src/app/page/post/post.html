@@ -69,7 +69,7 @@
         </time>
         @if(isAdmin() || isModerator() || post.user.username === username()){
         <div class="flex justify-between">
-          @if(!isAdmin()){
+          @if(post.user.username === username()){
           <button aria-label="modify post" (click)="openModalUpdatePost(post)">
             <mat-icon fontIcon="edit" /></button
           >}

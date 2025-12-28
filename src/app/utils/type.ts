@@ -59,7 +59,10 @@ export type messageSocketType = {
   action: string;
   message: messageType;
 };
-
+export type postSocketType = {
+  action: string;
+  post: postType;
+};
 export type resSectionType = {
   data: sectionType[];
   isModerator: boolean;
