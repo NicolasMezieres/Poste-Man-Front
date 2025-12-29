@@ -45,10 +45,10 @@ export class PostService {
       },
     );
   }
-  movePost(postId: string, sectionId: string): Observable<resMessageType> {
+  transfertPost(postId: string, sectionId: string): Observable<resMessageType> {
     return this.#http
       .patch<resMessageType>(
-        `${this.#url}post/${postId}/move/${sectionId}`,
+        `${this.#url}post/${postId}/transfert/${sectionId}`,
         null,
         {
           withCredentials: true,
@@ -56,13 +56,13 @@ export class PostService {
       )
       .pipe(take(1));
   }
-  moveAllPost(
+  transfertAllPost(
     sectionId: string,
     moveSectionId: string,
   ): Observable<resMessageType> {
     return this.#http
       .patch<resMessageType>(
-        `${this.#url}post/section/${sectionId}/move/${moveSectionId}`,
+        `${this.#url}post/section/${sectionId}/transfert/${moveSectionId}`,
         null,
         { withCredentials: true },
       )
