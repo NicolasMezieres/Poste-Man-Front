@@ -81,10 +81,11 @@ export type formSectionType = {
 
 export type formPostType = {
   text: string;
+};
+export type positionPostType = {
   poseX: number;
   poseY: number;
 };
-
 export type resPostType = {
   data: postType[];
   isModerator: boolean;
@@ -179,4 +180,10 @@ export type resJoinProjectType = {
 export type resFormSectionType = {
   message: string;
   data: sectionType;
+};
+
+export type cardMoveType = {
+  id: string;
+  poseX: number;
+  poseY: number;
 };

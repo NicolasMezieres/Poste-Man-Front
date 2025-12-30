@@ -51,22 +51,22 @@ describe('PostService', () => {
       expect(req.request.method).toEqual('PATCH');
     });
   });
-  describe('/(PATCH) movePost', () => {
-    it('Should move post to another section', () => {
+  describe('/(PATCH) transfertPost', () => {
+    it('Should transfert post to another section', () => {
       const postId = 'postId';
       const sectionId = 'sectionId';
-      const path = `${environment.apiURL}post/${postId}/move/${sectionId}`;
-      service.movePost(postId, sectionId).subscribe();
+      const path = `${environment.apiURL}post/${postId}/transfert/${sectionId}`;
+      service.transfertPost(postId, sectionId).subscribe();
       const req = http.expectOne(path);
       expect(req.request.method).toEqual('PATCH');
     });
   });
-  describe('/(PATCH) moveAllPost', () => {
-    it('Should move all post to another section', () => {
+  describe('/(PATCH) transfertAllPost', () => {
+    it('Should transfert all post to another section', () => {
       const sectionId = 'sectionId';
       const moveSectionId = 'moveSectionId';
-      const path = `${environment.apiURL}post/section/${sectionId}/move/${moveSectionId}`;
-      service.moveAllPost(sectionId, moveSectionId).subscribe();
+      const path = `${environment.apiURL}post/section/${sectionId}/transfert/${moveSectionId}`;
+      service.transfertAllPost(sectionId, moveSectionId).subscribe();
       const req = http.expectOne(path);
       expect(req.request.method).toEqual('PATCH');
     });

@@ -219,7 +219,9 @@ describe('PostComponent', () => {
         .spyOn(postService, 'createPost')
         .mockReturnValue(of({ message: 'success', data: postMock }));
       component.openModalCreatePost();
-      expect(dialog.open).toHaveBeenCalledWith(EditPostComponent);
+      expect(dialog.open).toHaveBeenCalledWith(EditPostComponent, {
+        data: { text: '' },
+      });
       expect(postService.createPost).toHaveBeenCalled();
     });
   });
@@ -239,7 +241,6 @@ describe('PostComponent', () => {
       component.openModalCreatePost();
       expect(toast.openSuccesToast).toHaveBeenCalled();
       expect(postService.createPost).toHaveBeenCalled();
-      expect(component.posts()).toEqual([postMock]);
     });
     it('Should fail, navigate to page auth, unauhtorized (401)', () => {
       dialogMock();
@@ -331,10 +332,6 @@ describe('PostComponent', () => {
     it('Should success', () => {
       dialogMock();
       createPost();
-      component.posts.set([
-        { ...postMock, text: 'otherText' },
-        { ...postMock, id: '2' },
-      ]);
       jest
         .spyOn(postService, 'updatePost')
         .mockReturnValue(of({ message: 'succes', data: postMock }));
@@ -342,7 +339,6 @@ describe('PostComponent', () => {
       component.openModalUpdatePost(postMock);
       expect(postService.updatePost).toHaveBeenCalled();
       expect(toast.openSuccesToast).toHaveBeenCalled();
-      expect(component.posts()).toEqual([postMock, { ...postMock, id: '2' }]);
     });
     it('Should fail unauthorized (401), navigate to page auth', () => {
       dialogMock();
@@ -404,7 +400,6 @@ describe('PostComponent', () => {
       } as unknown as MatDialogRef<DeletePostComponent>);
     it('Should success post deleted', () => {
       dialogMock();
-      component.posts.set([postMock]);
       jest
         .spyOn(postService, 'delete')
         .mockReturnValue(of({ message: 'succes' }));
@@ -412,7 +407,6 @@ describe('PostComponent', () => {
       component.openModalDeletePost(postMock);
       expect(toast.openSuccesToast).toHaveBeenCalled();
       expect(postService.delete).toHaveBeenCalled();
-      expect(component.posts()).toEqual([]);
     });
     it('Should fail unauthorized (401), redirect to page auth', () => {
       dialogMock();
@@ -480,7 +474,6 @@ describe('PostComponent', () => {
     };
     it('Should success', () => {
       dialogMock();
-      component.posts.set([postMock]);
       jest
         .spyOn(postService, 'transfertPost')
         .mockReturnValue(of({ message: 'succes' }));
@@ -488,7 +481,6 @@ describe('PostComponent', () => {
       component.openModalTransfertPost(postMock);
       expect(postService.transfertPost).toHaveBeenCalled();
       expect(toast.openSuccesToast).toHaveBeenCalled();
-      expect(component.posts()).toEqual([]);
     });
     it('Should fail, unauthorized (401), navigate to page auth', () => {
       dialogMock();
