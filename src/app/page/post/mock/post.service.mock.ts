@@ -7,4 +7,5 @@ export const postServiceMock = {
   vote: jest.fn(),
   delete: jest.fn(),
   deleteAll: jest.fn(),
+  movePost: jest.fn(),
 };

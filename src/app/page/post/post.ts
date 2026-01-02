@@ -139,6 +139,14 @@ export class PostComponent implements OnInit, OnDestroy {
       },
     });
     this.#postSocket.joinRoom(paramsProject);
+    this.postSocketSubscription();
+  }
+  ngOnDestroy() {
+    if (this.#subscriptionPost) {
+      this.#subscriptionPost.unsubscribe();
+    }
+  }
+  postSocketSubscription() {
     this.#subscriptionPost = this.#postSocket.listenPost().subscribe({
       next: (data) => {
         switch (data.action) {
@@ -178,11 +186,6 @@ export class PostComponent implements OnInit, OnDestroy {
         }
       },
     });
-  }
-  ngOnDestroy() {
-    if (this.#subscriptionPost) {
-      this.#subscriptionPost.unsubscribe();
-    }
   }
   openModalCreatePost() {
     this.#dialog
