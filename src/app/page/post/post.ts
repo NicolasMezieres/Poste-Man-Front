@@ -1,11 +1,4 @@
-import {
-  Component,
-  effect,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
@@ -26,17 +19,13 @@ import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/de
 import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
 import { PostSocketService } from 'src/app/services/post/post-socket';
 import {
-  BehaviorSubject,
   debounceTime,
   groupBy,
   map,
   mergeAll,
-  mergeMap,
   Subject,
   Subscription,
 } from 'rxjs';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-
 @Component({
   selector: 'app-post',
   imports: [
