@@ -51,6 +51,17 @@ describe('PostService', () => {
       expect(req.request.method).toEqual('PATCH');
     });
   });
+  describe('/(PATCH) movePost', () => {
+    it('Should move post', () => {
+      const postId = 'postId';
+      const data = { poseX: 0, poseY: 0 };
+      const path = `${environment.apiURL}post/${postId}/move`;
+      service.movePost(postId, data).subscribe();
+      const req = http.expectOne(path);
+      expect(req.request.method).toEqual('PATCH');
+    });
+  });
+
   describe('/(PATCH) transfertPost', () => {
     it('Should transfert post to another section', () => {
       const postId = 'postId';
