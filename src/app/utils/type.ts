@@ -59,7 +59,10 @@ export type messageSocketType = {
   action: string;
   message: messageType;
 };
-
+export type postSocketType = {
+  action: string;
+  post: postType;
+};
 export type resSectionType = {
   data: sectionType[];
   isModerator: boolean;
@@ -78,15 +81,17 @@ export type formSectionType = {
 
 export type formPostType = {
   text: string;
+};
+export type positionPostType = {
   poseX: number;
   poseY: number;
 };
-
 export type resPostType = {
   data: postType[];
   isModerator: boolean;
   isAdmin: boolean;
   user: string;
+  sectionName: string;
 };
 export type resEditPostType = {
   message: string;
@@ -175,4 +180,10 @@ export type resJoinProjectType = {
 export type resFormSectionType = {
   message: string;
   data: sectionType;
+};
+
+export type cardMoveType = {
+  id: string;
+  poseX: number;
+  poseY: number;
 };

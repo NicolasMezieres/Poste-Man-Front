@@ -31,7 +31,7 @@
     <h1
       class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle select-none"
     >
-      Nom de Section
+      {{sectionName()}}
     </h1>
     <app-ground class="flex flex-1" [(zoom)]="zoom">
       @for (post of posts(); track $index) {
@@ -69,7 +69,7 @@
         </time>
         @if(isAdmin() || isModerator() || post.user.username === username()){
         <div class="flex justify-between">
-          @if(!isAdmin()){
+          @if(post.user.username === username()){
           <button aria-label="modify post" (click)="openModalUpdatePost(post)">
             <mat-icon fontIcon="edit" /></button
           >}

@@ -1,11 +1,15 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from 'src/app/services/post/post';
-import { HttpErrorResponseType, postType } from 'src/app/utils/type';
+import {
+  cardMoveType,
+  HttpErrorResponseType,
+  postType,
+} from 'src/app/utils/type';
 import { DatePipe } from '@angular/common';
 import { GroundComponent } from 'src/app/component/ground/ground';
 import { ToastService } from 'src/app/services/toast/toast';
@@ -13,7 +17,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
 import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
 import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
-
+import { PostSocketService } from 'src/app/services/post/post-socket';
+import {
+  debounceTime,
+  groupBy,
+  map,
+  mergeAll,
+  Subject,
+  Subscription,
+} from 'rxjs';
 @Component({
   selector: 'app-post',
   imports: [
@@ -27,12 +39,14 @@ import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-p
   templateUrl: './post.html',
   styleUrl: './post.css',
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit, OnDestroy {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #postService = inject(PostService);
   #toast = inject(ToastService);
   #dialog = inject(MatDialog);
+  #postSocket = inject(PostSocketService);
+  #subscriptionPost!: Subscription;
   isModerator = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   username = signal<string>('');
@@ -40,6 +54,23 @@ export class PostComponent implements OnInit {
   projectId = signal<string>('');
   sectionId = signal<string>('');
   zoom = signal<number>(1);
+  sectionName = signal<string>('');
+  subjectMoveCard = new Subject<cardMoveType>();
+  debounceCard = this.subjectMoveCard
+    .pipe(
+      groupBy((card) => card.id),
+      map((group) => group.pipe(debounceTime(1000))),
+      mergeAll(),
+    )
+    .subscribe((card) => {
+      this.#postService
+        .movePost(card.id, {
+          poseX: card.poseX,
+          poseY: card.poseY,
+        })
+        .subscribe();
+    });
+
   moveCard(e: DragEvent) {
     const table = document.getElementById('table');
     const card = e.target as HTMLElement;
@@ -49,18 +80,25 @@ export class PostComponent implements OnInit {
     const resultX =
       (e.clientX - boundingCard.width / 2 - boundingTable.x) / this.zoom();
     const resultY = (e.clientY - 30 - boundingTable.y) / this.zoom();
-    card.style.left =
+    const poseX =
       resultX < 0
-        ? '0'
+        ? 0
         : resultX > (boundingTable.width - boundingCard.width) / this.zoom()
-          ? (boundingTable.width - boundingCard.width) / this.zoom() + 'px'
-          : resultX + 'px';
-    card.style.top =
+          ? (boundingTable.width - boundingCard.width) / this.zoom()
+          : resultX;
+    card.style.left = poseX + 'px';
+    const poseY =
       resultY < 0
-        ? '0'
+        ? 0
         : resultY > (boundingTable.height - boundingCard.height) / this.zoom()
-          ? (boundingTable.height - boundingCard.height) / this.zoom() + 'px'
-          : resultY + 'px';
+          ? (boundingTable.height - boundingCard.height) / this.zoom()
+          : resultY;
+    card.style.top = poseY + 'px';
+    this.subjectMoveCard.next({
+      id: card.id,
+      poseX: Number(poseX.toFixed(0)),
+      poseY: Number(poseY.toFixed(0)),
+    });
   }
   //todo: essayer le déplacer en tenant une card et se déplacer  à gauche ou autre
   ngOnInit() {
@@ -78,6 +116,7 @@ export class PostComponent implements OnInit {
         this.isAdmin.update(() => res.isAdmin);
         this.isModerator.update(() => res.isModerator);
         this.username.update(() => res.user);
+        this.sectionName.set(res.sectionName);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -88,10 +127,58 @@ export class PostComponent implements OnInit {
         }
       },
     });
+    this.#postSocket.joinRoom(paramsProject);
+    this.postSocketSubscription();
+  }
+  ngOnDestroy() {
+    if (this.#subscriptionPost) {
+      this.#subscriptionPost.unsubscribe();
+    }
+  }
+  postSocketSubscription() {
+    this.#subscriptionPost = this.#postSocket.listenPost().subscribe({
+      next: (data) => {
+        switch (data.action) {
+          case 'create':
+            this.posts.update((arrayPost) => [...arrayPost, data.post]);
+            break;
+          case 'update':
+            this.posts.update((arrayPost) =>
+              arrayPost.map((post) =>
+                post.id === data.post.id ? data.post : post,
+              ),
+            );
+            break;
+          case 'delete':
+            this.posts.update((arrayPost) =>
+              arrayPost.filter((post) => post.id != data.post.id),
+            );
+            break;
+          case 'move':
+            this.posts.update((arrayPost) =>
+              arrayPost.filter((post) => post.id != data.post.id),
+            );
+            break;
+          case 'vote':
+            this.posts.update((arrayPost) =>
+              arrayPost.map((post) => {
+                if (post.id === data.post.id) {
+                  post.score = data.post.score;
+                }
+                return post;
+              }),
+            );
+            break;
+          case 'reset':
+            this.posts.set([]);
+            break;
+        }
+      },
+    });
   }
   openModalCreatePost() {
     this.#dialog
-      .open(EditPostComponent)
+      .open(EditPostComponent, { data: { text: '' } })
       .afterClosed()
       .subscribe({
         next: (data: { isSubmit: boolean; text: string }) => {
@@ -107,7 +194,6 @@ export class PostComponent implements OnInit {
     this.#postService.createPost(this.sectionId(), data).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((old) => [...old, res.data]);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -146,17 +232,10 @@ export class PostComponent implements OnInit {
       });
   }
   #updatePost(text: string, postId: string) {
-    const post = document.getElementById(postId);
-    if (!post) return;
-    const poseX = Number(post.style.left.slice(0, -2));
-    const poseY = Number(post.style.top.slice(0, -2));
-    const data = { text, poseX, poseY };
+    const data = { text };
     this.#postService.updatePost(postId, data).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((arrayPost) =>
-          arrayPost.map((post) => (post.id === res.data.id ? res.data : post)),
-        );
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -184,9 +263,6 @@ export class PostComponent implements OnInit {
     this.#postService.delete(postId).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((arrayPost) =>
-          arrayPost.filter((post) => post.id != postId),
-        );
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -217,13 +293,9 @@ export class PostComponent implements OnInit {
       });
   }
   #transfertPost(postId: string, sectionId: string) {
-    this.#postService.movePost(postId, sectionId).subscribe({
+    this.#postService.transfertPost(postId, sectionId).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update((arrayPost) =>
-          arrayPost.filter((post) => post.id != postId),
-        );
-        console.log(this.posts());
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -254,20 +326,21 @@ export class PostComponent implements OnInit {
       });
   }
   #transfertAllPost(otherSection: string) {
-    this.#postService.moveAllPost(this.sectionId(), otherSection).subscribe({
-      next: (res) => {
-        this.#toast.openSuccesToast(res.message);
-        this.posts.update(() => []);
-      },
-      error: (err: HttpErrorResponseType) => {
-        this.#toast.openFailToast(err);
-        if (err.status === 401) {
-          this.#router.navigate(['auth']);
-        } else if (err.status === 403 || err.status === 404) {
-          this.#router.navigate(['home']);
-        }
-      },
-    });
+    this.#postService
+      .transfertAllPost(this.sectionId(), otherSection)
+      .subscribe({
+        next: (res) => {
+          this.#toast.openSuccesToast(res.message);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          } else if (err.status === 403 || err.status === 404) {
+            this.#router.navigate(['home']);
+          }
+        },
+      });
   }
   openModalDeleteAllPost() {
     this.#dialog
@@ -285,7 +358,6 @@ export class PostComponent implements OnInit {
     this.#postService.deleteAll(this.sectionId()).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
-        this.posts.update(() => []);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);

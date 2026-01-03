@@ -3,7 +3,6 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
   formPostType,
-  resEditPostType,
   resMessageType,
   resPostType,
   voteType,
@@ -27,8 +26,8 @@ export class PostService {
   createPost(
     sectionId: string,
     data: formPostType,
-  ): Observable<resEditPostType> {
-    return this.#http.post<resEditPostType>(
+  ): Observable<resMessageType> {
+    return this.#http.post<resMessageType>(
       `${this.#url}post/section/${sectionId}`,
       data,
       {
@@ -36,8 +35,8 @@ export class PostService {
       },
     );
   }
-  updatePost(postId: string, data: formPostType): Observable<resEditPostType> {
-    return this.#http.patch<resEditPostType>(
+  updatePost(postId: string, data: formPostType): Observable<resMessageType> {
+    return this.#http.patch<resMessageType>(
       `${this.#url}post/${postId}`,
       data,
       {
@@ -45,10 +44,17 @@ export class PostService {
       },
     );
   }
-  movePost(postId: string, sectionId: string): Observable<resMessageType> {
+  movePost(postId: string, data: { poseX: number; poseY: number }) {
+    return this.#http
+      .patch<resMessageType>(`${this.#url}post/${postId}/move`, data, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  transfertPost(postId: string, sectionId: string): Observable<resMessageType> {
     return this.#http
       .patch<resMessageType>(
-        `${this.#url}post/${postId}/move/${sectionId}`,
+        `${this.#url}post/${postId}/transfert/${sectionId}`,
         null,
         {
           withCredentials: true,
@@ -56,13 +62,13 @@ export class PostService {
       )
       .pipe(take(1));
   }
-  moveAllPost(
+  transfertAllPost(
     sectionId: string,
     moveSectionId: string,
   ): Observable<resMessageType> {
     return this.#http
       .patch<resMessageType>(
-        `${this.#url}post/section/${sectionId}/move/${moveSectionId}`,
+        `${this.#url}post/section/${sectionId}/transfert/${moveSectionId}`,
         null,
         { withCredentials: true },
       )

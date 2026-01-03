@@ -40,7 +40,7 @@ import { ErrorMessage } from 'src/app/component/error-message/error-message';
         class="h-[50px] bg-purple rounded-[10px] text-white font-Agdasima text-[24px] text-center"
         (click)="submitCreate()"
       >
-        Poster
+        {{ data.text ? 'Modifier' : 'Poster' }}
       </button>
     </form>
   </div> `,
