@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
-import { resMessageType, resProjectMessage } from 'src/app/utils/type';
+import {
+  resMessageType,
+  resProjectMessage,
+  resProjectName,
+} from 'src/app/utils/type';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -24,7 +28,13 @@ export class MessageService {
       )
       .pipe(take(1));
   }
-
+  getProjectName(projectId: string): Observable<resProjectName> {
+    return this.#http
+      .get<resProjectName>(`${this.#url}message/project/${projectId}/name`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
   createMessage(
     data: { message: string },
     projectId: string,
@@ -35,4 +45,5 @@ export class MessageService {
       })
       .pipe(take(1));
   }
+  deleteMessage(){}
 }
