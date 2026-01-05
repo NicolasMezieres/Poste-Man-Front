@@ -45,5 +45,18 @@ export class MessageService {
       })
       .pipe(take(1));
   }
-  deleteMessage(){}
+  deleteMessage(messageId: string): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}message/${messageId}`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  deleteAllMessage(projectId: string): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}message/project/${projectId}`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
 }
