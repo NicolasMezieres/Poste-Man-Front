@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
 import { SideBarComponent } from '../side-bar/side-bar';
 
 @Component({
@@ -9,10 +10,17 @@ import { SideBarComponent } from '../side-bar/side-bar';
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header {
+export class Header{
+ 
   private dialogRef = inject(MatDialogRef<SideBarComponent>);
+  private router = inject(Router);
 
   close() {
     this.dialogRef.close();
   }
+  goToProfile() {
+    this.dialogRef.close();
+    this.router.navigate(['/profil']);
+  }
+  logout() {}
 }

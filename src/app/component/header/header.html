@@ -7,7 +7,9 @@
   >
   <div class="flex flex-2 justify-evenly items-center gap-10">
     <mat-icon class="icon-color">notifications</mat-icon>
-    <p class="text-[#7C3DD4] text-[24px] font-Agdasima">Username</p>
-    <mat-icon class="icon-color">logout</mat-icon>
+    <p class="text-[#7C3DD4] text-[24px] font-Agdasima" (click)="goToProfile()">
+      Username
+    </p>
+    <mat-icon class="icon-color" (click)="logout()">logout</mat-icon>
   </div>
 </div>
