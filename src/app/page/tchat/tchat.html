@@ -1,7 +1,35 @@
 <div
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima gap-2.5 md:flex-row md:p-0 md:gap-0"
 >
-  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet" />
+  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet">
+    <button
+      aria-label="open list member"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Membres</span>
+      <mat-icon fontIcon="group" class="flex deleteIcon" />
+    </button>
+    <hr />
+    <button
+      aria-label="open dialog delete message"
+      mat-menu-item
+      (click)="openDialogueDeleteAllMessage()"
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Tout Supprimer</span>
+      <mat-icon fontIcon="delete" class="flex deleteIcon" />
+    </button>
+    <hr />
+    <button
+      aria-label="open dialog help"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Aide</span>
+      <mat-icon fontIcon="help_center" class="flex deleteIcon" />
+    </button>
+  </app-header-project-mobile>
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <mat-icon fontIcon="group" />
