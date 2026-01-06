@@ -201,6 +201,18 @@ export class TchatComponent implements OnInit, OnDestroy {
       });
   }
   #deleteAllMessage() {
-    console.log('coucou');
+    this.#messageService.deleteAllMessage(this.projectId()).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
   }
 }
