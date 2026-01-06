@@ -64,7 +64,7 @@ describe('TchatComponent', () => {
       messageServiceMock.getProjectMessages.mockReturnValue(of(resData));
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(of());
-
+      messageServiceMock.getProjectName.mockReturnValue(of());
       component.ngOnInit();
       expect(messageService.getProjectMessages).toHaveBeenCalled();
       expect(component.messages()).toEqual(resData.data);
@@ -77,6 +77,7 @@ describe('TchatComponent', () => {
       messageServiceMock.getProjectMessages.mockReturnValue(
         throwError(() => ({ status: 401 })),
       );
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(of());
       jest.spyOn(toast, 'openFailToast').mockReturnValue();
@@ -91,6 +92,7 @@ describe('TchatComponent', () => {
       messageServiceMock.getProjectMessages.mockReturnValue(
         throwError(() => ({ status: 403 })),
       );
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(of());
       jest.spyOn(toast, 'openFailToast').mockReturnValue();
@@ -105,6 +107,7 @@ describe('TchatComponent', () => {
       messageServiceMock.getProjectMessages.mockReturnValue(
         throwError(() => ({ status: 404 })),
       );
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(of());
       jest.spyOn(toast, 'openFailToast').mockReturnValue();
@@ -140,8 +143,9 @@ describe('TchatComponent', () => {
       isModerator: true,
       user: 'username',
     };
-    it('a message was send', () => {
+    it('a message was create', () => {
       jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageServiceMock.getProjectMessages.mockReturnValue(of());
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(
@@ -152,6 +156,7 @@ describe('TchatComponent', () => {
     });
     it('a message was delete', () => {
       jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageServiceMock.getProjectMessages.mockReturnValue(of(resData));
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(
@@ -162,6 +167,7 @@ describe('TchatComponent', () => {
     });
     it('a message was reset', () => {
       jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageServiceMock.getProjectMessages.mockReturnValue(of(resData));
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(of({ action: 'reset' }));
@@ -170,6 +176,7 @@ describe('TchatComponent', () => {
     });
     it('a message with other action', () => {
       jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageServiceMock.getProjectMessages.mockReturnValue(of());
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(
@@ -180,6 +187,7 @@ describe('TchatComponent', () => {
     });
     it('a message was send', () => {
       jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
+      messageServiceMock.getProjectName.mockReturnValue(of());
       messageServiceMock.getProjectMessages.mockReturnValue(of());
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(throwError(() => {}));
