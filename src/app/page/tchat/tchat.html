@@ -5,7 +5,12 @@
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <mat-icon fontIcon="group" />
-    <mat-icon fontIcon="settings" />
+    <button
+      aria-label="delete all message"
+      (click)="openDialogueDeleteAllMessage()"
+    >
+      <mat-icon fontIcon="delete" />
+    </button>
   </app-side-bar>
 
   <main
@@ -32,30 +37,10 @@
         <div class="flex items-center justify-between gap-5">
           <h1 class="text-2xl">{{message.user.username}}</h1>
           <app-icon-more-message
-            (submitDelete)="submitDeleteMessage()"
+            [message]="{message:message.message, isAllMessage:false}"
+            (submitDelete)="submitDeleteMessage(message.id)"
             [hidden]="message.user.username !== username() && !isModerator()"
           />
-          <!-- <button
-            [matMenuTriggerFor]="menu"
-            #menuTrigger
-            aria-label="open options"
-            class="flex"
-          >
-            <mat-icon fontIcon="more_horiz" />
-          </button>
-          <mat-menu #menu="matMenu">
-            <button
-              aria-label="open dialog delete message"
-              mat-menu-item
-              (click)="openDialogDeleteMessage()"
-              class="flex flex-row-reverse gap-2.5"
-            >
-              <span class="text-[28px] font-Agdasima text-purple"
-                >Supprimer</span
-              >
-              <mat-icon fontIcon="delete" class="flex deleteIcon" />
-            </button>
-          </mat-menu> -->
         </div>
         <p
           class="{{message.user.username === username() ? 'bg-purple-dark' : 'bg-purple' }} rounded-[10px] p-2.5 text-white"

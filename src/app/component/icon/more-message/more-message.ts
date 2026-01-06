@@ -1,4 +1,4 @@
-import { Component, inject, output, viewChild } from '@angular/core';
+import { Component, inject, input, output, viewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger, MatMenuItem } from '@angular/material/menu';
@@ -31,10 +31,11 @@ export class IconMoreMessageComponent {
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   readonly dialog = inject(MatDialog);
   submitDelete = output<void>();
-
+  message = input.required<{ message: string; isAllMessage: boolean }>();
   openDialogDeleteMessage() {
     const dialogDelete = this.dialog.open(dialogDeleteMessageComponent, {
       restoreFocus: false,
+      data: this.message(),
     });
     dialogDelete.afterClosed().subscribe((data: { isSubmit: boolean }) => {
       this.menuTrigger().focus();

@@ -1,6 +1,5 @@
 import {
   Component,
-  effect,
   inject,
   model,
   OnDestroy,
@@ -29,6 +28,8 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { IconMoreMessageComponent } from 'src/app/component/icon/more-message/more-message';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
 @Component({
   selector: 'app-tchat',
   imports: [
@@ -55,6 +56,7 @@ export class TchatComponent implements OnInit, OnDestroy {
   #router = inject(Router);
   #subscription!: Subscription;
   #socketMessage = inject(MessageSocketService);
+  readonly dialog = inject(MatDialog);
   projectName = signal<string>('');
   projectId = model<string>('');
   messages = signal<messageType[]>([]);
@@ -166,10 +168,39 @@ export class TchatComponent implements OnInit, OnDestroy {
       this.getMessages();
     }, this.throttleGetMessage);
   }
-  submitDeleteMessage() {
-    this.#deleteMessage();
+  submitDeleteMessage(messageId: string) {
+    this.#deleteMessage(messageId);
   }
-  #deleteMessage() {
-    this.#messageService;
+  #deleteMessage(messageId: string) {
+    this.#messageService.deleteMessage(messageId).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openDialogueDeleteAllMessage() {
+    this.dialog
+      .open(dialogDeleteMessageComponent, {
+        data: { isAllMessage: true },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#deleteAllMessage();
+          }
+        },
+      });
+  }
+  #deleteAllMessage() {
+    console.log('coucou');
   }
 }
