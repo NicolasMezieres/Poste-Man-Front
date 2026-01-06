@@ -3,5 +3,14 @@
 >
   <app-icon-back />
   <h1 class="font-Julius text-[24px] wrap-anywhere">{{title()}}</h1>
-  <app-icon-more (action)="actionMore.emit()" />
+  <button
+    [matMenuTriggerFor]="menu"
+    aria-label="open Menu"
+    (click)="actionMore.emit()"
+  >
+    <app-icon-more />
+  </button>
+  <mat-menu #menu="matMenu">
+    <ng-content />
+  </mat-menu>
 </header>

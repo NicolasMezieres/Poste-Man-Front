@@ -1,11 +1,44 @@
 <div
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima gap-2.5 md:flex-row md:p-0 md:gap-0"
 >
-  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet" />
+  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet">
+    <button
+      aria-label="open list member"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Membres</span>
+      <mat-icon fontIcon="group" class="flex deleteIcon" />
+    </button>
+    <hr />
+    <button
+      aria-label="open dialog delete message"
+      mat-menu-item
+      (click)="openDialogueDeleteAllMessage()"
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Tout Supprimer</span>
+      <mat-icon fontIcon="delete" class="flex deleteIcon" />
+    </button>
+    <hr />
+    <button
+      aria-label="open dialog help"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Aide</span>
+      <mat-icon fontIcon="help_center" class="flex deleteIcon" />
+    </button>
+  </app-header-project-mobile>
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <mat-icon fontIcon="group" />
-    <mat-icon fontIcon="settings" />
+    <button
+      aria-label="delete all message"
+      (click)="openDialogueDeleteAllMessage()"
+    >
+      <mat-icon fontIcon="delete" />
+    </button>
   </app-side-bar>
 
   <main
@@ -14,7 +47,7 @@
     <h1
       class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle"
     >
-      Nom du projet
+      {{projectName()}}
     </h1>
     <section
       id="sectionScroll"
@@ -31,8 +64,9 @@
       >
         <div class="flex items-center justify-between gap-5">
           <h1 class="text-2xl">{{message.user.username}}</h1>
-
-          <app-icon-more
+          <app-icon-more-message
+            [message]="{message:message.message, isAllMessage:false}"
+            (submitDelete)="submitDeleteMessage(message.id)"
             [hidden]="message.user.username !== username() && !isModerator()"
           />
         </div>

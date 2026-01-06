@@ -187,3 +187,4 @@ export type cardMoveType = {
   poseX: number;
   poseY: number;
 };
+export type resProjectName = { projectName: string };

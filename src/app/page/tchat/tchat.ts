@@ -7,7 +7,6 @@ import {
   signal,
 } from '@angular/core';
 import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
-import { IconMoreComponent } from 'src/app/component/icon/more/more';
 import { MatIcon } from '@angular/material/icon';
 import { ToastService } from 'src/app/services/toast/toast';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
@@ -27,12 +26,14 @@ import { MessageSocketService } from 'src/app/services/message/message-socket';
 import { Subscription } from 'rxjs';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { IconMoreMessageComponent } from 'src/app/component/icon/more-message/more-message';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
 @Component({
   selector: 'app-tchat',
   imports: [
     HeaderProjectMobileComponent,
-    IconMoreComponent,
     ReactiveFormsModule,
     MatIcon,
     SideBarComponent,
@@ -41,6 +42,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DatePipe,
     InfiniteScrollDirective,
     MatProgressSpinnerModule,
+    MatMenuModule,
+    IconMoreMessageComponent,
   ],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
@@ -48,11 +51,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class TchatComponent implements OnInit, OnDestroy {
   throttleGetMessage = 2000;
   #toast = inject(ToastService);
-  #message = inject(MessageService);
+  #messageService = inject(MessageService);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #subscription!: Subscription;
   #socketMessage = inject(MessageSocketService);
+  readonly dialog = inject(MatDialog);
+  projectName = signal<string>('');
   projectId = model<string>('');
   messages = signal<messageType[]>([]);
   username = model<string>();
@@ -65,7 +70,7 @@ export class TchatComponent implements OnInit, OnDestroy {
   });
   isLoadingMessage = signal<boolean>(false);
   getMessages() {
-    this.#message
+    this.#messageService
       .getProjectMessages(this.projectId(), this.messages().length)
       .subscribe({
         next: (res) => {
@@ -84,7 +89,21 @@ export class TchatComponent implements OnInit, OnDestroy {
       });
     this.isLoadingMessage.update(() => false);
   }
-
+  getProjectName(projectId: string) {
+    this.#messageService.getProjectName(projectId).subscribe({
+      next: (res) => {
+        this.projectName.set(res.projectName);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
   ngOnInit() {
     const params = this.#route.snapshot.paramMap.get('projectId');
     if (!params) {
@@ -92,6 +111,7 @@ export class TchatComponent implements OnInit, OnDestroy {
       return;
     }
     this.projectId.set(params);
+    this.getProjectName(params);
     this.getMessages();
     this.#socketMessage.joinRoom(params);
     this.#subscription = this.#socketMessage.listenMessage().subscribe({
@@ -126,7 +146,7 @@ export class TchatComponent implements OnInit, OnDestroy {
     e.preventDefault();
     if (this.formMessage.valid) {
       const data = this.formMessage.getRawValue();
-      this.#message.createMessage(data, this.projectId()).subscribe({
+      this.#messageService.createMessage(data, this.projectId()).subscribe({
         next: (res) => {
           this.#toast.openSuccesToast(res.message);
         },
@@ -147,5 +167,52 @@ export class TchatComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.getMessages();
     }, this.throttleGetMessage);
+  }
+  submitDeleteMessage(messageId: string) {
+    this.#deleteMessage(messageId);
+  }
+  #deleteMessage(messageId: string) {
+    this.#messageService.deleteMessage(messageId).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  openDialogueDeleteAllMessage() {
+    this.dialog
+      .open(dialogDeleteMessageComponent, {
+        data: { isAllMessage: true },
+      })
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#deleteAllMessage();
+          }
+        },
+      });
+  }
+  #deleteAllMessage() {
+    this.#messageService.deleteAllMessage(this.projectId()).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
   }
 }
