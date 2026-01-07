@@ -12,6 +12,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
+import { AuthService } from 'src/app/services/auth/auth-service';
 @Component({
   selector: 'app-menu',
   imports: [
@@ -26,6 +27,7 @@ import { debounceTime } from 'rxjs';
   templateUrl: 'menu.html',
 })
 export class MenuComponent implements OnInit {
+  #authService = inject(AuthService);
   #projectService = inject(ProjectService);
   #toast = inject(ToastService);
   #router = inject(Router);
@@ -63,5 +65,17 @@ export class MenuComponent implements OnInit {
   }
   closeDialog() {
     this.dialog.close();
+  }
+  submitLogout() {
+    this.#logout();
+  }
+  #logout() {
+    this.#authService.logout().subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.#router.navigate(['auth']);
+        this.closeDialog();
+      },
+    });
   }
 }
