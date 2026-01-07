@@ -11,6 +11,7 @@
       <mat-icon fontIcon="group" class="flex deleteIcon" />
     </button>
     <hr />
+    @if(isModerator() || isAdmin()){
     <button
       aria-label="open dialog delete message"
       mat-menu-item
@@ -21,6 +22,7 @@
       <mat-icon fontIcon="delete" class="flex deleteIcon" />
     </button>
     <hr />
+    }
     <button
       aria-label="open dialog help"
       mat-menu-item
@@ -33,12 +35,14 @@
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <mat-icon fontIcon="group" />
+    @if(isModerator() || isAdmin()){
     <button
       aria-label="delete all message"
       (click)="openDialogueDeleteAllMessage()"
     >
       <mat-icon fontIcon="delete" />
     </button>
+    }
   </app-side-bar>
 
   <main

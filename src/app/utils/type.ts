@@ -43,10 +43,7 @@ export type resMyAccountType = {
   data: myAccountType;
 };
 export type resProjectMessage = {
-  res: messageType;
   data: messageType[];
-  isModerator: boolean;
-  user: string;
 };
 export type messageType = {
   id: string;
@@ -187,4 +184,9 @@ export type cardMoveType = {
   poseX: number;
   poseY: number;
 };
-export type resProjectName = { projectName: string };
+export type resProjectName = {
+  projectName: string;
+  isModerator: boolean;
+  isAdmin: boolean;
+  user: { username: string };
+};

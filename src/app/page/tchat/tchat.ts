@@ -62,6 +62,7 @@ export class TchatComponent implements OnInit, OnDestroy {
   messages = signal<messageType[]>([]);
   username = model<string>();
   isModerator = signal<boolean>(false);
+  isAdmin = signal<boolean>(false);
   formMessage = new FormGroup({
     message: new FormControl('', {
       nonNullable: true,
@@ -75,8 +76,6 @@ export class TchatComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.messages.update((oldValue) => [...oldValue, ...res.data]);
-          this.username.update(() => res.user);
-          this.isModerator.update(() => res.isModerator);
         },
         error: (err: HttpErrorResponseType) => {
           this.#toast.openFailToast(err);
@@ -93,6 +92,9 @@ export class TchatComponent implements OnInit, OnDestroy {
     this.#messageService.getProjectName(projectId).subscribe({
       next: (res) => {
         this.projectName.set(res.projectName);
+        this.isModerator.set(res.isModerator);
+        this.isAdmin.set(res.isAdmin);
+        this.username.set(res.user.username);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
