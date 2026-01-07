@@ -70,8 +70,6 @@ describe('TchatComponent', () => {
       component.ngOnInit();
       expect(messageService.getProjectMessages).toHaveBeenCalled();
       expect(component.messages()).toEqual(resData.data);
-      expect(component.username()).toEqual('username');
-      expect(component.isModerator()).toEqual(true);
       expect(messageSocket.joinRoom).toHaveBeenCalled();
     });
     it('Should fail messages of project, Unauthorized', () => {
@@ -248,13 +246,53 @@ describe('TchatComponent', () => {
   });
   describe('getProjectName', () => {
     const projectId = 'projectId';
-    it('Should success', () => {
-      jest
-        .spyOn(messageService, 'getProjectName')
-        .mockReturnValue(of({ projectName: 'projectName' }));
+    it('Should success member', () => {
+      jest.spyOn(messageService, 'getProjectName').mockReturnValue(
+        of({
+          projectName: 'projectName',
+          user: { username: 'username' },
+          isModerator: false,
+          isAdmin: false,
+        }),
+      );
       component.getProjectName(projectId);
       expect(messageService.getProjectName).toHaveBeenCalled();
       expect(component.projectName()).toEqual('projectName');
+      expect(component.isAdmin()).toEqual(false);
+      expect(component.isModerator()).toEqual(false);
+      expect(component.username()).toEqual('username');
+    });
+    it('Should succes moderator', () => {
+      jest.spyOn(messageService, 'getProjectName').mockReturnValue(
+        of({
+          projectName: 'projectName',
+          user: { username: 'username' },
+          isModerator: true,
+          isAdmin: false,
+        }),
+      );
+      component.getProjectName(projectId);
+      expect(messageService.getProjectName).toHaveBeenCalled();
+      expect(component.projectName()).toEqual('projectName');
+      expect(component.isAdmin()).toEqual(false);
+      expect(component.isModerator()).toEqual(true);
+      expect(component.username()).toEqual('username');
+    });
+    it('Should succes admin', () => {
+      jest.spyOn(messageService, 'getProjectName').mockReturnValue(
+        of({
+          projectName: 'projectName',
+          user: { username: 'username' },
+          isModerator: false,
+          isAdmin: true,
+        }),
+      );
+      component.getProjectName(projectId);
+      expect(messageService.getProjectName).toHaveBeenCalled();
+      expect(component.projectName()).toEqual('projectName');
+      expect(component.isAdmin()).toEqual(true);
+      expect(component.isModerator()).toEqual(false);
+      expect(component.username()).toEqual('username');
     });
     it('Should fail, Unauhtorized (401), navigate to auth page', () => {
       jest
