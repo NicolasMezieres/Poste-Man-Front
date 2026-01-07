@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Verification } from './verification';
+import { dialogChangePasswordComponent } from './change-password';
 import { MatDialogRef } from '@angular/material/dialog';
 import { dialogMock } from '../dialogMock/dialog-mock';
 
-describe('Verification', () => {
-  let component: Verification;
-  let fixture: ComponentFixture<Verification>;
+describe('dialogChangePasswordComponent', () => {
+  let component: dialogChangePasswordComponent;
+  let fixture: ComponentFixture<dialogChangePasswordComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Verification],
+      imports: [dialogChangePasswordComponent],
       providers: [{ provide: MatDialogRef, useValue: dialogMock }],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Verification);
+    fixture = TestBed.createComponent(dialogChangePasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

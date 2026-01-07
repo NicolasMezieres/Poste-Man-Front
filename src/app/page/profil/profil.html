@@ -110,11 +110,20 @@
         (action)="submitFormProfil()"
       />
     </form>
+    <app-button-cancel
+      class="max-w-72 w-full"
+      type="button"
+      text="Annuler"
+      [hidden]="isDisable()"
+      (action)="changeDisabled()"
+    />
     <app-button-action
       class="max-w-72 w-full"
       type="button"
       id="changePassword"
       text="Changer son mot de passe"
+      (action)="openDialogChangePassword()"
+      [hidden]="!isDisable()"
     />
     <button
       aria-label="delete account"
