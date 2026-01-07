@@ -118,6 +118,7 @@ export type resSearchProject = {
   total: number;
   isEndList: boolean;
   data: searchProjectType[];
+  user: { username: string };
 };
 export type searchProjectType = {
   name: string;

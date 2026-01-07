@@ -35,6 +35,7 @@ export class MenuComponent implements OnInit {
   page = signal<number>(1);
   search = signal<string>('');
   projects = signal<searchProjectType[]>([]);
+  username = signal<string>('');
   debounceSearch = toSignal(toObservable(this.search).pipe(debounceTime(500)));
   updateSearch = effect(() => {
     const delay = this.debounceSearch();
@@ -48,8 +49,8 @@ export class MenuComponent implements OnInit {
   searchProject() {
     this.#projectService.search({ search: '', page: 1 }).subscribe({
       next: (res) => {
-        console.log(res);
         this.projects.update(() => res.data);
+        this.username.set(res.user.username);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);

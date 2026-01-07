@@ -1,7 +1,7 @@
 <div
   class="w-screen h-screen max-w-[375px] animate-slide-in-right bg-[#F5F5F5] flex flex-col fixed"
 >
-  <app-header (logout)="submitLogout()"></app-header>
+  <app-header [username]="username()" (logout)="submitLogout()"></app-header>
   <div class="p-4 flex-1 flex flex-col overflow-hidden">
     <div class="flex flex-col m-4 gap-4">
       <app-create></app-create>

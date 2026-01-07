@@ -7,7 +7,12 @@
   >
   <div class="flex flex-2 justify-evenly items-center gap-10">
     <mat-icon class="icon-color">notifications</mat-icon>
-    <p class="text-[#7C3DD4] text-[24px] font-Agdasima">Username</p>
+    <a
+      routerLink="/profil"
+      class="text-[#7C3DD4] text-[24px] font-Agdasima"
+      (click)="close()"
+      >{{username()}}
+    </a>
     <button aria-label="deconnexion" (click)="logout.emit()">
       <mat-icon class="icon-color">logout</mat-icon>
     </button>
