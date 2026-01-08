@@ -122,14 +122,6 @@ export class ProfilComponent implements OnInit {
   }
   openDialogChangePassword() {
     this.dialog.open(dialogChangePasswordComponent);
-    // .afterClosed()
-    // .subscribe({
-    //   next: (data: { isSubmit: boolean; formData: formChangePassword }) => {
-    //     if (data && data.isSubmit) {
-    //       this.#changePassword(data.formData);
-    //     }
-    //   },
-    // });
   }
 
   // openDialogRemoveAccount() {

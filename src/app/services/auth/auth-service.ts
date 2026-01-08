@@ -58,4 +58,11 @@ export class AuthService {
       })
       .pipe(take(1));
   }
+  logout(): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}auth/logout`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
 }

@@ -12,6 +12,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
+import { AuthService } from 'src/app/services/auth/auth-service';
 @Component({
   selector: 'app-menu',
   imports: [
@@ -26,6 +27,7 @@ import { debounceTime } from 'rxjs';
   templateUrl: 'menu.html',
 })
 export class MenuComponent implements OnInit {
+  #authService = inject(AuthService);
   #projectService = inject(ProjectService);
   #toast = inject(ToastService);
   #router = inject(Router);
@@ -33,6 +35,7 @@ export class MenuComponent implements OnInit {
   page = signal<number>(1);
   search = signal<string>('');
   projects = signal<searchProjectType[]>([]);
+  username = signal<string>('');
   debounceSearch = toSignal(toObservable(this.search).pipe(debounceTime(500)));
   updateSearch = effect(() => {
     const delay = this.debounceSearch();
@@ -46,8 +49,8 @@ export class MenuComponent implements OnInit {
   searchProject() {
     this.#projectService.search({ search: '', page: 1 }).subscribe({
       next: (res) => {
-        console.log(res);
         this.projects.update(() => res.data);
+        this.username.set(res.user.username);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -63,5 +66,17 @@ export class MenuComponent implements OnInit {
   }
   closeDialog() {
     this.dialog.close();
+  }
+  submitLogout() {
+    this.#logout();
+  }
+  #logout() {
+    this.#authService.logout().subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.#router.navigate(['auth']);
+        this.closeDialog();
+      },
+    });
   }
 }
