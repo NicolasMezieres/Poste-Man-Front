@@ -10,6 +10,8 @@ import { projectServiceMock } from './mock/project.service.mock';
 import { of, throwError } from 'rxjs';
 import { provideRouter, Router } from '@angular/router';
 import { dialogMock } from '../../modal/dialogMock/dialog-mock';
+import { AuthService } from 'src/app/services/auth/auth-service';
+import { authServiceMock } from 'src/app/page/auth/mock/auth-service.mock';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -26,6 +28,7 @@ describe('MenuComponent', () => {
         { provide: ToastService, useValue: toastMock },
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: ProjectService, useValue: projectServiceMock },
+        { provide: AuthService, useValue: authServiceMock },
       ],
     }).compileComponents();
 
@@ -60,11 +63,14 @@ describe('MenuComponent', () => {
   });
   describe('Function searchProject', () => {
     it('Should success', () => {
-      jest
-        .spyOn(projectService, 'search')
-        .mockReturnValue(
-          of({ data: [{ id: 'id', name: 'name' }], total: 1, isEndList: true }),
-        );
+      jest.spyOn(projectService, 'search').mockReturnValue(
+        of({
+          data: [{ id: 'id', name: 'name' }],
+          total: 1,
+          isEndList: true,
+          user: { username: 'username' },
+        }),
+      );
       component.searchProject();
       expect(projectService.search).toHaveBeenCalled();
       expect(component.projects()).toEqual([{ id: 'id', name: 'name' }]);
@@ -83,6 +89,26 @@ describe('MenuComponent', () => {
       expect(toast.openFailToast).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['auth']);
       expect(component.closeDialog).toHaveBeenCalled();
+    });
+  });
+  describe('submit Logout', () => {
+    it('Should call endpoint logout authService', () => {
+      jest.spyOn(authServiceMock, 'logout').mockReturnValue(of());
+      component.submitLogout();
+      expect(authServiceMock.logout).toHaveBeenCalled();
+    });
+  });
+  describe('logout', () => {
+    it('Should succes, navigate to page auth', () => {
+      jest
+        .spyOn(authServiceMock, 'logout')
+        .mockReturnValue(of({ message: 'succes' }));
+      jest.spyOn(toastMock, 'openSuccesToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.submitLogout();
+      expect(authServiceMock.logout).toHaveBeenCalled();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
     });
   });
 });

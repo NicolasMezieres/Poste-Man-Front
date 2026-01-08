@@ -119,4 +119,12 @@ describe('AuthService', () => {
       });
     });
   });
+  describe('Logout', () => {
+    it('Should success, navigate to auth page', () => {
+      service.logout().subscribe();
+      const req = http.expectOne(environment.apiURL + 'auth/logout');
+      expect(req.request.method).toEqual('DELETE');
+      req.flush({ message: 'logout' });
+    });
+  });
 });

@@ -20,7 +20,7 @@
         <input
           id="lastName"
           type="text"
-          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder disabled:bg-disableGray"
           placeholder="Nom..."
           [formControl]="this.formProfil.controls.lastName"
         />
@@ -42,7 +42,7 @@
         <input
           id="firstName"
           type="text"
-          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder disabled:bg-disableGray"
           placeholder="Prénom..."
           [formControl]="this.formProfil.controls.firstName"
         />
@@ -64,7 +64,7 @@
         <input
           id="email"
           type="email"
-          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder disabled:bg-disableGray"
           placeholder="Email..."
           [formControl]="this.formProfil.controls.email"
         />
@@ -84,7 +84,7 @@
         <input
           id="username"
           type="text"
-          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder"
+          class="text-center text-2xl bg-white border rounded-[10px] py-2 placeholder:text-placeholder disabled:bg-disableGray"
           placeholder="Pseudonyme..."
           [formControl]="this.formProfil.controls.username"
         />
@@ -110,13 +110,23 @@
         (action)="submitFormProfil()"
       />
     </form>
+    <app-button-cancel
+      class="max-w-72 w-full"
+      type="button"
+      text="Annuler"
+      [hidden]="isDisable()"
+      (action)="changeDisabled()"
+    />
     <app-button-action
       class="max-w-72 w-full"
       type="button"
       id="changePassword"
       text="Changer son mot de passe"
+      (action)="openDialogChangePassword()"
+      [hidden]="!isDisable()"
     />
     <button
+      aria-label="delete account"
       id="submitInscription"
       type="button"
       class="bg-error text-2xl max-w-72 text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"

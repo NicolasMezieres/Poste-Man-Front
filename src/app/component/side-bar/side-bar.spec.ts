@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SideBarComponent } from './side-bar';
 import { MenuComponent } from '../icon/menu/menu';
 import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('SideBarComponent', () => {
   let component: SideBarComponent;
@@ -11,14 +12,13 @@ describe('SideBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SideBarComponent],
-      providers: [provideHttpClient()],
+      providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SideBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  // providers: [{ provide: MatDialog, useValue: { open: jest.fn() } }],
   it('should create', () => {
     expect(component).toBeTruthy();
   });
