@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProfilComponent } from './profil';
 import { provideHttpClient } from '@angular/common/http';
 import { ToastService } from 'src/app/services/toast/toast';
@@ -9,6 +8,7 @@ import { userServiceMock } from './mock/user.service.mock';
 import { of, throwError } from 'rxjs';
 import { provideRouter, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth-service';
+import { dialogMock } from 'src/app/component/modal/dialogMock/dialog-mock';
 
 describe('ProfilComponent', () => {
   let component: ProfilComponent;
@@ -136,5 +136,13 @@ describe('ProfilComponent', () => {
       expect(toast.openFailToast).toHaveBeenCalled();
       expect(router.navigate).not.toHaveBeenCalled();
     });
+  });
+  describe('openDialogChangePassword', () => {
+    it('Should not call changePassword', () => {
+      jest.spyOn(dialogMock, 'open').mockReturnValue(of());
+      component.openDialogChangePassword();
+      expect();
+    });
+    it('Should call changePassword', () => {});
   });
 });
