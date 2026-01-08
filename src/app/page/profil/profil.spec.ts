@@ -9,6 +9,8 @@ import { of, throwError } from 'rxjs';
 import { provideRouter, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth-service';
 import { dialogMock } from 'src/app/component/modal/dialogMock/dialog-mock';
+import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('ProfilComponent', () => {
   let component: ProfilComponent;
@@ -16,6 +18,7 @@ describe('ProfilComponent', () => {
   let userService: UserService;
   let toast: ToastService;
   let router: Router;
+  let dialog: MatDialog;
   const resGetMyAccount = {
     data: {
       firstName: 'truc',
@@ -40,6 +43,7 @@ describe('ProfilComponent', () => {
     router = TestBed.inject(Router);
     userServiceMock.myAccount.mockReturnValue(of(resGetMyAccount));
     component = fixture.componentInstance;
+    dialog = TestBed.inject(MatDialog);
     fixture.detectChanges();
   });
   it('should create', () => {
@@ -138,11 +142,10 @@ describe('ProfilComponent', () => {
     });
   });
   describe('openDialogChangePassword', () => {
-    it('Should not call changePassword', () => {
-      jest.spyOn(dialogMock, 'open').mockReturnValue(of());
+    it('Should open dialog Change Password', () => {
+      jest.spyOn(dialog, 'open');
       component.openDialogChangePassword();
-      expect();
+      expect(dialog.open).toHaveBeenCalledWith(dialogChangePasswordComponent);
     });
-    it('Should call changePassword', () => {});
   });
 });
