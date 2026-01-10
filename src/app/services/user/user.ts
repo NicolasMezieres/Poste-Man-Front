@@ -36,4 +36,11 @@ export class UserService {
       })
       .pipe(take(1));
   }
+  deleteAccount(): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}user/account/desactivate`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
 }

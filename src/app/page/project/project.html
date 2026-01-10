@@ -1,7 +1,11 @@
 <div class="flex min-h-screen bg-white">
   <app-side-bar>
     <mat-icon fontIcon="group" />
-    <button aria-label="invitation" (click)="openInvitation()">
+    <button
+      aria-label="invitation"
+      (click)="openInvitation()"
+      [hidden]="!isModerator()"
+    >
       <mat-icon fontIcon="attach_email" />
     </button>
     <button aria-label="show options" (click)="toggleVisbile()">

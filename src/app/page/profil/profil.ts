@@ -12,16 +12,13 @@ import {
 import { UserService } from 'src/app/services/user/user';
 import { ToastService } from 'src/app/services/toast/toast';
 import { Router } from '@angular/router';
-import {
-  formChangePassword,
-  HttpErrorResponseType,
-  myAccountType,
-} from 'src/app/utils/type';
+import { HttpErrorResponseType } from 'src/app/utils/type';
 import { ErrorMessage } from 'src/app/component/error-message/error-message';
 import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
 import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/button-cancel';
 import { MatDialog } from '@angular/material/dialog';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
+import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
 
 @Component({
   selector: 'app-profil',
@@ -124,17 +121,30 @@ export class ProfilComponent implements OnInit {
     this.dialog.open(dialogChangePasswordComponent);
   }
 
-  // openDialogRemoveAccount() {
-  //   this.dialog
-  //     .open()
-  //     .afterClosed()
-  //     .subscribe({
-  //       next: (data: { isSubmit: boolean }) => {
-  //         if (data && data.isSubmit) {
-  //           this.#removeAccount();
-  //         }
-  //       },
-  //     });
-  // }
-  // #removeAccount() {}
+  openDialogRemoveAccount() {
+    this.dialog
+      .open(DialogRemoveAccountComponent)
+      .afterClosed()
+      .subscribe({
+        next: (data: { isSubmit: boolean }) => {
+          if (data && data.isSubmit) {
+            this.#removeAccount();
+          }
+        },
+      });
+  }
+  #removeAccount() {
+    this.#user.deleteAccount().subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.#router.navigate(['auth']);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        }
+      },
+    });
+  }
 }

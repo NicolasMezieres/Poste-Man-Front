@@ -128,7 +128,8 @@
       [hidden]="!isDisable()"
     />
     <button
-      aria-label="delete account"
+      (click)="openDialogRemoveAccount()"
+      aria-label="remove account"
       id="submitInscription"
       type="button"
       class="bg-error text-2xl max-w-72 text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"

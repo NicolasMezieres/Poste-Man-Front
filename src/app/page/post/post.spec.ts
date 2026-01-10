@@ -705,7 +705,7 @@ describe('PostComponent', () => {
     it('Should received action Move', () => {
       jest
         .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'move', post: postMock }));
+        .mockReturnValue(of({ action: 'transfert', post: postMock }));
       component.posts.set([postMock]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
