@@ -17,6 +17,10 @@ describe('dialogChangePasswordComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -27,5 +31,31 @@ describe('dialogChangePasswordComponent', () => {
       expect(dialogMock.close).toHaveBeenCalled();
     });
   });
-  describe('submit Change Password', () => {});
+  describe('submit Change Password', () => {
+    it('Should nothing, form invalid', () => {
+      component.formChangePassword.setValue({
+        confirmPassword: '',
+        oldPassword: '',
+        password: '',
+      });
+      component.submitChangePassword();
+      expect(component['dialogRef'].close).not.toHaveBeenCalled();
+    });
+    it('Should close dialog with data form', () => {
+      component.formChangePassword.setValue({
+        confirmPassword: 'StrongP@ssword73',
+        oldPassword: 'StrongP@ssword73',
+        password: 'StrongP@ssword73',
+      });
+      component.submitChangePassword();
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        isSubmit: true,
+        formData: {
+          confirmPassword: 'StrongP@ssword73',
+          oldPassword: 'StrongP@ssword73',
+          password: 'StrongP@ssword73',
+        },
+      });
+    });
+  });
 });
