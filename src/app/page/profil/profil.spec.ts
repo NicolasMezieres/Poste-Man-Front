@@ -8,7 +8,6 @@ import { userServiceMock } from './mock/user.service.mock';
 import { of, throwError } from 'rxjs';
 import { provideRouter, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth-service';
-import { dialogMock } from 'src/app/component/modal/dialogMock/dialog-mock';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
