@@ -18,6 +18,7 @@ import { ButtonActionComponent } from 'src/app/component/button/button-action/bu
 import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/button-cancel';
 import { MatDialog } from '@angular/material/dialog';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
+import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
 
 @Component({
   selector: 'app-profil',
@@ -117,29 +118,33 @@ export class ProfilComponent implements OnInit {
     }
   }
   openDialogChangePassword() {
+    this.dialog.open(dialogChangePasswordComponent);
+  }
+
+  openDialogRemoveAccount() {
     this.dialog
-      .open(dialogChangePasswordComponent)
+      .open(DialogRemoveAccountComponent)
       .afterClosed()
       .subscribe({
         next: (data: { isSubmit: boolean }) => {
           if (data && data.isSubmit) {
-            this.#changePassword();
+            this.#removeAccount();
           }
         },
       });
   }
-  #changePassword() {}
-  // openDialogRemoveAccount() {
-  //   this.dialog
-  //     .open()
-  //     .afterClosed()
-  //     .subscribe({
-  //       next: (data: { isSubmit: boolean }) => {
-  //         if (data && data.isSubmit) {
-  //           this.#removeAccount();
-  //         }
-  //       },
-  //     });
-  // }
-  // #removeAccount() {}
+  #removeAccount() {
+    this.#user.deleteAccount().subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.#router.navigate(['auth']);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        }
+      },
+    });
+  }
 }

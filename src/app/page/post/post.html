@@ -46,11 +46,19 @@
           class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2"
         >
           <div class="flex items-center gap-2.5">
-            <button aria-label="upVote" class="flex items-center">
+            <button
+              aria-label="upVote"
+              class="flex items-center"
+              (click)="submitVote(true,post.id)"
+            >
               <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
             </button>
             <span class="text-xl">{{post.score}}</span>
-            <button aria-label="downVote" class="flex items-center">
+            <button
+              aria-label="downVote"
+              class="flex items-center"
+              (click)="submitVote(false,post.id)"
+            >
               <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
             </button>
           </div>

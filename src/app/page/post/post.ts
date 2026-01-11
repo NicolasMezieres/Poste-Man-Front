@@ -154,7 +154,7 @@ export class PostComponent implements OnInit, OnDestroy {
               arrayPost.filter((post) => post.id != data.post.id),
             );
             break;
-          case 'move':
+          case 'transfert':
             this.posts.update((arrayPost) =>
               arrayPost.filter((post) => post.id != data.post.id),
             );
@@ -364,6 +364,18 @@ export class PostComponent implements OnInit, OnDestroy {
         if (err.status === 401) {
           this.#router.navigate(['auth']);
         } else if (err.status === 403 || err.status === 404) {
+          this.#router.navigate(['home']);
+        }
+      },
+    });
+  }
+  submitVote(isUp: boolean, postId: string) {
+    this.#postService.vote(postId, { isUp }).subscribe({
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        } else if (err.status === 404) {
           this.#router.navigate(['home']);
         }
       },

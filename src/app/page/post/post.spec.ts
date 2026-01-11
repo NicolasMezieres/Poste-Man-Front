@@ -688,10 +688,16 @@ describe('PostComponent', () => {
       jest
         .spyOn(socket, 'listenPost')
         .mockReturnValue(of({ action: 'update', post: postMock }));
-      component.posts.set([{ ...postMock, text: 'otherText' }]);
+      component.posts.set([
+        { ...postMock, text: 'otherText' },
+        { ...postMock, id: 'otherPost' },
+      ]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
-      expect(component.posts()).toEqual([postMock]);
+      expect(component.posts()).toEqual([
+        postMock,
+        { ...postMock, id: 'otherPost' },
+      ]);
     });
     it('Should received action Delete', () => {
       jest
@@ -705,7 +711,7 @@ describe('PostComponent', () => {
     it('Should received action Move', () => {
       jest
         .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'move', post: postMock }));
+        .mockReturnValue(of({ action: 'transfert', post: postMock }));
       component.posts.set([postMock]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
@@ -728,6 +734,35 @@ describe('PostComponent', () => {
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
       expect(component.posts()).toEqual([]);
+    });
+  });
+  describe('submit Vote', () => {
+    it('Should succes', () => {
+      jest.spyOn(postService, 'vote').mockReturnValue(of());
+      component.submitVote(true, 'postId');
+      expect(postService.vote).toHaveBeenCalled();
+    });
+    it('Should fail unauthorized (401), navigate to page auth', () => {
+      jest
+        .spyOn(postService, 'vote')
+        .mockReturnValue(throwError(() => ({ status: 401 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.submitVote(true, 'postId');
+      expect(postService.vote).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
+    });
+    it('Should fail, post not found (404), navigate to page home', () => {
+      jest
+        .spyOn(postService, 'vote')
+        .mockReturnValue(throwError(() => ({ status: 404 })));
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.submitVote(true, 'postId');
+      expect(postService.vote).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
     });
   });
 });

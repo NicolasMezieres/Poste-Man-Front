@@ -1,4 +1,4 @@
-<div class="bg-white flex min-h-screen font-Agdasima">
+<div class="bg-white flex h-screen font-Agdasima overflow-hidden">
   <app-side-bar>
     <app-icon-back />
     <button (click)="changeDisabled()" [hidden]="!isDisable()">
@@ -6,10 +6,12 @@
     </button>
     <mat-icon fontIcon="help_center" class="absolute bottom-5" />
   </app-side-bar>
-  <main class="flex-1 flex flex-col justify-center items-center px-5 gap-10">
+  <main
+    class="flex-1 flex flex-col items-center px-5 gap-10 max-h-screen overflow-auto"
+  >
     <div class="flex items-center gap-10">
       <!-- todo Ici il y à image avatar-->
-      <h1 class="text-[32px] font-Julius">{{username()}}</h1>
+      <h1 class="text-[32px] font-Julius text-center w-full">{{username()}}</h1>
     </div>
     <form
       [formGroup]="this.formProfil"
@@ -126,7 +128,8 @@
       [hidden]="!isDisable()"
     />
     <button
-      aria-label="delete account"
+      (click)="openDialogRemoveAccount()"
+      aria-label="remove account"
       id="submitInscription"
       type="button"
       class="bg-error text-2xl max-w-72 text-white w-full py-2.5 rounded-[10px] shadowUnset col-span-2 place-self-center xl:w-1/2"

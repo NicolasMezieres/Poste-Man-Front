@@ -191,3 +191,8 @@ export type resProjectName = {
   isAdmin: boolean;
   user: { username: string };
 };
+export type formChangePassword = {
+  oldPassword: string;
+  password: string;
+  confirmPassword: string;
+};

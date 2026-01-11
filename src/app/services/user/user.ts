@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
+  formChangePassword,
   myAccountType,
   resMessageType,
   resMyAccountType,
@@ -24,6 +25,20 @@ export class UserService {
   updateMyAccount(data: myAccountType): Observable<resMessageType> {
     return this.#http
       .patch<resMessageType>(`${this.#url}user/myAccount`, data, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  changePassword(data: formChangePassword): Observable<resMessageType> {
+    return this.#http
+      .patch<resMessageType>(`${this.#url}user/changePassword`, data, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  deleteAccount(): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}user/account/desactivate`, {
         withCredentials: true,
       })
       .pipe(take(1));
