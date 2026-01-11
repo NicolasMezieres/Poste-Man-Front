@@ -10,7 +10,8 @@ import { provideRouter, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth-service';
 import { dialogMock } from 'src/app/component/modal/dialogMock/dialog-mock';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
 
 describe('ProfilComponent', () => {
   let component: ProfilComponent;
@@ -146,6 +147,53 @@ describe('ProfilComponent', () => {
       jest.spyOn(dialog, 'open');
       component.openDialogChangePassword();
       expect(dialog.open).toHaveBeenCalledWith(dialogChangePasswordComponent);
+    });
+  });
+  describe('open Dialog Remove Account', () => {
+    it('Should nothing  dialog not return data', () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of()),
+      } as unknown as MatDialogRef<DialogRemoveAccountComponent>);
+      component.openDialogRemoveAccount();
+      expect(userService.deleteAccount).not.toHaveBeenCalled();
+    });
+    it('Should call endpoint  delete account (user)', () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of({ isSubmit: true })),
+      } as unknown as MatDialogRef<DialogRemoveAccountComponent>);
+      jest.spyOn(userService, 'deleteAccount');
+      component.openDialogRemoveAccount();
+      expect(userService.deleteAccount).toHaveBeenCalled();
+    });
+  });
+  describe('remove Account', () => {
+    const dialogMock = () =>
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of({ isSubmit: true })),
+      } as unknown as MatDialogRef<DialogRemoveAccountComponent>);
+    it('Should succes, navigate to page auth', () => {
+      dialogMock();
+      jest
+        .spyOn(userService, 'deleteAccount')
+        .mockReturnValue(of({ message: 'delete' }));
+      jest.spyOn(toast, 'openSuccesToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openDialogRemoveAccount();
+      expect(userService.deleteAccount).toHaveBeenCalled();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
+    });
+    it('Should fail unauthorized (401) navigate to page auth', () => {
+      dialogMock();
+      jest
+        .spyOn(userService, 'deleteAccount')
+        .mockReturnValue(throwError(() => ({ status: 401 })));
+      jest.spyOn(toast, 'openSuccesToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openDialogRemoveAccount();
+      expect(userService.deleteAccount).toHaveBeenCalled();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
     });
   });
 });
