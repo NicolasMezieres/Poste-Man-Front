@@ -19,6 +19,7 @@ import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/bu
 import { MatDialog } from '@angular/material/dialog';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
 import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
+import { dialogAvatarEditComponent } from 'src/app/component/modal/avatar-edit/avatar-edit';
 
 @Component({
   selector: 'app-profil',
@@ -147,5 +148,8 @@ export class ProfilComponent implements OnInit {
         }
       },
     });
+  }
+  openDialogEditAvatar() {
+    this.dialog.open(dialogAvatarEditComponent);
   }
 }
