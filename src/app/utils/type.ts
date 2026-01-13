@@ -38,6 +38,7 @@ export type myAccountType = {
   lastName: string;
   email: string;
   username: string;
+  icon?: string | null;
 };
 export type resMyAccountType = {
   data: myAccountType;

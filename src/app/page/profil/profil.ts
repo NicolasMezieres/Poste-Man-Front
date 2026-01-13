@@ -19,6 +19,8 @@ import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/bu
 import { MatDialog } from '@angular/material/dialog';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
 import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
+import { dialogAvatarEditComponent } from 'src/app/component/modal/avatar-edit/avatar-edit';
+import { defaultImage } from 'src/app/utils/const';
 
 @Component({
   selector: 'app-profil',
@@ -43,6 +45,8 @@ export class ProfilComponent implements OnInit {
   username = signal<string>('');
   isDisable = signal<boolean>(true);
   isSubmit = signal<boolean>(false);
+  readonly defaultImage = defaultImage;
+  image = signal<string>('');
   formProfil = new FormGroup({
     lastName: new FormControl('', {
       nonNullable: true,
@@ -81,8 +85,16 @@ export class ProfilComponent implements OnInit {
     this.formProfil.disable();
     this.#user.myAccount().subscribe({
       next: (res) => {
-        this.formProfil.setValue(res.data);
+        this.formProfil.setValue({
+          email: res.data.email,
+          firstName: res.data.firstName,
+          lastName: res.data.lastName,
+          username: res.data.username,
+        });
         this.username.set(res.data.username);
+        if (res.data.icon) {
+          this.image.update(() => `/assets/avatar/${res.data.icon}.webp`);
+        }
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);
@@ -138,6 +150,30 @@ export class ProfilComponent implements OnInit {
       next: (res) => {
         this.#toast.openSuccesToast(res.message);
         this.#router.navigate(['auth']);
+      },
+      error: (err: HttpErrorResponseType) => {
+        this.#toast.openFailToast(err);
+        if (err.status === 401) {
+          this.#router.navigate(['auth']);
+        }
+      },
+    });
+  }
+  openDialogEditAvatar() {
+    this.dialog
+      .open(dialogAvatarEditComponent)
+      .afterClosed()
+      .subscribe((data: { avatarName: string; isSubmit: boolean }) => {
+        if (data && data.isSubmit) {
+          this.#editAvatar(data.avatarName);
+        }
+      });
+  }
+  #editAvatar(image: string) {
+    this.#user.changeAvatar(image).subscribe({
+      next: (res) => {
+        this.#toast.openSuccesToast(res.message);
+        this.image.set(`/assets/avatar/${image}.webp`);
       },
       error: (err: HttpErrorResponseType) => {
         this.#toast.openFailToast(err);

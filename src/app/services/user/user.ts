@@ -36,6 +36,15 @@ export class UserService {
       })
       .pipe(take(1));
   }
+  changeAvatar(icon: string): Observable<resMessageType> {
+    return this.#http
+      .patch<resMessageType>(
+        `${this.#url}user/changeAvatar`,
+        { icon },
+        { withCredentials: true },
+      )
+      .pipe(take(1));
+  }
   deleteAccount(): Observable<resMessageType> {
     return this.#http
       .delete<resMessageType>(`${this.#url}user/account/desactivate`, {
