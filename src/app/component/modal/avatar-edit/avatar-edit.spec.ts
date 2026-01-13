@@ -22,4 +22,21 @@ describe('dialogAvatarEditComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('close Dialog', () => {
+    it('Should close dialog', () => {
+      jest.spyOn(component['dialog'], 'close');
+      component.closeDialog();
+      expect(component['dialog'].close).toHaveBeenCalled();
+    });
+  });
+  describe('submit Edit Avatar', () => {
+    it('Should close dialog with data', () => {
+      jest.spyOn(component['dialog'], 'close');
+      component.submitEditAvatar('cat');
+      expect(component['dialog'].close).toHaveBeenCalledWith({
+        avatarName: 'cat',
+        isSubmit: true,
+      });
+    });
+  });
 });
