@@ -43,6 +43,7 @@ export class ProfilComponent implements OnInit {
   username = signal<string>('');
   isDisable = signal<boolean>(true);
   isSubmit = signal<boolean>(false);
+  image = signal<string>('/assets/posteman.webp');
   formProfil = new FormGroup({
     lastName: new FormControl('', {
       nonNullable: true,
