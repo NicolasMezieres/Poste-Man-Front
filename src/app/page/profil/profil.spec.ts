@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth-service';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
+import { dialogAvatarEditComponent } from 'src/app/component/modal/avatar-edit/avatar-edit';
 
 describe('ProfilComponent', () => {
   let component: ProfilComponent;
@@ -19,12 +20,16 @@ describe('ProfilComponent', () => {
   let toast: ToastService;
   let router: Router;
   let dialog: MatDialog;
+  const dataForm = {
+    firstName: 'truc',
+    lastName: 'Bidule',
+    username: 'chouette',
+    email: 'email@gmail.com',
+  };
   const resGetMyAccount = {
     data: {
-      firstName: 'truc',
-      lastName: 'Bidule',
-      username: 'chouette',
-      email: 'email@gmail.com',
+      ...dataForm,
+      icon: 'cat',
     },
   };
   beforeEach(async () => {
@@ -51,12 +56,13 @@ describe('ProfilComponent', () => {
   });
   describe('Function ng On Init', () => {
     it('Get my account should success', () => {
+      userServiceMock.myAccount.mockReturnValue(of(resGetMyAccount));
       component.ngOnInit();
       expect(component.formProfil.disabled).toEqual(true);
-      userServiceMock.myAccount.mockReturnValue(of(resGetMyAccount));
       expect(userService.myAccount).toHaveBeenCalled();
-      expect(component.formProfil.value).toEqual(resGetMyAccount.data);
+      expect(component.formProfil.value).toEqual(dataForm);
       expect(component.username()).toEqual(resGetMyAccount.data.username);
+      expect(component.image()).toContain('cat');
     });
     it('Get my account should fail should return page auth', () => {
       userServiceMock.myAccount.mockReturnValue(
@@ -102,7 +108,7 @@ describe('ProfilComponent', () => {
       toastMock.openSuccesToast('success update');
       component.isDisable.update(() => false);
       component.formProfil.enable();
-      component.formProfil.setValue(resGetMyAccount.data);
+      component.formProfil.setValue(dataForm);
       component.submitFormProfil();
       expect(component.isSubmit()).toEqual(true);
       expect(toast.openSuccesToast).toHaveBeenCalled();
@@ -117,7 +123,7 @@ describe('ProfilComponent', () => {
       jest.spyOn(router, 'navigate').mockResolvedValue(true);
       component.isDisable.update(() => false);
       component.formProfil.enable();
-      component.formProfil.setValue(resGetMyAccount.data);
+      component.formProfil.setValue(dataForm);
       component.submitFormProfil();
       expect(component.isSubmit()).toEqual(true);
       expect(toast.openFailToast).toHaveBeenCalled();
@@ -134,7 +140,7 @@ describe('ProfilComponent', () => {
       jest.spyOn(router, 'navigate').mockResolvedValue(true);
       component.isDisable.update(() => false);
       component.formProfil.enable();
-      component.formProfil.setValue(resGetMyAccount.data);
+      component.formProfil.setValue(dataForm);
       component.submitFormProfil();
       expect(component.isSubmit()).toEqual(true);
       expect(toast.openFailToast).toHaveBeenCalled();
@@ -192,6 +198,57 @@ describe('ProfilComponent', () => {
       component.openDialogRemoveAccount();
       expect(userService.deleteAccount).toHaveBeenCalled();
       expect(toast.openFailToast).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['auth']);
+    });
+  });
+  describe('openDialogEditAvatar', () => {
+    it('Should nothing not submit', () => {
+      jest.spyOn(dialog, 'open');
+      jest.spyOn(userService, 'changeAvatar');
+      component.openDialogEditAvatar();
+      expect(userService.changeAvatar).not.toHaveBeenCalled();
+      expect(dialog.open).toHaveBeenCalledWith(dialogAvatarEditComponent);
+    });
+    it('Should call endpoint changeAvatar (userService)', () => {
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest.fn().mockReturnValue(of({ isSubmit: true })),
+      } as unknown as MatDialogRef<dialogAvatarEditComponent>);
+      jest.spyOn(userService, 'changeAvatar');
+      component.openDialogEditAvatar();
+      expect(userService.changeAvatar).toHaveBeenCalled();
+      expect(dialog.open).toHaveBeenCalledWith(dialogAvatarEditComponent);
+    });
+  });
+  describe('edit Avatar', () => {
+    const dialogMock = () =>
+      jest.spyOn(dialog, 'open').mockReturnValue({
+        afterClosed: jest
+          .fn()
+          .mockReturnValue(of({ isSubmit: true, avatarName: 'cat' })),
+      } as unknown as MatDialogRef<dialogAvatarEditComponent>);
+    it('Should succes, avatar changed', () => {
+      dialogMock();
+      jest
+        .spyOn(userService, 'changeAvatar')
+        .mockReturnValue(of({ message: 'succes' }));
+      jest.spyOn(toast, 'openSuccesToast');
+      component.openDialogEditAvatar();
+      expect(userService.changeAvatar).toHaveBeenCalled();
+      expect(toast.openSuccesToast).toHaveBeenCalled();
+      expect(component.image()).toContain('cat');
+    });
+    it('Should fail, unauthorized (401), navigate to auth page', () => {
+      dialogMock();
+      jest.spyOn(userService, 'changeAvatar').mockReturnValue(
+        throwError(() => ({
+          status: 401,
+        })),
+      );
+      jest.spyOn(toast, 'openFailToast');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.openDialogEditAvatar();
+      expect(toast.openFailToast).toHaveBeenCalled();
+      expect(userService.changeAvatar).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['auth']);
     });
   });

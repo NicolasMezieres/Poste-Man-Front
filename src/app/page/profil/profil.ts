@@ -45,7 +45,7 @@ export class ProfilComponent implements OnInit {
   username = signal<string>('');
   isDisable = signal<boolean>(true);
   isSubmit = signal<boolean>(false);
-  defaultImage = defaultImage;
+  readonly defaultImage = defaultImage;
   image = signal<string>('');
   formProfil = new FormGroup({
     lastName: new FormControl('', {
@@ -85,7 +85,6 @@ export class ProfilComponent implements OnInit {
     this.formProfil.disable();
     this.#user.myAccount().subscribe({
       next: (res) => {
-        console.log(res.data);
         this.formProfil.setValue({
           email: res.data.email,
           firstName: res.data.firstName,
