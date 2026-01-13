@@ -80,4 +80,12 @@ describe('UserService', () => {
       req.flush({ message: 'account deleted' });
     });
   });
+  describe('change Avatar', () => {
+    it('Avatar changed', () => {
+      service.changeAvatar('cat').subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/changeAvatar');
+      expect(req.request.method).toEqual('PATCH');
+      req.flush({ message: 'Avatar changed' });
+    });
+  });
 });
