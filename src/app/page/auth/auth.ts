@@ -16,6 +16,7 @@ import { AuthService } from '../../services/auth/auth-service';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType } from 'src/app/utils/type';
 import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 @Component({
   selector: 'app-auth',
   imports: [
@@ -35,6 +36,7 @@ export class AuthComponent {
   #router = inject(Router);
   #toast = inject(ToastService);
   #auth = inject(AuthService);
+  #authSocket = inject(AuthSocketService);
   isSubmit = signal<boolean>(false);
   formConnexion = new FormGroup({
     identifier: new FormControl('', {
@@ -123,6 +125,7 @@ export class AuthComponent {
       this.#auth.signin(data).subscribe({
         next: (res) => {
           this.#toast.openSuccesToast(res.message);
+          this.#authSocket.authSocket();
           this.#router.navigate(['home']);
         },
         error: (err: HttpErrorResponseType) => {

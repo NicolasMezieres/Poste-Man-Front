@@ -197,3 +197,18 @@ export type formChangePassword = {
   password: string;
   confirmPassword: string;
 };
+
+export type member = {
+  isBanned: boolean;
+  isConnected: boolean;
+  user: { username: string; icon: string };
+  userId: string;
+};
+
+export type resListenAuthData = {
+  type: 'online' | 'offline' | 'userJoinProject' | 'userLeaveProject';
+  userId: string;
+  isConnected?: boolean;
+  isBanned?: boolean;
+  user?: { username: string; icon: string | null };
+};
