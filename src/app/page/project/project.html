@@ -1,6 +1,8 @@
 <div class="flex min-h-screen bg-white">
   <app-side-bar>
-    <mat-icon fontIcon="group" />
+    <button aria-label="open list group" (click)="testModal()">
+      <mat-icon fontIcon="group" />
+    </button>
     <button
       aria-label="invitation"
       (click)="openInvitation()"

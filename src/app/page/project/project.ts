@@ -15,6 +15,7 @@ import { DeleteProjectComponent } from 'src/app/component/modal/project/delete-p
 import { EditProjectComponent } from 'src/app/component/modal/project/edit/edit';
 import { LinkComponent } from 'src/app/component/modal/project/link/link';
 import { Subscription, take } from 'rxjs';
+import { ListMemberComponent } from 'src/app/component/modal/list-member/list-member';
 
 @Component({
   selector: 'app-project',
@@ -148,6 +149,15 @@ export class ProjectComponent implements OnInit, OnDestroy {
         } else if (err.status === 404 || err.status === 403) {
           this.#router.navigate(['home']);
         }
+      },
+    });
+  }
+  testModal() {
+    this.#dialog.open(ListMemberComponent, {
+      data: {
+        projectId: this.projectId(),
+        isModerator: this.isModerator(),
+        isAdmin: this.isAdmin(),
       },
     });
   }
