@@ -3,7 +3,7 @@
     <mat-icon (click)="close()">close</mat-icon>
   </div>
   <div class="flex flex-col bg-[#DDD0EE] rounded-[10px] p-4">
-    <form [formGroup]="formCreateProject" action="">
+    <form [formGroup]="formCreateProject" action="" class="flex flex-col gap-2">
       <app-input-form
         class="font-Agdasima"
         inputId="1"
@@ -16,6 +16,12 @@
       (formCreateProject.controls['name'].hasError('required')) {
       <app-error-message message="Ce champs est requis"></app-error-message>
       }}
+      <app-button-action
+        class="font-Agdasima"
+        type="submit"
+        text="Créer"
+        (action)="submitFromCreate()"
+      ></app-button-action>
     </form>
   </div>
 </div>
