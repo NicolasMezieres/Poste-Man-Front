@@ -1,22 +1,21 @@
-<div class="w-full p-4 bg-[#F5F5F5] flex flex-col overflow-scroll">
+<div class="w-full p-4 bg-[#F5F5F5] flex flex-col overflow-scroll md:w-100">
   <div class="flex justify-end">
     <mat-icon (click)="close()">close</mat-icon>
   </div>
-  <section class="bg-[#DDD0EE] rounded-[10px]">
-    <form class="flex flex-col items-center p-6 gap-2">
-      <label for="" class="font-Agdasima text-[24px] text-left w-full"
-        >Nom du projet :
-        <input
-          type="text"
-          class="rounded-[10px] w-full h-[50px] text-center bg-[#F5F5F5] placeholder:opacity-30"
-          placeholder="Nom du projet"
-        />
-      </label>
+  <div class="flex flex-col bg-[#DDD0EE] rounded-[10px] p-4">
+    <form [formGroup]="formCreateProject" action="">
+      <app-input-form
+        class="font-Agdasima"
+        inputId="1"
+        type="text"
+        label="Nom"
+        placeholder="Nom du projet"
+        [control]="formCreateProject.controls['name']"
+      />
+      @if (formCreateProject.controls['name'].touched || isSubmit()){@if
+      (formCreateProject.controls['name'].hasError('required')) {
+      <app-error-message message="Ce champs est requis"></app-error-message>
+      }}
     </form>
-  </section>
-  <button
-    class="p-2 h-[50px] bg-[#7C3DD4] rounded-[10px] text-[#F5F5F5] font-Agdasima text-[24px] text-center mt-4"
-  >
-    Créer
-  </button>
+  </div>
 </div>
