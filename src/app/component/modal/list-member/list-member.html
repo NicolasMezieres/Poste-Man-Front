@@ -9,8 +9,11 @@
     <section>
       <h2 class="underline mb-2.5">En ligne :</h2>
       <ul class="flex flex-col gap-2.5">
-        @for (member of members(); track $index) { @if(member.isConnected){
+        @for (member of members(); track $index) { @if(member.isConnected &&
+        !member.isBanned){
         <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
           [isAdmin]="data.isAdmin"
           [isModerator]="data.isModerator"
           [member]="member"
@@ -22,8 +25,11 @@
     <section>
       <h2 class="underline mb-2.5">Hors ligne :</h2>
       <ul class="flex flex-col gap-2.5">
-        @for (member of members(); track $index) { @if(!member.isConnected){
+        @for (member of members(); track $index) { @if(!member.isConnected &&
+        !member.isBanned){
         <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
           [isAdmin]="data.isAdmin"
           [isModerator]="data.isModerator"
           [member]="member"
@@ -34,7 +40,18 @@
     </section>
     <section>
       <h2 class="underline mb-2.5">Banni :</h2>
-      <ul></ul>
+      <ul class="flex flex-col gap-2.5">
+        @for (member of members(); track $index) { @if(member.isBanned){
+        <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
+          [isAdmin]="data.isAdmin"
+          [isModerator]="data.isModerator"
+          [member]="member"
+          type=""
+        />
+        } }
+      </ul>
     </section>
   </div>
 </div>

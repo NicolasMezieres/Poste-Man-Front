@@ -10,10 +10,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormSectionComponent } from 'src/app/component/modal/section/create-section/form-section';
 import { DeleteSectionComponent } from 'src/app/component/modal/section/delete-section/delete-section';
 import { take } from 'rxjs';
+import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 
 @Component({
   selector: 'app-section',
-  imports: [SideBarComponent, IconBackComponent, MatIcon, RouterLink],
+  imports: [
+    SideBarComponent,
+    IconBackComponent,
+    MatIcon,
+    RouterLink,
+    IconGroupComponent,
+  ],
   templateUrl: './section.html',
   styleUrl: './section.css',
 })
@@ -23,18 +31,21 @@ export class SectionComponent implements OnInit {
   #router = inject(Router);
   #toast = inject(ToastService);
   #dialog = inject(MatDialog);
+  #authSocket = inject(AuthSocketService);
   sections = signal<sectionType[]>([]);
   isModerator = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   projectId = signal<string>('');
   isVisible = signal<boolean>(false);
   projectName = signal<string>('');
+
   ngOnInit(): void {
     const params = this.#route.snapshot.paramMap.get('projectId');
     if (!params) {
       this.#router.navigate(['home']);
       return;
     }
+
     this.projectId.update(() => params);
     this.#sectionService
       .getSections(params)
@@ -55,6 +66,7 @@ export class SectionComponent implements OnInit {
           }
         },
       });
+    this.#authSocket.getProject(this.projectId());
   }
   toggleVisible() {
     this.isVisible.update((old) => !old);

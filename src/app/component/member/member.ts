@@ -1,10 +1,11 @@
-import { Component, input, model, OnInit } from '@angular/core';
+import { Component, inject, input, model, OnInit, output } from '@angular/core';
 import { member } from 'src/app/utils/type';
-import { MatIcon } from '@angular/material/icon';
+import { MenuMemberComponent } from '../icon/menu-member/menu-member';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-member',
-  imports: [MatIcon],
+  imports: [MenuMemberComponent],
   template: `<li class="flex items-center gap-2.5">
     <div class="relative">
       <img
@@ -19,7 +20,7 @@ import { MatIcon } from '@angular/material/icon';
             ? 'bg-green-500'
             : type() === 'offline'
               ? 'bg-gray-500'
-              : ''
+              : 'border-none'
         }}"
       ></span>
     </div>
@@ -28,21 +29,24 @@ import { MatIcon } from '@angular/material/icon';
     >
       {{ member().user.username }}
     </p>
-    <button
-      class="flex"
-      aria-label="open dialog option member"
+    <app-menu-member
+      (kickUser)="kickUser.emit()"
+      (banUser)="banUser.emit()"
       [hidden]="!isModerator() && !isAdmin()"
-    >
-      <mat-icon fontIcon="more_horiz" />
-    </button>
+      [isBan]="member().isBanned"
+    />
   </li>`,
 })
 export class Member implements OnInit {
+  readonly dialog = inject(MatDialog);
   member = input.required<member>();
   isModerator = input.required<boolean>();
   isAdmin = input.required<boolean>();
   type = input.required<string>();
+  kickUser = output<void>();
+  banUser = output<void>();
   avatar = model<string>('');
+
   ngOnInit(): void {
     this.avatar.set(`/assets/avatar/${this.member().user.icon}.webp`);
   }

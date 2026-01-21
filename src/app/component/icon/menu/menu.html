@@ -17,8 +17,8 @@
           class="flex flex-col relative items-center justify-evenly text-center"
         >
           <a
+            (click)="connectSocket(project.id)"
             [routerLink]="['project', project.id]"
-            (click)="closeDialog()"
             class="flex-1 font-Agdasima text-[32px] text-center wrap-anywhere px-5"
             >{{ project.name }}</a
           >

@@ -10,6 +10,7 @@ import {
   resSigninType,
 } from 'src/app/utils/type';
 import { environment } from 'src/environments/environment';
+import { AuthSocketService } from './auth-socket';
 
 @Injectable({
   providedIn: 'root',

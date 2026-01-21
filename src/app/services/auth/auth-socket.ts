@@ -10,52 +10,59 @@ import { environment } from 'src/environments/environment';
 export class AuthSocketService {
   private socket = io(environment.gatewayURL, {
     reconnection: true,
-    reconnectionDelay: 1000,
+    reconnectionDelay: 2000,
     reconnectionAttempts: 5,
     withCredentials: true,
+    autoConnect: false,
   });
   #isAlreadyConnected = signal<boolean>(false);
+  #isAlreadyListen = signal<boolean>(false);
+  deconnection() {
+    this.socket.disconnect();
+    this.#isAlreadyListen.update(() => false);
+    this.#isAlreadyConnected.update(() => false);
+  }
   listenToException() {
     this.socket.on('connect_error', () => {
       this.socket.io.opts.reconnection = false;
       this.socket.disconnect();
       this.#isAlreadyConnected.update(() => false);
+      this.#isAlreadyListen.update(() => false);
     });
   }
   constructor() {
     this.listenToException();
   }
+  getProject(projectId: string) {
+    if (!this.#isAlreadyListen() && projectId) {
+      console.log('getProject');
+      this.connectedListMember(projectId);
+      this.#isAlreadyListen.update(() => true);
+    }
+  }
   authSocket() {
     if (!this.#isAlreadyConnected()) {
+      this.socket.connect();
       this.socket.emit('auth');
       this.#isAlreadyConnected.update(() => true);
     }
   }
   connectedListMember(projectId: string): Promise<member[]> {
+    this.authSocket();
     return this.socket.emitWithAck('listMember', projectId);
   }
   listenAuth() {
     return new Observable<resListenAuthData>((observer) => {
-      this.socket.on('online', (data: { userId: string }) => {
-        observer.next({
-          isConnected: true,
-          type: 'online',
-          ...data,
-        });
-      });
-      this.socket.on('offline', (data: { userId: string }) => {
-        observer.next({
-          isConnected: false,
-          type: 'offline',
-          ...data,
-        });
-      });
-      this.socket.on('userJoinProject', (data: member) => {
-        observer.next({ type: 'userJoinProject', ...data });
-      });
-      this.socket.on('userLeaveProject', (data: { userId: string }) => {
-        observer.next({ ...data, type: 'userLeaveProject' });
-      });
+      this.socket.on(
+        'auth',
+        (auth: { userId: string; member?: member; action: string }) => {
+          observer.next({
+            isConnected: true,
+            type: auth.action,
+            ...auth,
+          });
+        },
+      );
     });
   }
 }

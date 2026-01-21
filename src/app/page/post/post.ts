@@ -26,6 +26,8 @@ import {
   Subject,
   Subscription,
 } from 'rxjs';
+import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 @Component({
   selector: 'app-post',
   imports: [
@@ -35,6 +37,7 @@ import {
     MatIcon,
     DatePipe,
     GroundComponent,
+    IconGroupComponent,
   ],
   templateUrl: './post.html',
   styleUrl: './post.css',
@@ -47,6 +50,7 @@ export class PostComponent implements OnInit, OnDestroy {
   #dialog = inject(MatDialog);
   #postSocket = inject(PostSocketService);
   #subscriptionPost!: Subscription;
+  #authSocket = inject(AuthSocketService);
   isModerator = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   username = signal<string>('');
@@ -100,7 +104,6 @@ export class PostComponent implements OnInit, OnDestroy {
       poseY: Number(poseY.toFixed(0)),
     });
   }
-  //todo: essayer le déplacer en tenant une card et se déplacer  à gauche ou autre
   ngOnInit() {
     const paramsProject = this.#route.snapshot.paramMap.get('projectId');
     const paramsSection = this.#route.snapshot.paramMap.get('sectionId');
@@ -128,6 +131,7 @@ export class PostComponent implements OnInit, OnDestroy {
       },
     });
     this.#postSocket.joinRoom(paramsProject);
+    this.#authSocket.getProject(paramsProject);
     this.postSocketSubscription();
   }
   ngOnDestroy() {
@@ -171,6 +175,21 @@ export class PostComponent implements OnInit, OnDestroy {
             break;
           case 'reset':
             this.posts.set([]);
+            break;
+          case 'postsUpdate':
+            this.posts.update((postArray) =>
+              postArray.map((post) => {
+                if (data.userId === post.user.id) {
+                  post.isVisible = data.isBan;
+                }
+                return post;
+              }),
+            );
+            break;
+          case 'kickUser':
+            this.posts.update((postArray) =>
+              postArray.filter((post) => post.user.id !== data.userId),
+            );
             break;
         }
       },

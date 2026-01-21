@@ -13,6 +13,7 @@ import { MatIcon } from '@angular/material/icon';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth-service';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 @Component({
   selector: 'app-menu',
   imports: [
@@ -31,6 +32,7 @@ export class MenuComponent implements OnInit {
   #projectService = inject(ProjectService);
   #toast = inject(ToastService);
   #router = inject(Router);
+  #authSocket = inject(AuthSocketService);
   private dialog = inject(MatDialogRef<MenuComponent>);
   page = signal<number>(1);
   search = signal<string>('');
@@ -64,6 +66,30 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     this.searchProject();
   }
+  connectSocket(projectId: string) {
+    this.#authSocket.authSocket();
+    this.#authSocket.connectedListMember(projectId);
+    this.listenAuth();
+    this.dialog.close();
+  }
+  listenAuth() {
+    this.#authSocket.listenAuth().subscribe({
+      next: (data) => {
+        switch (data.type) {
+          case 'banned':
+            this.#authSocket.deconnection();
+            this.dialog.close();
+            this.#router.navigate(['home']);
+            break;
+          case 'kicked':
+            this.#authSocket.deconnection();
+            this.dialog.close();
+            this.#router.navigate(['home']);
+            break;
+        }
+      },
+    });
+  }
   closeDialog() {
     this.dialog.close();
   }
@@ -73,6 +99,7 @@ export class MenuComponent implements OnInit {
   #logout() {
     this.#authService.logout().subscribe({
       next: (res) => {
+        this.#authSocket.deconnection();
         this.#toast.openSuccesToast(res.message);
         this.#router.navigate(['auth']);
         this.closeDialog();

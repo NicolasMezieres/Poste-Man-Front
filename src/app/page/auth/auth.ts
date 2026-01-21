@@ -124,8 +124,8 @@ export class AuthComponent {
       const data = this.formConnexion.getRawValue();
       this.#auth.signin(data).subscribe({
         next: (res) => {
-          this.#toast.openSuccesToast(res.message);
           this.#authSocket.authSocket();
+          this.#toast.openSuccesToast(res.message);
           this.#router.navigate(['home']);
         },
         error: (err: HttpErrorResponseType) => {

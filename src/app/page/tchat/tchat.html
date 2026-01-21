@@ -7,6 +7,7 @@
       mat-menu-item
       class="flex flex-row-reverse gap-2.5"
     >
+      <!--todo: group version mobile-->
       <span class="text-[28px] font-Agdasima text-purple">Membres</span>
       <mat-icon fontIcon="group" class="flex deleteIcon" />
     </button>
@@ -34,7 +35,11 @@
   </app-header-project-mobile>
   <app-side-bar class="hidden md:block">
     <app-icon-back />
-    <mat-icon fontIcon="group" />
+    <app-icon-group
+      [projectId]="projectId()"
+      [isAdmin]="isAdmin()"
+      [isModerator]="isModerator()"
+    />
     @if(isModerator() || isAdmin()){
     <button
       aria-label="delete all message"
@@ -62,7 +67,7 @@
       [scrollWindow]="false"
       (scrolledUp)="onScroll()"
     >
-      @for (message of messages(); track $index) {
+      @for (message of messages(); track $index) { @if(message.isVisible){
       <article
         class="{{message.user.username === username() ? 'md:place-self-end' : ''}} md:size-fit"
       >
@@ -81,7 +86,7 @@
         </p>
         <p class="text-end">{{message.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
       </article>
-      }@empty {
+      }} @empty {
       <p class="absolute top-1/2 self-center text-[28px]">Aucun message</p>
       } @if(isLoadingMessage()){
       <div class="flex justify-center py-2">

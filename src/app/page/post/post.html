@@ -1,13 +1,18 @@
 <div
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima md:flex-row md:p-0 md:gap-0"
 >
+  <!--todo menu mobile-->
   <app-header-project-mobile
     class="md:hidden p-2.5 select-none"
     title="nom du projet"
   />
   <app-side-bar class="hidden md:block">
     <app-icon-back />
-    <mat-icon fontIcon="group" />
+    <app-icon-group
+      [projectId]="projectId()"
+      [isAdmin]="isAdmin()"
+      [isModerator]="isModerator()"
+    />
     @if(!isAdmin()){
     <button
       aria-label="open modal creation post"
@@ -34,7 +39,7 @@
       {{sectionName()}}
     </h1>
     <app-ground class="flex flex-1" [(zoom)]="zoom">
-      @for (post of posts(); track $index) {
+      @for (post of posts(); track $index) { @if(post.isVisible){
       <article
         [id]="post.id"
         class="w-72 flex flex-col absolute"
@@ -93,7 +98,7 @@
         </div>
         }
       </article>
-      }
+      }}
     </app-ground>
     @if(posts().length === 0){
     <h1 class="font-Julius text-[32px] fixed top-1/2 self-center">
