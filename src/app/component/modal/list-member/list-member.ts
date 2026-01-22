@@ -18,7 +18,6 @@ import { DialogBanUser } from '../group/ban-user/ban-user';
   selector: 'app-list-member',
   imports: [MatIcon, Member],
   templateUrl: './list-member.html',
-  styleUrl: './list-member.css',
 })
 export class ListMemberComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<ListMemberComponent>);
@@ -40,7 +39,10 @@ export class ListMemberComponent implements OnInit {
     this.#authSocket
       .connectedListMember(this.data.projectId)
       .then((data) => this.members.update(() => data))
-      .catch(() => this.closeDialog());
+      .catch(() => {
+        console.log('coucou erreur');
+        this.closeDialog();
+      });
     this.detectChange();
   }
   detectChange() {
