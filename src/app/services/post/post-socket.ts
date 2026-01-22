@@ -15,7 +15,7 @@ export class PostSocketService {
   });
 
   listenToException() {
-    this.socket.on('exception', (error) => {
+    this.socket.on('exception', () => {
       this.socket.io.opts.reconnection = false;
       this.socket.disconnect();
     });
