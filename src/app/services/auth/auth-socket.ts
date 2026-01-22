@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
 import { member, resListenAuthData } from 'src/app/utils/type';
@@ -15,36 +15,27 @@ export class AuthSocketService {
     withCredentials: true,
     autoConnect: false,
   });
-  #isAlreadyConnected = signal<boolean>(false);
-  #isAlreadyListen = signal<boolean>(false);
   deconnection() {
     this.socket.disconnect();
-    this.#isAlreadyListen.update(() => false);
-    this.#isAlreadyConnected.update(() => false);
   }
   listenToException() {
     this.socket.on('connect_error', () => {
       this.socket.io.opts.reconnection = false;
       this.socket.disconnect();
-      this.#isAlreadyConnected.update(() => false);
-      this.#isAlreadyListen.update(() => false);
     });
   }
   constructor() {
     this.listenToException();
   }
   getProject(projectId: string) {
-    if (!this.#isAlreadyListen() && projectId) {
-      console.log('getProject');
+    if (projectId) {
       this.connectedListMember(projectId);
-      this.#isAlreadyListen.update(() => true);
     }
   }
   authSocket() {
-    if (!this.#isAlreadyConnected()) {
+    if (!this.socket.connected) {
       this.socket.connect();
       this.socket.emit('auth');
-      this.#isAlreadyConnected.update(() => true);
     }
   }
   connectedListMember(projectId: string): Promise<member[]> {

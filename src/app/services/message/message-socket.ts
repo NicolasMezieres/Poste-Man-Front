@@ -25,6 +25,7 @@ export class MessageSocketService {
     this.listenToException();
   }
   listenMessage(): Observable<messageSocketType> {
+    console.log('écoute des messages');
     return new Observable((observer) => {
       this.socket.on('message', (message: messageSocketType) => {
         observer.next(message);
@@ -35,6 +36,9 @@ export class MessageSocketService {
     });
   }
   joinRoom(projectId: string) {
+    if (!this.socket.connected) {
+      this.socket.connect();
+    }
     this.socket.emit('messageJoinRoom', projectId);
   }
 }

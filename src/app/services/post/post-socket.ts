@@ -35,6 +35,9 @@ export class PostSocketService {
     });
   }
   joinRoom(projectId: string) {
+    if (!this.socket.connected) {
+      this.socket.connect();
+    }
     this.socket.emit('postJoinRoom', projectId);
   }
 }

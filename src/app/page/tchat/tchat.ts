@@ -124,6 +124,7 @@ export class TchatComponent implements OnInit, OnDestroy {
     this.#authSocket.getProject(params);
     this.#subscription = this.#socketMessage.listenMessage().subscribe({
       next: (data) => {
+        console.log(data);
         switch (data.action) {
           case 'create':
             this.messages.update((messages) => [data.message, ...messages]);
