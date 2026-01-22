@@ -25,7 +25,6 @@ export class MessageSocketService {
     this.listenToException();
   }
   listenMessage(): Observable<messageSocketType> {
-    console.log('écoute des messages');
     return new Observable((observer) => {
       this.socket.on('message', (message: messageSocketType) => {
         observer.next(message);
