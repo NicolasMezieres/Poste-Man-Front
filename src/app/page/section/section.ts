@@ -126,7 +126,6 @@ export class SectionComponent implements OnInit {
                 : section,
             ),
           );
-          console.log(res);
         },
         error: (err: HttpErrorResponseType) => {
           this.#toast.openFailToast(err);

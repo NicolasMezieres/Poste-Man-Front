@@ -79,7 +79,6 @@ export class TchatComponent implements OnInit, OnDestroy {
       .getProjectMessages(this.projectId(), this.messages().length)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.messages.update((oldValue) => [...oldValue, ...res.data]);
         },
         error: (err: HttpErrorResponseType) => {
@@ -124,13 +123,11 @@ export class TchatComponent implements OnInit, OnDestroy {
     this.#authSocket.getProject(params);
     this.#subscription = this.#socketMessage.listenMessage().subscribe({
       next: (data) => {
-        console.log(data);
         switch (data.action) {
           case 'create':
             this.messages.update((messages) => [data.message, ...messages]);
             break;
           case 'delete':
-            console.log(data);
             this.messages.update((messages) =>
               messages.filter((message) => message.id != data.message.id),
             );
@@ -139,7 +136,6 @@ export class TchatComponent implements OnInit, OnDestroy {
             this.messages.update(() => []);
             break;
           case 'ban':
-            console.log(data);
             this.messages.update((messageArray) => {
               return messageArray.map((message) => {
                 if (message.user.id === data.userId) {
