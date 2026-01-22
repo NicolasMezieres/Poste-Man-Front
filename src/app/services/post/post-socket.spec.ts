@@ -45,11 +45,13 @@ describe('PostSocketService', () => {
   describe('join Room', () => {
     it('Should emit joinRoom', () => {
       const projectId = 'projectId';
+      jest.spyOn(socketMock, 'connect');
       service.joinRoom(projectId);
       expect(service['socket'].emit).toHaveBeenCalledWith(
         'postJoinRoom',
         projectId,
       );
+      expect(service['socket'].connect).toHaveBeenCalled();
     });
   });
 });

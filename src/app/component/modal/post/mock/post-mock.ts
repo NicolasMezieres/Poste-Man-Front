@@ -5,6 +5,7 @@ export const postMock = {
   poseY: 0,
   score: 0,
   isArchive: false,
+  isVisible: true,
   createdAt: String(new Date()),
   updatedAt: String(new Date()),
   user: { username: 'username', id: 'userId' },

@@ -14,6 +14,7 @@ describe('Member', () => {
 
     fixture = TestBed.createComponent(Member);
     component = fixture.componentInstance;
+    
     fixture.detectChanges();
   });
 
