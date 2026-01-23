@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateProject } from '../../modal/project/create-project/create-project';
 
@@ -16,7 +16,9 @@ import { CreateProject } from '../../modal/project/create-project/create-project
 })
 export class Create {
   private readonly dialog = inject(MatDialog);
+  readonly closeMenu = output<void>();
   openModal() {
-    this.dialog.open(CreateProject);
+    this.dialog.open(CreateProject, { data: this.closeMenu.emit() });
   }
 }
+  

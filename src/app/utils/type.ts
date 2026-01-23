@@ -25,6 +25,10 @@ export type resSigninType = {
 export type resMessageType = {
   message: string;
 };
+export type resCreateProject = {
+  message: string;
+  data: { projectId: string };
+};
 export type dataForgetPasswordType = {
   email: string;
 };

@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
     <button matButton (click)="navigate()" class="">
       <p class="text-white font-Agdasima text-[24px]">Mention Légales</p>
     </button>
-    <p>© Copyright 2025</p>
+    <p>© Copyright 2026</p>
   </footer> `,
 })
 export class Footer {

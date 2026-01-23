@@ -4,7 +4,7 @@
   <app-header [username]="username()" (logout)="submitLogout()"></app-header>
   <div class="p-4 flex-1 flex flex-col overflow-hidden">
     <div class="flex flex-col m-4 gap-4">
-      <app-create></app-create>
+      <app-create (closeMenu)="closeDialog()"></app-create>
       <app-search [(search)]="search"></app-search>
     </div>
     <hr />
@@ -28,6 +28,8 @@
           <hr class="w-full" />
           }
         </li>
+        } @empty {
+        <p class="text-center font-Agdasima text-2xl">Aucun projet</p>
         }
       </ul>
     </div>
