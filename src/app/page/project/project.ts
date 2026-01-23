@@ -15,10 +15,12 @@ import { DeleteProjectComponent } from 'src/app/component/modal/project/delete-p
 import { EditProjectComponent } from 'src/app/component/modal/project/edit/edit';
 import { LinkComponent } from 'src/app/component/modal/project/link/link';
 import { Subscription, take } from 'rxjs';
+import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 
 @Component({
   selector: 'app-project',
-  imports: [SideBarComponent, RouterLink, MatIcon],
+  imports: [SideBarComponent, RouterLink, MatIcon, IconGroupComponent],
   templateUrl: './project.html',
 })
 export class ProjectComponent implements OnInit, OnDestroy {
@@ -32,6 +34,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   isAdmin = signal<boolean>(false);
   isVisible = signal<boolean>(false);
   #dialog = inject(MatDialog);
+  #authSocket = inject(AuthSocketService);
   subscribeRouter!: Subscription;
   ngOnInit(): void {
     this.subscribeRouter = this.#router.events.subscribe((event) => {
@@ -50,6 +53,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       this.#router.navigate(['home']);
       return;
     }
+
     this.projectId.update(() => paramProjectId);
     this.#projectService
       .getProject(paramProjectId)
@@ -69,6 +73,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
           }
         },
       });
+    this.#authSocket.getProject(paramProjectId);
   }
   toggleVisbile() {
     this.isVisible.update((old) => !old);

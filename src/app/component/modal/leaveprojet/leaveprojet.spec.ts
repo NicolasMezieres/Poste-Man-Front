@@ -7,7 +7,6 @@ import { dialogMock } from '../dialogMock/dialog-mock';
 describe('Leaveprojet', () => {
   let component: Leaveprojet;
   let fixture: ComponentFixture<Leaveprojet>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Leaveprojet],
@@ -21,5 +20,12 @@ describe('Leaveprojet', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('close', () => {
+    it('Should close dialog', () => {
+      jest.spyOn(component['dialogRef'], 'close');
+      component.close();
+      expect(component['dialogRef'].close).toHaveBeenCalled();
+    });
   });
 });

@@ -22,4 +22,11 @@ describe('TransfertConfirmation', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('close', () => {
+    it('Should close dialog', () => {
+      jest.spyOn(component['dialogRef'], 'close');
+      component.close();
+      expect(component['dialogRef'].close).toHaveBeenCalled();
+    });
+  });
 });

@@ -12,6 +12,8 @@ import { provideRouter, Router } from '@angular/router';
 import { dialogMock } from '../../modal/dialogMock/dialog-mock';
 import { AuthService } from 'src/app/services/auth/auth-service';
 import { authServiceMock } from 'src/app/page/auth/mock/auth-service.mock';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
+import { AuthSocketServiceMock } from '../../modal/list-member/mock/auth-socket-service-mock';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -19,6 +21,7 @@ describe('MenuComponent', () => {
   let projectService: ProjectService;
   let toast: ToastService;
   let router: Router;
+  let authSocketService: AuthSocketService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MenuComponent],
@@ -29,6 +32,7 @@ describe('MenuComponent', () => {
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: ProjectService, useValue: projectServiceMock },
         { provide: AuthService, useValue: authServiceMock },
+        { provide: AuthSocketService, useValue: AuthSocketServiceMock },
       ],
     }).compileComponents();
 
@@ -37,6 +41,7 @@ describe('MenuComponent', () => {
     projectService = TestBed.inject(ProjectService);
     toast = TestBed.inject(ToastService);
     router = TestBed.inject(Router);
+    authSocketService = TestBed.inject(AuthSocketService);
   });
 
   it('should create', () => {
@@ -109,6 +114,48 @@ describe('MenuComponent', () => {
       expect(authServiceMock.logout).toHaveBeenCalled();
       expect(toast.openSuccesToast).toHaveBeenCalled();
       expect(router.navigate).toHaveBeenCalledWith(['auth']);
+    });
+  });
+  describe('connectSocket', () => {
+    it('Should connect to server (socket) and close dialog', () => {
+      jest.spyOn(authSocketService, 'authSocket');
+      jest.spyOn(authSocketService, 'connectedListMember');
+      jest.spyOn(authSocketService, 'listenAuth').mockReturnValue(of());
+      jest.spyOn(component, 'listenAuth');
+      jest.spyOn(component['dialog'], 'close');
+      component.connectSocket('projectId');
+      expect(authSocketService.authSocket).toHaveBeenCalled();
+      expect(authSocketService.connectedListMember).toHaveBeenCalledWith(
+        'projectId',
+      );
+      expect(component.listenAuth).toHaveBeenCalled();
+      expect(component['dialog'].close).toHaveBeenCalled();
+    });
+  });
+  describe('listenAuth', () => {
+    it('Should received banned', () => {
+      jest
+        .spyOn(authSocketService, 'listenAuth')
+        .mockReturnValue(of({ type: 'banned', userId: 'userId' }));
+      jest.spyOn(authSocketService, 'deconnection');
+      jest.spyOn(component['dialog'], 'close');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.listenAuth();
+      expect(authSocketService.deconnection).toHaveBeenCalled();
+      expect(component['dialog'].close).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
+    });
+    it('Should received kicked', () => {
+      jest
+        .spyOn(authSocketService, 'listenAuth')
+        .mockReturnValue(of({ type: 'kicked', userId: 'userId' }));
+      jest.spyOn(authSocketService, 'deconnection');
+      jest.spyOn(component['dialog'], 'close');
+      jest.spyOn(router, 'navigate').mockResolvedValue(true);
+      component.listenAuth();
+      expect(authSocketService.deconnection).toHaveBeenCalled();
+      expect(component['dialog'].close).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['home']);
     });
   });
 });
