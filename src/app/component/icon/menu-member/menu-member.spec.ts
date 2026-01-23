@@ -11,6 +11,10 @@ describe('MenuMemberComponent', () => {
 
     fixture = TestBed.createComponent(MenuMemberComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('isBan', false);
     fixture.detectChanges();
+  });
+  it('Should be defined', () => {
+    expect(component).toBeDefined();
   });
 });
