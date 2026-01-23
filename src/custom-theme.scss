@@ -86,3 +86,11 @@ html {
     )
   );
 }
+
+.dialog-rectangle {
+  @include mat.dialog-overrides(
+    (
+      container-shape: rectangle,
+    )
+  );
+}

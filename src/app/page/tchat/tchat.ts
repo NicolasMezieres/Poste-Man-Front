@@ -30,6 +30,8 @@ import { IconMoreMessageComponent } from 'src/app/component/icon/more-message/mo
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
+import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 @Component({
   selector: 'app-tchat',
   imports: [
@@ -44,6 +46,7 @@ import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/de
     MatProgressSpinnerModule,
     MatMenuModule,
     IconMoreMessageComponent,
+    IconGroupComponent,
   ],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
@@ -56,6 +59,7 @@ export class TchatComponent implements OnInit, OnDestroy {
   #router = inject(Router);
   #subscription!: Subscription;
   #socketMessage = inject(MessageSocketService);
+  #authSocket = inject(AuthSocketService);
   readonly dialog = inject(MatDialog);
   projectName = signal<string>('');
   projectId = model<string>('');
@@ -116,6 +120,7 @@ export class TchatComponent implements OnInit, OnDestroy {
     this.getProjectName(params);
     this.getMessages();
     this.#socketMessage.joinRoom(params);
+    this.#authSocket.getProject(params);
     this.#subscription = this.#socketMessage.listenMessage().subscribe({
       next: (data) => {
         switch (data.action) {
@@ -129,6 +134,21 @@ export class TchatComponent implements OnInit, OnDestroy {
             break;
           case 'reset':
             this.messages.update(() => []);
+            break;
+          case 'ban':
+            this.messages.update((messageArray) => {
+              return messageArray.map((message) => {
+                if (message.user.id === data.userId) {
+                  message.isVisible = data.isBanned || false;
+                }
+                return message;
+              });
+            });
+            break;
+          case 'kickUser':
+            this.messages.update((messageArray) =>
+              messageArray.filter((message) => message.user.id !== data.userId),
+            );
             break;
           default:
             break;

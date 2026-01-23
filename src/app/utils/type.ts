@@ -49,17 +49,22 @@ export type resProjectMessage = {
 export type messageType = {
   id: string;
   message: string;
-  user: { username: string };
+  isVisible: boolean;
+  user: { username: string; id: string };
   createdAt: string;
   updatedAt: string;
 };
 export type messageSocketType = {
   action: string;
   message: messageType;
+  userId?: string;
+  isBanned?: boolean;
 };
 export type postSocketType = {
   action: string;
   post: postType;
+  userId: string;
+  isBan: boolean;
 };
 export type resSectionType = {
   data: sectionType[];
@@ -101,6 +106,7 @@ export type postType = {
   poseX: number;
   poseY: number;
   score: number;
+  isVisible: boolean;
   isArchive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -196,4 +202,19 @@ export type formChangePassword = {
   oldPassword: string;
   password: string;
   confirmPassword: string;
+};
+
+export type member = {
+  isBanned: boolean;
+  isConnected: boolean;
+  user: { username: string; icon: string | null };
+  userId: string;
+};
+
+export type resListenAuthData = {
+  type: string;
+  userId: string;
+  isConnected?: boolean;
+  isBanned?: boolean;
+  user?: { username: string; icon: string | null };
 };

@@ -15,8 +15,7 @@ export class MessageSocketService {
   });
 
   listenToException() {
-    this.socket.on('exception', (error) => {
-      console.log(error);
+    this.socket.on('exception', () => {
       this.socket.io.opts.reconnection = false;
       this.socket.disconnect();
     });
@@ -35,6 +34,9 @@ export class MessageSocketService {
     });
   }
   joinRoom(projectId: string) {
+    if (!this.socket.connected) {
+      this.socket.connect();
+    }
     this.socket.emit('messageJoinRoom', projectId);
   }
 }

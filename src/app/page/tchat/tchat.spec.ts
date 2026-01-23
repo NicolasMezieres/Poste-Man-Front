@@ -133,10 +133,10 @@ describe('TchatComponent', () => {
         {
           id: 'id',
           message: 'message',
+          isVisible: true,
           user: {
             username: 'username',
-            createdAt: 'date',
-            updatedAt: 'date',
+            id: 'userId',
           },
         },
       ],
@@ -171,6 +171,30 @@ describe('TchatComponent', () => {
       messageServiceMock.getProjectMessages.mockReturnValue(of(resData));
       messageSocketMock.joinRoom.mockReturnValue(of());
       messageSocketMock.listenMessage.mockReturnValue(of({ action: 'reset' }));
+      component.ngOnInit();
+      expect(component.messages()).toEqual([]);
+    });
+    it('An user was banned', () => {
+      jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
+      messageServiceMock.getProjectName.mockReturnValue(of());
+      messageServiceMock.getProjectMessages.mockReturnValue(of(resData));
+      messageSocketMock.joinRoom.mockReturnValue(of());
+      messageSocketMock.listenMessage.mockReturnValue(
+        of({ action: 'ban', userId: resData.data[0].user.id }),
+      );
+      component.ngOnInit();
+      expect(component.messages()).toEqual([
+        { ...resData.data[0], isVisible: false },
+      ]);
+    });
+    it('An user was kicked', () => {
+      jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
+      messageServiceMock.getProjectName.mockReturnValue(of());
+      messageServiceMock.getProjectMessages.mockReturnValue(of(resData));
+      messageSocketMock.joinRoom.mockReturnValue(of());
+      messageSocketMock.listenMessage.mockReturnValue(
+        of({ action: 'kickUser', userId: resData.data[0].user.id }),
+      );
       component.ngOnInit();
       expect(component.messages()).toEqual([]);
     });

@@ -1,7 +1,11 @@
 <div class="flex h-screen bg-white overflow-hidden font-Agdasima">
   <app-side-bar>
     <app-icon-back />
-    <mat-icon fontIcon="group" />
+    <app-icon-group
+      [projectId]="projectId()"
+      [isAdmin]="isAdmin()"
+      [isModerator]="isModerator()"
+    />
     @if(isModerator()){
     <button
       aria-label="open dialog create section"

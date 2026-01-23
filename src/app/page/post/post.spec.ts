@@ -155,6 +155,7 @@ describe('PostComponent', () => {
         createdAt: String(new Date()),
         id: 'id',
         isArchive: false,
+        isVisible: true,
         poseX: 15,
         poseY: 16,
         score: 0,
@@ -675,19 +676,26 @@ describe('PostComponent', () => {
     });
   });
   describe('Post Socket Subscription', () => {
+    const data = { post: postMock, userId: 'userId', isBan: false };
     it('Should received action Create', () => {
-      jest
-        .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'create', post: postMock }));
+      jest.spyOn(socket, 'listenPost').mockReturnValue(
+        of({
+          action: 'create',
+          ...data,
+        }),
+      );
       component.posts.set([]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
       expect(component.posts()).toEqual([postMock]);
     });
     it('Should received action Update', () => {
-      jest
-        .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'update', post: postMock }));
+      jest.spyOn(socket, 'listenPost').mockReturnValue(
+        of({
+          action: 'update',
+          ...data,
+        }),
+      );
       component.posts.set([
         { ...postMock, text: 'otherText' },
         { ...postMock, id: 'otherPost' },
@@ -700,9 +708,12 @@ describe('PostComponent', () => {
       ]);
     });
     it('Should received action Delete', () => {
-      jest
-        .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'delete', post: postMock }));
+      jest.spyOn(socket, 'listenPost').mockReturnValue(
+        of({
+          action: 'delete',
+          ...data,
+        }),
+      );
       component.posts.set([postMock]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
@@ -711,7 +722,7 @@ describe('PostComponent', () => {
     it('Should received action Move', () => {
       jest
         .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'transfert', post: postMock }));
+        .mockReturnValue(of({ action: 'transfert', ...data }));
       component.posts.set([postMock]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
@@ -720,16 +731,34 @@ describe('PostComponent', () => {
     it('Should received action Vote', () => {
       jest
         .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'vote', post: postMock }));
+        .mockReturnValue(of({ action: 'vote', ...data }));
       component.posts.set([{ ...postMock, score: 5 }]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
       expect(component.posts()).toEqual([postMock]);
     });
+    it('Should received action postsUpdate (banUser)', () => {
+      jest
+        .spyOn(socket, 'listenPost')
+        .mockReturnValue(of({ action: 'postsUpdate', ...data }));
+      component.posts.set([postMock]);
+      component.postSocketSubscription();
+      expect(socket.listenPost).toHaveBeenCalled();
+      expect(component.posts()).toEqual([{ ...postMock, isVisible: false }]);
+    });
+    it('Should received action kickUser', () => {
+      jest
+        .spyOn(socket, 'listenPost')
+        .mockReturnValue(of({ action: 'kickUser', ...data }));
+      component.posts.set([postMock]);
+      component.postSocketSubscription();
+      expect(socket.listenPost).toHaveBeenCalled();
+      expect(component.posts()).toEqual([]);
+    });
     it('Should received action Reset', () => {
       jest
         .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'reset', post: postMock }));
+        .mockReturnValue(of({ action: 'reset', ...data }));
       component.posts.set([postMock]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
