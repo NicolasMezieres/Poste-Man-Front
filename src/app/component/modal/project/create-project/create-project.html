@@ -1,0 +1,27 @@
+<div class="w-full p-4 bg-[#F5F5F5] flex flex-col overflow-scroll md:w-100">
+  <div class="flex justify-end">
+    <mat-icon (click)="close()">close</mat-icon>
+  </div>
+  <div class="flex flex-col bg-[#DDD0EE] rounded-[10px] p-4">
+    <form [formGroup]="formCreateProject" action="" class="flex flex-col gap-2">
+      <app-input-form
+        class="font-Agdasima"
+        inputId="1"
+        type="text"
+        label="Nom"
+        placeholder="Nom du projet"
+        [control]="formCreateProject.controls['name']"
+      />
+      @if (formCreateProject.controls['name'].touched || isSubmit()){@if
+      (formCreateProject.controls['name'].hasError('required')) {
+      <app-error-message message="Ce champs est requis"></app-error-message>
+      }}
+      <app-button-action
+        class="font-Agdasima"
+        type="submit"
+        text="Créer"
+        (action)="submitFromCreate()"
+      ></app-button-action>
+    </form>
+  </div>
+</div>

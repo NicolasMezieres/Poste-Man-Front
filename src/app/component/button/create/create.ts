@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateProject } from '../../modal/project/create-project/create-project';
 
 @Component({
   selector: 'app-create',
@@ -6,9 +8,17 @@ import { Component } from '@angular/core';
   template: `<div class="flex flex-col">
     <button
       class="p-2 h-[50px] bg-[#7C3DD4] rounded-[10px] text-[#F5F5F5] font-Agdasima text-[24px] text-center shadow-[0_1px_2px_rgba(0,0,0,100)]"
+      (click)="openModal()"
     >
       Crée un projet
     </button>
   </div>`,
 })
-export class Create {}
+export class Create {
+  private readonly dialog = inject(MatDialog);
+  readonly closeMenu = output<void>();
+  openModal() {
+    this.dialog.open(CreateProject, { data: this.closeMenu.emit() });
+  }
+}
+  
