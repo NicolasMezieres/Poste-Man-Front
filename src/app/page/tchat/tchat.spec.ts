@@ -183,7 +183,9 @@ describe('TchatComponent', () => {
         of({ action: 'ban', userId: resData.data[0].user.id }),
       );
       component.ngOnInit();
-      expect(component.messages()).toEqual([{ ...resData, isVisible: false }]);
+      expect(component.messages()).toEqual([
+        { ...resData.data[0], isVisible: false },
+      ]);
     });
     it('An user was kicked', () => {
       jest.spyOn(route.snapshot.paramMap, 'get').mockReturnValue('projectId');
