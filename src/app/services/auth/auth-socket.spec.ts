@@ -74,4 +74,11 @@ describe('AuthSocketService', () => {
       });
     });
   });
+  describe('deconnection', () => {
+    it('Should deconnect connection with server', () => {
+      jest.spyOn(socket, 'disconnect');
+      service.deconnection();
+      expect(socket.disconnect).toHaveBeenCalled();
+    });
+  });
 });
