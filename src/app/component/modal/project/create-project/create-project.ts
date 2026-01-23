@@ -55,6 +55,9 @@ export class CreateProject {
         },
         error: (err: HttpErrorResponseType) => {
           this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          }
         },
       });
     }
