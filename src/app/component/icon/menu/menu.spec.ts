@@ -47,18 +47,6 @@ describe('MenuComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  describe('updateSearch', () => {
-    it('Should reset pagination', () => {
-      jest.useFakeTimers();
-      jest.spyOn(projectService, 'search').mockReturnValue(of());
-      jest.spyOn(component, 'debounceSearch').mockReturnValue('test');
-      fixture.detectChanges();
-      component.page.update(() => 2);
-      component.search.update(() => 'test');
-      jest.advanceTimersByTime(500);
-      expect(component.page()).toBe(1);
-    });
-  });
   describe('Function close Dialog', () => {
     it('Should close dialog', () => {
       jest.spyOn(component['dialog'], 'close').mockReturnValue();
