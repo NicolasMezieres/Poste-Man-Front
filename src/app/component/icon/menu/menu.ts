@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Header } from '../../header/header';
 import { Create } from '../../button/create/create';
 import { Search } from '../../input/search/search';
@@ -10,7 +10,7 @@ import { ToastService } from 'src/app/services/toast/toast';
 import { Router, RouterLink } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth-service';
 import { AuthSocketService } from 'src/app/services/auth/auth-socket';
@@ -38,18 +38,16 @@ export class MenuComponent implements OnInit {
   search = signal<string>('');
   projects = signal<searchProjectType[]>([]);
   username = signal<string>('');
-  debounceSearch = toSignal(toObservable(this.search).pipe(debounceTime(500)));
-  updateSearch = effect(() => {
-    const delay = this.debounceSearch();
-    if (delay) {
-      if (this.page() !== 1) {
-        this.page.update(() => 1);
-      }
-      this.searchProject();
-    }
-  });
+  constructor() {
+    toObservable(this.search)
+      .pipe(debounceTime(750), takeUntilDestroyed())
+      .subscribe(() => {
+        this.page.set(1);
+        this.searchProject();
+      });
+  }
   searchProject() {
-    this.#projectService.search({ search: '', page: 1 }).subscribe({
+    this.#projectService.search({ search: this.search(), page: 1 }).subscribe({
       next: (res) => {
         this.projects.update(() => res.data);
         this.username.set(res.user.username);

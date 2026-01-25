@@ -5,6 +5,9 @@ import {
   patternSymbol,
   patternUppercase,
 } from './const';
+import { Signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime } from 'rxjs';
 
 export function matchPasswords(
   control: AbstractControl<{ password: string; confirmPassword: string }>,
