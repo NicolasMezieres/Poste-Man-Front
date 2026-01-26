@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
   dataForgetPasswordType,
   dataResetPasswordType,
   dataSigninType,
   dataSignupType,
+  resLogData,
   resMessageType,
   resSigninType,
 } from 'src/app/utils/type';
@@ -16,6 +17,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   #http = inject(HttpClient);
+  #isAdmin = signal<boolean>(false);
   readonly #url = environment.apiURL;
   signup(data: dataSignupType): Observable<resMessageType> {
     return this.#http
@@ -25,11 +27,17 @@ export class AuthService {
       .pipe(take(1));
   }
   signin(data: dataSigninType): Observable<resSigninType> {
-    return this.#http
+    const res = this.#http
       .post<resSigninType>(`${this.#url}auth/signin`, data, {
         withCredentials: true,
       })
       .pipe(take(1));
+    res.subscribe({
+      next: (res) => {
+        this.#isAdmin.update(() => res.role === 'Admin');
+      },
+    });
+    return res;
   }
   activAccount(token: string): Observable<resMessageType> {
     return this.#http
@@ -59,10 +67,30 @@ export class AuthService {
       .pipe(take(1));
   }
   logout(): Observable<resMessageType> {
-    return this.#http
+    const res = this.#http
       .delete<resMessageType>(`${this.#url}auth/logout`, {
         withCredentials: true,
       })
       .pipe(take(1));
+    res.subscribe({
+      next: () => {
+        this.#isAdmin.update(() => false);
+      },
+    });
+    return res;
+  }
+  log(): Observable<resLogData> {
+    const res = this.#http
+      .get<resLogData>(`${this.#url}auth/log`, { withCredentials: true })
+      .pipe(take(1));
+    res.subscribe({
+      next: (res) => {
+        this.#isAdmin.update(() => res.isAdmin);
+      },
+    });
+    return res;
+  }
+  getIsAdmin() {
+    return this.#isAdmin();
   }
 }

@@ -222,3 +222,8 @@ export type resListenAuthData = {
   isBanned?: boolean;
   user?: { username: string; icon: string | null };
 };
+
+export type resLogData = {
+  message: string;
+  isAdmin: boolean;
+};

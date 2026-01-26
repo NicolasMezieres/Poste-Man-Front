@@ -39,5 +39,7 @@ export const routes: Routes = [
   },
   { path: '500', component: Erreur500 },
   { path: 'mentions', component: Mention },
+  { path: 'listProject', component: HomeComponent },
+  { path: 'listUser', component: HomeComponent },
   { path: '**', component: Erreur404 },
 ];
