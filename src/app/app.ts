@@ -1,11 +1,11 @@
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthSocketService } from './services/auth/auth-socket';
 import { UserService } from './services/user/user';
-import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, MatBadgeModule, MatButtonModule, MatIconModule],
@@ -38,7 +38,7 @@ export class App implements OnInit, OnDestroy {
         });
       },
       error: () => {
-        this.#router.navigate(['auth']);
+        this.#router.navigate(['']);
       },
     });
   }
