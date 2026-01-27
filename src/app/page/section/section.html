@@ -20,6 +20,7 @@
     <button class="md:hidden" aria-label="delete all section">
       <mat-icon fontIcon="delete" /></button
     >}
+    <app-icon-help (actionHelp)="openHelp()"></app-icon-help>
   </app-side-bar>
   <main class="flex-1 flex flex-col items-center font-Agdasima relative gap-5">
     @if(isVisible() && (isAdmin()||isModerator())){

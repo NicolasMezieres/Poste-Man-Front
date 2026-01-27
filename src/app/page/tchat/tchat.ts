@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   Component,
   inject,
@@ -6,14 +7,6 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
-import { MatIcon } from '@angular/material/icon';
-import { ToastService } from 'src/app/services/toast/toast';
-import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
-import { IconBackComponent } from 'src/app/component/icon/back/back';
-import { MessageService } from 'src/app/services/message/message';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponseType, messageType } from 'src/app/utils/type';
 import {
   FormControl,
   FormGroup,
@@ -21,17 +14,26 @@ import {
   Validators,
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { MessageSocketService } from 'src/app/services/message/message-socket';
-import { Subscription } from 'rxjs';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { IconMoreMessageComponent } from 'src/app/component/icon/more-message/more-message';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { Subscription } from 'rxjs';
+import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
+import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { IconMoreMessageComponent } from 'src/app/component/icon/more-message/more-message';
+import { DialogHelps } from 'src/app/component/modal/dialog-help/dialog-help';
+import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
+import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { AuthSocketService } from 'src/app/services/auth/auth-socket';
+import { MessageService } from 'src/app/services/message/message';
+import { MessageSocketService } from 'src/app/services/message/message-socket';
+import { ToastService } from 'src/app/services/toast/toast';
+import { HttpErrorResponseType, messageType } from 'src/app/utils/type';
+import { IconHelpComponent } from "src/app/component/icon/help/help";
 @Component({
   selector: 'app-tchat',
   imports: [
@@ -47,11 +49,13 @@ import { AuthSocketService } from 'src/app/services/auth/auth-socket';
     MatMenuModule,
     IconMoreMessageComponent,
     IconGroupComponent,
-  ],
+    IconHelpComponent
+],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
 })
 export class TchatComponent implements OnInit, OnDestroy {
+  private readonly dialogRef = inject(MatDialog);
   throttleGetMessage = 2000;
   #toast = inject(ToastService);
   #messageService = inject(MessageService);
@@ -236,5 +240,21 @@ export class TchatComponent implements OnInit, OnDestroy {
         }
       },
     });
+  }
+
+  openHelp() {
+    if (this.isModerator()) {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpTchatModo' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    } else {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpTchat' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    }
   }
 }

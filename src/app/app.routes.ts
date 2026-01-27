@@ -4,16 +4,16 @@ import { Erreur404 } from './page/erreur404/erreur404';
 import { Erreur500 } from './page/erreur500/erreur500';
 import { ForgetPasswordComponent } from './page/forget-password/forget-password';
 import { HomeComponent } from './page/home/home';
+import { JoinProjectComponent } from './page/join-project/join-project';
 import { Mention } from './page/mention/mention';
+import { PostComponent } from './page/post/post';
 import { PresentationComponent } from './page/presentation/presentation';
 import { ProfilComponent } from './page/profil/profil';
-import { TchatComponent } from './page/tchat/tchat';
-import { SectionComponent } from './page/section/section';
-import { PostComponent } from './page/post/post';
-import { ResetPasswordComponent } from './page/reset-password/reset-password';
-import { ValidAccountComponent } from './page/valid-account/valid-account';
 import { ProjectComponent } from './page/project/project';
-import { JoinProjectComponent } from './page/join-project/join-project';
+import { ResetPasswordComponent } from './page/reset-password/reset-password';
+import { SectionComponent } from './page/section/section';
+import { TchatComponent } from './page/tchat/tchat';
+import { ValidAccountComponent } from './page/valid-account/valid-account';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },

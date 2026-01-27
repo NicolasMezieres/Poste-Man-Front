@@ -1,17 +1,19 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
-import { IconBackComponent } from 'src/app/component/icon/back/back';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { take } from 'rxjs';
+import { IconBackComponent } from 'src/app/component/icon/back/back';
+import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { IconHelpComponent } from 'src/app/component/icon/help/help';
+import { DialogHelps } from 'src/app/component/modal/dialog-help/dialog-help';
+import { FormSectionComponent } from 'src/app/component/modal/section/create-section/form-section';
+import { DeleteSectionComponent } from 'src/app/component/modal/section/delete-section/delete-section';
+import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 import { SectionService } from 'src/app/services/section/section';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType, sectionType } from 'src/app/utils/type';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { FormSectionComponent } from 'src/app/component/modal/section/create-section/form-section';
-import { DeleteSectionComponent } from 'src/app/component/modal/section/delete-section/delete-section';
-import { take } from 'rxjs';
-import { IconGroupComponent } from 'src/app/component/icon/group/group';
-import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 
 @Component({
   selector: 'app-section',
@@ -21,11 +23,13 @@ import { AuthSocketService } from 'src/app/services/auth/auth-socket';
     MatIcon,
     RouterLink,
     IconGroupComponent,
+    IconHelpComponent,
   ],
   templateUrl: './section.html',
   styleUrl: './section.css',
 })
 export class SectionComponent implements OnInit {
+  private readonly dialogRef = inject(MatDialog);
   #sectionService = inject(SectionService);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
@@ -198,5 +202,21 @@ export class SectionComponent implements OnInit {
         }
       },
     });
+  }
+
+  openHelp() {
+    if (this.isModerator()) {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpSectionModo' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    } else {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpSection' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    }
   }
 }

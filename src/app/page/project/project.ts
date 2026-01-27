@@ -1,29 +1,38 @@
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 import {
   ActivatedRoute,
   NavigationEnd,
   Router,
   RouterLink,
 } from '@angular/router';
-import { ProjectService } from 'src/app/services/project/project';
-import { ToastService } from 'src/app/services/toast/toast';
-import { HttpErrorResponseType } from 'src/app/utils/type';
-import { MatIcon } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { Subscription, take } from 'rxjs';
+import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { IconHelpComponent } from 'src/app/component/icon/help/help';
+import { DialogHelps } from 'src/app/component/modal/dialog-help/dialog-help';
 import { DeleteProjectComponent } from 'src/app/component/modal/project/delete-project/delete-project';
 import { EditProjectComponent } from 'src/app/component/modal/project/edit/edit';
 import { LinkComponent } from 'src/app/component/modal/project/link/link';
-import { Subscription, take } from 'rxjs';
-import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { AuthSocketService } from 'src/app/services/auth/auth-socket';
+import { ProjectService } from 'src/app/services/project/project';
+import { ToastService } from 'src/app/services/toast/toast';
+import { HttpErrorResponseType } from 'src/app/utils/type';
 
 @Component({
   selector: 'app-project',
-  imports: [SideBarComponent, RouterLink, MatIcon, IconGroupComponent],
+  imports: [
+    SideBarComponent,
+    RouterLink,
+    MatIcon,
+    IconGroupComponent,
+    IconHelpComponent,
+  ],
   templateUrl: './project.html',
 })
 export class ProjectComponent implements OnInit, OnDestroy {
+  private readonly dialogRef = inject(MatDialog);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #projectService = inject(ProjectService);
@@ -155,5 +164,21 @@ export class ProjectComponent implements OnInit, OnDestroy {
         }
       },
     });
+  }
+
+  openHelp() {
+    if (this.isModerator()) {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpSectionModo' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    } else {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpSection' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    }
   }
 }

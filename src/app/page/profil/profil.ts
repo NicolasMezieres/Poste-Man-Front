@@ -1,26 +1,28 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
-import { MatIcon } from '@angular/material/icon';
-import { IconBackComponent } from 'src/app/component/icon/back/back';
 import {
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
   ɵInternalFormsSharedModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { UserService } from 'src/app/services/user/user';
-import { ToastService } from 'src/app/services/toast/toast';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { HttpErrorResponseType } from 'src/app/utils/type';
-import { ErrorMessage } from 'src/app/component/error-message/error-message';
 import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
 import { ButtonCancelComponent } from 'src/app/component/button/button-cancel/button-cancel';
-import { MatDialog } from '@angular/material/dialog';
+import { ErrorMessage } from 'src/app/component/error-message/error-message';
+import { IconBackComponent } from 'src/app/component/icon/back/back';
+import { IconHelpComponent } from 'src/app/component/icon/help/help';
+import { dialogAvatarEditComponent } from 'src/app/component/modal/avatar-edit/avatar-edit';
 import { dialogChangePasswordComponent } from 'src/app/component/modal/change-password/change-password';
 import { DialogRemoveAccountComponent } from 'src/app/component/modal/delete-account/delete-account';
-import { dialogAvatarEditComponent } from 'src/app/component/modal/avatar-edit/avatar-edit';
+import { DialogHelps } from 'src/app/component/modal/dialog-help/dialog-help';
+import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
+import { ToastService } from 'src/app/services/toast/toast';
+import { UserService } from 'src/app/services/user/user';
 import { defaultImage } from 'src/app/utils/const';
+import { HttpErrorResponseType } from 'src/app/utils/type';
 
 @Component({
   selector: 'app-profil',
@@ -33,11 +35,13 @@ import { defaultImage } from 'src/app/utils/const';
     ErrorMessage,
     ButtonActionComponent,
     ButtonCancelComponent,
+    IconHelpComponent,
   ],
   templateUrl: './profil.html',
   styleUrl: './profil.css',
 })
 export class ProfilComponent implements OnInit {
+  private readonly dialogRef = inject(MatDialog);
   #user = inject(UserService);
   #toast = inject(ToastService);
   #router = inject(Router);
@@ -181,6 +185,13 @@ export class ProfilComponent implements OnInit {
           this.#router.navigate(['auth']);
         }
       },
+    });
+  }
+  openHelp() {
+    this.dialogRef.open(DialogHelps, {
+      data: { screen: 'HelpProfil' },
+      minWidth: 375,
+      panelClass: 'dialog-rectangle',
     });
   }
 }

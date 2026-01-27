@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MenuComponent } from '../icon/menu/menu';
+import { DialogHelps } from '../modal/dialog-help/dialog-help';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,7 +14,6 @@ import { MenuComponent } from '../icon/menu/menu';
       <mat-icon fontIcon="menu" />
     </button>
     <ng-content></ng-content>
-    <mat-icon fontIcon="help_center" class="absolute bottom-5" />
   </aside> `,
 })
 export class SideBarComponent {
@@ -22,5 +22,8 @@ export class SideBarComponent {
     this.dialog.open(MenuComponent, {
       position: { top: '0', left: '0' },
     });
+  }
+  openHelp() {
+    this.dialog.open(DialogHelps);
   }
 }

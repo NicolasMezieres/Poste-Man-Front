@@ -4,7 +4,7 @@
     <button (click)="changeDisabled()" [hidden]="!isDisable()">
       <mat-icon fontIcon="edit" />
     </button>
-    <mat-icon fontIcon="help_center" class="absolute bottom-5" />
+    <app-icon-help (actionHelp)="openHelp()"></app-icon-help>
   </app-side-bar>
   <main
     class="flex-1 flex flex-col items-center p-5 gap-10 max-h-screen overflow-auto"
