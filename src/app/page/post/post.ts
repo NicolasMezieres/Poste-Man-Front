@@ -1,23 +1,8 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { IconBackComponent } from 'src/app/component/icon/back/back';
-import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
-import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PostService } from 'src/app/services/post/post';
-import {
-  cardMoveType,
-  HttpErrorResponseType,
-  postType,
-} from 'src/app/utils/type';
-import { DatePipe } from '@angular/common';
-import { GroundComponent } from 'src/app/component/ground/ground';
-import { ToastService } from 'src/app/services/toast/toast';
-import { MatDialog } from '@angular/material/dialog';
-import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
-import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
-import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
-import { PostSocketService } from 'src/app/services/post/post-socket';
 import {
   debounceTime,
   groupBy,
@@ -26,8 +11,24 @@ import {
   Subject,
   Subscription,
 } from 'rxjs';
+import { GroundComponent } from 'src/app/component/ground/ground';
+import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
+import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { DialogHelps } from 'src/app/component/modal/dialog-help/dialog-help';
+import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
+import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
+import { TransfertPostComponent } from 'src/app/component/modal/post/transfert-post/transfert-post';
+import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { AuthSocketService } from 'src/app/services/auth/auth-socket';
+import { PostService } from 'src/app/services/post/post';
+import { PostSocketService } from 'src/app/services/post/post-socket';
+import { ToastService } from 'src/app/services/toast/toast';
+import {
+  cardMoveType,
+  HttpErrorResponseType,
+  postType,
+} from 'src/app/utils/type';
 @Component({
   selector: 'app-post',
   imports: [
@@ -43,6 +44,7 @@ import { AuthSocketService } from 'src/app/services/auth/auth-socket';
   styleUrl: './post.css',
 })
 export class PostComponent implements OnInit, OnDestroy {
+  private readonly dialogRef = inject(MatDialog);
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #postService = inject(PostService);
@@ -399,5 +401,21 @@ export class PostComponent implements OnInit, OnDestroy {
         }
       },
     });
+  }
+
+  openHelp() {
+    if (this.isModerator()) {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpTchatModo' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    } else {
+      this.dialogRef.open(DialogHelps, {
+        data: { screen: 'HelpTchat' },
+        minWidth: 375,
+        panelClass: 'dialog-rectangle',
+      });
+    }
   }
 }

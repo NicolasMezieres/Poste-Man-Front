@@ -2,10 +2,46 @@
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima md:flex-row md:p-0 md:gap-0"
 >
   <!--todo menu mobile-->
-  <app-header-project-mobile
-    class="md:hidden p-2.5 select-none"
-    title="nom du projet"
-  />
+  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet">
+    <button
+      aria-label="open list member"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5 p-1"
+    >
+      <!--todo: group version mobile-->
+      <span
+        class="text-[28px] p-2 font-Agdasima text-center items-center text-purple"
+        >Membres</span
+      >
+      <mat-icon fontIcon="group" class="flex deleteIcon" />
+    </button>
+    <hr />
+    @if(isModerator() || isAdmin()){
+    <button
+      aria-label="open dialog delete message"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span
+        class="text-[28px] p-2 font-Agdasima text-center items-center text-purple"
+        >Tout Supprimer</span
+      >
+      <mat-icon fontIcon="delete" class="flex deleteIcon" />
+    </button>
+    <hr />
+    }
+    <button
+      aria-label="open dialog help"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5 p-1"
+      (click)="openHelp()"
+    >
+      <span class="text-[28px] p-2 flex font-Agdasima items-center text-purple"
+        >Aide</span
+      >
+      <mat-icon fontIcon="help_center" class="flex deleteIcon" />
+    </button>
+  </app-header-project-mobile>
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <app-icon-group
