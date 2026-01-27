@@ -9,11 +9,36 @@
       class="flex flex-row-reverse gap-2.5 p-1"
     >
       <!--todo: group version mobile-->
+
       <span
         class="text-[28px] p-2 font-Agdasima text-center items-center text-purple"
         >Membres</span
       >
       <mat-icon fontIcon="group" class="flex deleteIcon" />
+    </button>
+    <hr />
+    <button
+      aria-label="openModalCreatePost"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5 p-1"
+    >
+      <span
+        class="text-[28px] p-2 font-Agdasima text-center items-center text-purple"
+        >Créer un post</span
+      >
+      <mat-icon fontIcon="add" class="flex deleteIcon" />
+    </button>
+    <hr />
+    <button
+      aria-label="openModalTransfertAllPost"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5 p-1"
+    >
+      <span
+        class="text-[28px] p-2 font-Agdasima text-center items-center text-purple"
+        >Tout transférer</span
+      >
+      <mat-icon fontIcon="drive_file_move" class="flex deleteIcon" />
     </button>
     <hr />
     @if(isModerator() || isAdmin()){

@@ -24,6 +24,7 @@ import { Subscription } from 'rxjs';
 import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { IconHelpComponent } from 'src/app/component/icon/help/help';
 import { IconMoreMessageComponent } from 'src/app/component/icon/more-message/more-message';
 import { DialogHelps } from 'src/app/component/modal/dialog-help/dialog-help';
 import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
@@ -33,7 +34,6 @@ import { MessageService } from 'src/app/services/message/message';
 import { MessageSocketService } from 'src/app/services/message/message-socket';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType, messageType } from 'src/app/utils/type';
-import { IconHelpComponent } from "src/app/component/icon/help/help";
 @Component({
   selector: 'app-tchat',
   imports: [
@@ -49,8 +49,8 @@ import { IconHelpComponent } from "src/app/component/icon/help/help";
     MatMenuModule,
     IconMoreMessageComponent,
     IconGroupComponent,
-    IconHelpComponent
-],
+    IconHelpComponent,
+  ],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
 })

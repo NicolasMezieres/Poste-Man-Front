@@ -15,6 +15,7 @@ import { GroundComponent } from 'src/app/component/ground/ground';
 import { HeaderProjectMobileComponent } from 'src/app/component/header/header-project-mobile/header-project-mobile';
 import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { IconGroupComponent } from 'src/app/component/icon/group/group';
+import { IconHelpComponent } from 'src/app/component/icon/help/help';
 import { DialogHelps } from 'src/app/component/modal/dialog-help/dialog-help';
 import { DeletePostComponent } from 'src/app/component/modal/post/delete-post/delete-post';
 import { EditPostComponent } from 'src/app/component/modal/post/edit-post/edit-post';
@@ -39,6 +40,7 @@ import {
     DatePipe,
     GroundComponent,
     IconGroupComponent,
+    IconHelpComponent,
   ],
   templateUrl: './post.html',
   styleUrl: './post.css',
@@ -406,13 +408,13 @@ export class PostComponent implements OnInit, OnDestroy {
   openHelp() {
     if (this.isModerator()) {
       this.dialogRef.open(DialogHelps, {
-        data: { screen: 'HelpTchatModo' },
+        data: { screen: 'HelpPostModo' },
         minWidth: 375,
         panelClass: 'dialog-rectangle',
       });
     } else {
       this.dialogRef.open(DialogHelps, {
-        data: { screen: 'HelpTchat' },
+        data: { screen: 'HelpPost' },
         minWidth: 375,
         panelClass: 'dialog-rectangle',
       });

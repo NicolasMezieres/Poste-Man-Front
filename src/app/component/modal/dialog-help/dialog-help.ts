@@ -6,7 +6,7 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'app-dialog-help',
   imports: [MatIcon],
   template: `<div
-    class="p-6 w-screen h-screen flex flex-col items-center text-center justify-center"
+    class="p-6 w-screen h-screen flex flex-col items-center text-center justify-center md:w-full md:h-full"
   >
     <button (click)="close()" class="absolute top-2 right-2">
       <mat-icon>close</mat-icon>
