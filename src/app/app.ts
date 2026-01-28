@@ -21,24 +21,24 @@ export class App implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.#authService.log().subscribe({
       next: () => {
-        this.#authSocket.authSocket();
-        this.#subscription = this.#authSocket.listenAuth().subscribe({
-          next: (data) => {
-            switch (data.type) {
-              case 'banned':
-                this.#authSocket.deconnection();
-                this.#router.navigate(['home']);
-                break;
-              case 'kicked':
-                this.#authSocket.deconnection();
-                this.#router.navigate(['home']);
-                break;
-            }
-          },
-        });
-      },
-      error: () => {
-        this.#router.navigate(['auth']);
+        const isAdmin = this.#authService.getIsAdmin();
+        if (!isAdmin) {
+          this.#authSocket.authSocket();
+          this.#subscription = this.#authSocket.listenAuth().subscribe({
+            next: (data) => {
+              switch (data.type) {
+                case 'banned':
+                  this.#authSocket.deconnection();
+                  this.#router.navigate(['home']);
+                  break;
+                case 'kicked':
+                  this.#authSocket.deconnection();
+                  this.#router.navigate(['home']);
+                  break;
+              }
+            },
+          });
+        }
       },
     });
   }

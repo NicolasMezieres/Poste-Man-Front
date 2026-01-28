@@ -67,12 +67,14 @@ export class PostComponent implements OnInit, OnDestroy {
       mergeAll(),
     )
     .subscribe((card) => {
-      this.#postService
-        .movePost(card.id, {
-          poseX: card.poseX,
-          poseY: card.poseY,
-        })
-        .subscribe();
+      if (!this.isAdmin()) {
+        this.#postService
+          .movePost(card.id, {
+            poseX: card.poseX,
+            poseY: card.poseY,
+          })
+          .subscribe();
+      }
     });
 
   moveCard(e: DragEvent) {
@@ -130,9 +132,11 @@ export class PostComponent implements OnInit, OnDestroy {
         }
       },
     });
-    this.#postSocket.joinRoom(paramsProject);
-    this.#authSocket.getProject(paramsProject);
-    this.postSocketSubscription();
+    if (!this.isAdmin()) {
+      this.#postSocket.joinRoom(paramsProject);
+      this.#authSocket.getProject(paramsProject);
+      this.postSocketSubscription();
+    }
   }
   ngOnDestroy() {
     if (this.#subscriptionPost) {

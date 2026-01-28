@@ -15,6 +15,7 @@ import { ValidAccountComponent } from './page/valid-account/valid-account';
 import { ProjectComponent } from './page/project/project';
 import { JoinProjectComponent } from './page/join-project/join-project';
 import { ListProjectComponent } from './page/list-project/list-project';
+import { DetailProjectPage } from './page/detail-project/detail-project';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -42,6 +43,6 @@ export const routes: Routes = [
   { path: 'mentions', component: Mention },
   { path: 'listProject', component: ListProjectComponent },
   { path: 'listUser', component: HomeComponent },
-  { path: 'detailProject/:projectId', component: ListProjectComponent },
+  { path: 'detailProject/:projectId', component: DetailProjectPage },
   { path: '**', component: Erreur404 },
 ];

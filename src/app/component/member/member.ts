@@ -32,7 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
     <app-menu-member
       (kickUser)="kickUser.emit()"
       (banUser)="banUser.emit()"
-      [hidden]="!isModerator() && !isAdmin()"
+      [hidden]="!isModerator()"
       [isBan]="member().isBanned"
     />
   </li>`,

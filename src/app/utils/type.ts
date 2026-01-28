@@ -180,7 +180,24 @@ export type resGetProjectType = {
   isModerator: boolean;
   isAdmin: boolean;
 };
-
+export type resGetProjectDetailType = {
+  data: {
+    author: string;
+    totalPost: number;
+    totalSection: number;
+    updatedAt: string;
+    createdAt: string;
+    projectName: string;
+  };
+};
+export type projectDetailType = {
+  author: string;
+  totalPost: number;
+  totalSection: number;
+  updatedAt: string;
+  createdAt: string;
+  projectName: string;
+};
 export type resJoinProjectType = {
   message: string;
   projectId: string;

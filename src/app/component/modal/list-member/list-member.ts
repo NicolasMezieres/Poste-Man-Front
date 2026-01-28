@@ -36,14 +36,24 @@ export class ListMemberComponent implements OnInit {
     this.dialogRef.close();
   }
   ngOnInit(): void {
-    this.#authSocket
-      .connectedListMember(this.data.projectId)
-      .then((data) => this.members.update(() => data))
-      .catch(() => {
-        console.log('coucou erreur');
-        this.closeDialog();
+    if (!this.data.isAdmin) {
+      this.#authSocket
+        .connectedListMember(this.data.projectId)
+        .then((data) => this.members.update(() => data))
+        .catch(() => {
+          this.closeDialog();
+        });
+      this.detectChange();
+    } else {
+      this.#projectService.getListMember(this.data.projectId).subscribe({
+        next: (res) => {
+          this.members.set(res.data);
+        },
+        error: () => {
+          this.closeDialog();
+        },
       });
-    this.detectChange();
+    }
   }
   detectChange() {
     this.#authSocket.listenAuth().subscribe({

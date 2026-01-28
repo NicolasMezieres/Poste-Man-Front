@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
+  member,
   nameType,
   querySearchAdminType,
   querySearchType,
   resCreateInvitationLikeType,
   resCreateProject,
+  resGetProjectDetailType,
   resGetProjectType,
   resJoinProjectType,
   resMessageType,
@@ -45,6 +47,13 @@ export class ProjectService {
   getProject(projectId: string): Observable<resGetProjectType> {
     return this.#http
       .get<resGetProjectType>(`${this.#url}${projectId}`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  getDetail(projectId: string): Observable<resGetProjectDetailType> {
+    return this.#http
+      .get<resGetProjectDetailType>(`${this.#url}${projectId}/detail`, {
         withCredentials: true,
       })
       .pipe(take(1));
@@ -101,6 +110,13 @@ export class ProjectService {
   kickUser(projectId: string, userId: string): Observable<resMessageType> {
     return this.#http
       .delete<resMessageType>(`${this.#url}${projectId}/user/${userId}`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  getListMember(projectId: string): Observable<{ data: member[] }> {
+    return this.#http
+      .get<{ data: member[] }>(`${this.#url}${projectId}/listMember`, {
         withCredentials: true,
       })
       .pipe(take(1));
