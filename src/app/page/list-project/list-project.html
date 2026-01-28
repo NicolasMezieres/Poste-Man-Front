@@ -1,0 +1,139 @@
+<div class="bg-white min-h-screen w-screen flex flex-col font-Agdasima">
+  <header class="grid grid-cols-3 w-full items-center px-5 py-2.5 shadowUnset">
+    <app-icon-back />
+    <h1 class="font-Julius text-2xl text-center">Projets</h1>
+  </header>
+  <main class="flex-1 flex flex-col gap-5 items-center p-5">
+    <form [formGroup]="formFilterProject">
+      <button
+        type="button"
+        aria-label="toggle filter menu"
+        (click)="toggleFilter()"
+        class="flex justify-center items-center bg-purple text-white px-5 relative w-64 font-Agdasima text-[28px] rounded-[10px] border {{isOpenFilter() ? 'border-b-0 rounded-b-none':''}} border-black"
+      >
+        Filtre
+        <span class="absolute right-4 flex"
+          ><mat-icon fontIcon="arrow_drop_down"
+        /></span>
+      </button>
+      <div
+        class="bg-purple flex flex-col px-5 pb-5 py-2 w-64 rounded-b-[10px] border border-t-0"
+        [hidden]="!isOpenFilter()"
+      >
+        <div class="flex flex-col">
+          <label class="text-xl font-bold text-white" for="searchId"
+            >Recherche :
+          </label>
+          <input
+            id="searchId"
+            type="text"
+            class="text-center text-xl bg-white shadowCast rounded-[5px] py-2 placeholder:text-placeholder"
+            placeholder="Rechercher..."
+            [formControl]="formFilterProject.controls.search"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xl font-bold text-white" for="fromDateId"
+            >Du :
+          </label>
+          <input
+            id="fromDateId"
+            type="text"
+            class="text-center text-xl bg-white shadowCast rounded-[5px] py-2 placeholder:text-placeholder"
+            placeholder="26/03/1970"
+            [formControl]="formFilterProject.controls.fromDate"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label class="text-xl font-bold text-white" for="searchId"
+            >Au :
+          </label>
+          <input
+            id="searchId"
+            type="text"
+            class="text-center text-xl bg-white shadowCast rounded-[5px] py-2 placeholder:text-placeholder"
+            placeholder="25/03/1970"
+            [formControl]="formFilterProject.controls.toDate"
+          />
+        </div>
+        <button
+          aria-label="search project"
+          (click)="submitSearchProject()"
+          class="bg-white text-black text-xl py-2 rounded-[10px] shadowUnset mt-5"
+        >
+          Rechercher
+        </button>
+      </div>
+    </form>
+    <h1 class="text-xl">Projet trouvés : {{totalProject()}}</h1>
+    <section class="text-xl flex flex-col gap-5 px-5 w-full md:hidden">
+      @for (project of listProject(); track $index) {
+      <article
+        class="bg-purple20 border rounded-[10px] p-2.5 flex flex-col gap-5"
+      >
+        <ul class="flex flex-col gap-2.5">
+          <li>Projet: {{project.name}}</li>
+          <li>Créateur : {{project.username}}</li>
+          <li>Membres : {{project.totalUser}}</li>
+          <li>Sections : {{project.totalSection}}</li>
+          <li>Postes : {{project.totalPost}}</li>
+          <li>
+            Date de Création : {{project.createdAt | date:'dd/MM/yyyy HH:mm'}}
+          </li>
+          <li>
+            Dernière activité : {{project.updatedAt | date: 'dd/MM/yyyy HH:mm'}}
+          </li>
+        </ul>
+        <a
+          [routerLink]="`/projectDetail/${project.id}`"
+          class="bg-white rounded-[10px] shadowUnset px-5 py-2 w-36 text-center place-self-center"
+          >Details</a
+        >
+      </article>
+      }
+    </section>
+    <table class="hidden md:block text-center">
+      <thead>
+        <tr class="headerTable">
+          <th class="px-2">Nom du projet</th>
+          <th class="px-2">Créateur</th>
+          <th class="px-2">Membres</th>
+          <th class="px-2">Sections</th>
+          <th class="px-2">Posts</th>
+          <th class="px-2">Date de création</th>
+          <th class="px-2">Dernière activité</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (project of listProject(); track $index) {
+        <tr class="bodyTable">
+          <td>{{project.name}}</td>
+          <td>{{project.username}}</td>
+          <td>{{project.totalUser}}</td>
+          <td>{{project.totalSection}}</td>
+          <td>{{project.totalPost}}</td>
+          <td>{{project.createdAt | date: 'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{project.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="p-2 bg-purple text-white">
+            <a [routerLink]="`/detailProject/${project.id}`">details</a>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <div class="flex items-center">
+      @if(page() >1){
+      <button aria-label="previous page" (click)="changePage(false)">
+        <mat-icon fontIcon="arrow_left" />
+      </button>
+      }
+      <p class="text-xl">{{page()}}</p>
+      @if(!isEndList()){
+      <button aria-label="next page" (click)="changePage(true)">
+        <mat-icon fontIcon="arrow_right" />
+      </button>
+      }
+    </div>
+  </main>
+  <app-footer />
+</div>

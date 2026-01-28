@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SideBarComponent } from 'src/app/component/side-bar/side-bar';
 import { AuthService } from 'src/app/services/auth/auth-service';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
