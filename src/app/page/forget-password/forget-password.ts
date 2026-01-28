@@ -1,19 +1,19 @@
 import { Component, inject, model } from '@angular/core';
-import { Logo } from 'src/app/component/logo/logo';
-import { Footer } from 'src/app/component/footer/footer';
-import { InputFormComponent } from 'src/app/component/input/input-form/input-form';
 import {
   FormControl,
   FormGroup,
   Validators,
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
-import { ErrorMessage } from 'src/app/component/error-message/error-message';
-import { ToastService } from 'src/app/services/toast/toast';
-import { AuthService } from 'src/app/services/auth/auth-service';
-import { HttpErrorResponseType } from 'src/app/utils/type';
 import { Router } from '@angular/router';
 import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
+import { ErrorMessage } from 'src/app/component/error-message/error-message';
+import { Footer } from 'src/app/component/footer/footer';
+import { InputFormComponent } from 'src/app/component/input/input-form/input-form';
+import { Logo } from 'src/app/component/logo/logo';
+import { AuthService } from 'src/app/services/auth/auth-service';
+import { ToastService } from 'src/app/services/toast/toast';
+import { HttpErrorResponseType } from 'src/app/utils/type';
 
 @Component({
   selector: 'app-forget-password',
@@ -35,7 +35,7 @@ import { ButtonActionComponent } from 'src/app/component/button/button-action/bu
         formGroup="formForgetPassword"
         class="bg-purple20 rounded-[10px] border p-10 flex flex-col gap-10"
       >
-        <h2 class="text-4xl font-Julius">Mot de passe oublier</h2>
+        <h2 class="text-4xl font-Julius text-center">Mot de passe oublier</h2>
         <div>
           <app-input-form
             inputId="EmailForgetPassword"

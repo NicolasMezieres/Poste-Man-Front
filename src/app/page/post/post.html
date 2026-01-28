@@ -29,6 +29,7 @@
       <mat-icon fontIcon="add" class="flex deleteIcon" />
     </button>
     <hr />
+    @if(isModerator() || isAdmin()){
     <button
       aria-label="openModalTransfertAllPost"
       mat-menu-item
@@ -41,7 +42,7 @@
       <mat-icon fontIcon="drive_file_move" class="flex deleteIcon" />
     </button>
     <hr />
-    @if(isModerator() || isAdmin()){
+    } @if(isModerator() || isAdmin()){
     <button
       aria-label="open dialog delete message"
       mat-menu-item

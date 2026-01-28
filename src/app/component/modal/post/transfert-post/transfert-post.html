@@ -6,7 +6,7 @@
   </button>
   <form [formGroup]="formMovePost" class="flex flex-col items-center gap-5">
     <label for="selectSection" class="text-2xl font-Julius text-center"
-      >{{data.isAllPost ? 'Tout transferé vers' : 'Transferé vers'}}</label
+      >{{data.isAllPost ? 'Tout transféré vers' : 'Transféré vers'}}</label
     >
     <select
       id="selectSection"
@@ -23,7 +23,7 @@
 
     <app-button-action
       type="button"
-      text="Transferer"
+      text="Transféré"
       class="w-full"
       (action)="submitTransfertPost()"
     />
