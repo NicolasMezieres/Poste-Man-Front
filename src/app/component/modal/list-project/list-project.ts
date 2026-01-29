@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { ProjectService } from 'src/app/services/project/project';
-import { listProjectType } from 'src/app/utils/type';
+import { HttpErrorResponseType, listProjectType } from 'src/app/utils/type';
 import { ButtonActionComponent } from '../../button/button-action/button-action';
 import { DatePipe } from '@angular/common';
+import { ToastService } from 'src/app/services/toast/toast';
 
 @Component({
   selector: 'app-list-project',
@@ -18,6 +19,7 @@ export class ListProjectComponent implements OnInit {
   readonly data = inject<{ userId: string; username: string }>(MAT_DIALOG_DATA);
   #router = inject(Router);
   #projectService = inject(ProjectService);
+  #toast = inject(ToastService);
   listProject = signal<listProjectType[]>([]);
   totalProject = signal<number>(0);
   isEndList = signal<boolean>(true);
@@ -33,13 +35,24 @@ export class ListProjectComponent implements OnInit {
     this.getListProject();
   }
   getListProject() {
-    this.#projectService.getListProjectByUser(this.data.userId).subscribe({
-      next: (res) => {
-        this.listProject.set(res.data);
-        this.totalProject.set(res.totalProject);
-        this.isEndList.set(res.isEndList);
-      },
-    });
+    this.#projectService
+      .getListProjectByUser(this.data.userId, this.page())
+      .subscribe({
+        next: (res) => {
+          this.listProject.set(res.data);
+          this.totalProject.set(res.totalProject);
+          this.isEndList.set(res.isEndList);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          } else if (err.status === 403 || err.status === 404) {
+            this.#router.navigate(['home']);
+          }
+          this.closeDialog();
+        },
+      });
   }
   updatePage(isUp: boolean) {
     if (isUp) {

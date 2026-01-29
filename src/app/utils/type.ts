@@ -291,3 +291,16 @@ export type listProjectType = {
   totalSection: number;
   totalPost: number;
 };
+export type resGetListMessageUser = {
+  data: messageUserType[];
+  isEndList: boolean;
+  totalMessage: number;
+};
+export type messageUserType = {
+  id: string;
+  updatedAt: Date;
+  project: {
+    name: string;
+  };
+  message: string;
+};

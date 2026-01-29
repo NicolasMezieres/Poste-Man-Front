@@ -122,11 +122,17 @@ export class ProjectService {
       })
       .pipe(take(1));
   }
-  getListProjectByUser(userId: string): Observable<resGetListProject> {
+  getListProjectByUser(
+    userId: string,
+    page: number,
+  ): Observable<resGetListProject> {
     return this.#http
-      .get<resGetListProject>(`${this.#url}projectListByUser/${userId}`, {
-        withCredentials: true,
-      })
+      .get<resGetListProject>(
+        `${this.#url}projectListByUser/${userId}?page=${page}`,
+        {
+          withCredentials: true,
+        },
+      )
       .pipe(take(1));
   }
 }

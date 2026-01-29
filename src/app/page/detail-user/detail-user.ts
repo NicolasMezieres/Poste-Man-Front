@@ -7,6 +7,7 @@ import { IconBackComponent } from 'src/app/component/icon/back/back';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ListProjectComponent } from 'src/app/component/modal/list-project/list-project';
+import { ListMessageComponent } from 'src/app/component/modal/list-message/list-message';
 
 @Component({
   selector: 'app-detail-user',
@@ -41,7 +42,13 @@ export class DetailUserPage implements OnInit {
       panelClass: 'dialog-rectangle',
     });
   }
-  openModalListMessage() {}
+  openModalListMessage() {
+    this.#dialog.open(ListMessageComponent, {
+      data: { userId: this.userId(), username: this.detailUser()?.username },
+      minWidth: '100vw',
+      panelClass: 'dialog-rectangle',
+    });
+  }
   openModalBanUser() {}
   openModalDeleteUser() {}
 }

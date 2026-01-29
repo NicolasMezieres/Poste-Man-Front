@@ -48,7 +48,20 @@
       />
     </article>
     }@empty {
-    <h3 >Aucun projet</h3>
+    <p>Aucun projet</p>
     }
   </section>
+  <div class="flex items-center self-center">
+    @if(page() >1){
+    <button aria-label="previous page" (click)="updatePage(false)">
+      <mat-icon fontIcon="arrow_left" />
+    </button>
+    }
+    <p class="text-xl">{{page()}}</p>
+    @if(!isEndList()){
+    <button aria-label="next page" (click)="updatePage(true)">
+      <mat-icon fontIcon="arrow_right" />
+    </button>
+    }
+  </div>
 </div>

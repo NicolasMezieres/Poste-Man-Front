@@ -29,7 +29,7 @@
         </ul>
         <button
           (click)="openModalListProject()"
-          class="w-36 bg-white rounded-[10px] shadowUnset py-2"
+          class="w-40 bg-white rounded-[10px] shadowUnset py-2"
           aria-label="open modal list member"
         >
           Projets
@@ -37,23 +37,23 @@
         <button
           (click)="openModalListMessage()"
           aria-label="open modal List Message"
-          class="text-center w-36 bg-white rounded-[10px] shadowUnset py-2"
+          class="text-center w-40 bg-white rounded-[10px] shadowUnset py-2"
         >
-          Section
+          Messages
         </button>
         <button
           (click)="openModalBanUser()"
           aria-label="open modal ban user"
-          class="text-center w-36 bg-white rounded-[10px] shadowUnset py-2"
+          class="text-center w-40 bg-white rounded-[10px] shadowUnset py-2"
         >
-          Tchat
+          {{detailUser()?.isActive ? 'Débannir' : 'Bannir'}}
         </button>
         <button
           (click)="openModalDeleteUser()"
-          class="w-36 bg-white rounded-[10px] shadowUnset py-2"
+          class="w-40 bg-white rounded-[10px] shadowUnset py-2"
           aria-label="open modal delete project"
         >
-          Supprimer le projet
+          Supprimer le compte
         </button>
       </section>
     </div>
