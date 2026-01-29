@@ -8,11 +8,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
 import { ProjectService } from 'src/app/services/project/project';
-import { projectByAdmin } from 'src/app/utils/type';
-import { RouterLink } from '@angular/router';
+import { HttpErrorResponseType, projectByAdmin } from 'src/app/utils/type';
+import { Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { ToastService } from 'src/app/services/toast/toast';
 @Component({
   selector: 'app-list-project',
   imports: [
@@ -30,11 +30,12 @@ import { DatePipe } from '@angular/common';
 export class ListProjectComponent implements OnInit {
   isOpenFilter = signal<boolean>(false);
   #projectService = inject(ProjectService);
+  #toast = inject(ToastService);
+  #router = inject(Router);
   page = signal<number>(1);
   totalProject = signal<number>(0);
   isEndList = signal<boolean>(true);
   listProject = signal<projectByAdmin[]>([]);
-  dataSource!: MatTableDataSource<projectByAdmin>;
   formFilterProject = new FormGroup({
     search: new FormControl('', { nonNullable: true }),
     fromDate: new FormControl('', { nonNullable: true }),
@@ -56,11 +57,16 @@ export class ListProjectComponent implements OnInit {
       .searchByAdmin({ ...data, page: this.page() })
       .subscribe({
         next: (res) => {
-          this.dataSource = new MatTableDataSource(res.data);
           this.isOpenFilter.update(() => false);
           this.totalProject.update(() => res.total);
           this.isEndList.update(() => res.isEndList);
           this.listProject.update(() => res.data);
+        },
+        error: (err: HttpErrorResponseType) => {
+          this.#toast.openFailToast(err);
+          if (err.status === 401) {
+            this.#router.navigate(['auth']);
+          }
         },
       });
   }

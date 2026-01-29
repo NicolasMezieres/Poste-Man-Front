@@ -244,3 +244,50 @@ export type resLogData = {
   message: string;
   isAdmin: boolean;
 };
+
+export type reqSearchUserType = {
+  search: string;
+  page: number;
+  isActive: boolean | null;
+};
+export type resSearchUserType = {
+  data: listUserType[];
+  totalUser: number;
+  isNextPage: boolean;
+};
+export type listUserType = {
+  id: string;
+  email: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+};
+export type resDetailUserType = {
+  data: detailUserType;
+};
+export type detailUserType = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+  gdpr: boolean;
+  createdAt: string;
+  updatedAt: string;
+  username: string;
+};
+export type resGetListProject = {
+  data: listProjectType[];
+  isEndList: boolean;
+  totalProject: number;
+};
+export type listProjectType = {
+  name: string;
+  moderator: string;
+  createdAt: Date;
+  updatedAt: Date;
+  id: string;
+  totalMember: number;
+  totalSection: number;
+  totalPost: number;
+};

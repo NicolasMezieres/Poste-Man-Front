@@ -8,6 +8,7 @@ import {
   querySearchType,
   resCreateInvitationLikeType,
   resCreateProject,
+  resGetListProject,
   resGetProjectDetailType,
   resGetProjectType,
   resJoinProjectType,
@@ -117,6 +118,13 @@ export class ProjectService {
   getListMember(projectId: string): Observable<{ data: member[] }> {
     return this.#http
       .get<{ data: member[] }>(`${this.#url}${projectId}/listMember`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  getListProjectByUser(userId: string): Observable<resGetListProject> {
+    return this.#http
+      .get<resGetListProject>(`${this.#url}projectListByUser/${userId}`, {
         withCredentials: true,
       })
       .pipe(take(1));
