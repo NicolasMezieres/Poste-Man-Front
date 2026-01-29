@@ -11,7 +11,6 @@ import { IconMoreMessageComponent } from '../../icon/more-message/more-message';
   selector: 'app-list-message',
   imports: [MatIcon, IconMoreMessageComponent],
   templateUrl: './list-message.html',
-  styleUrl: './list-message.css',
 })
 export class ListMessageComponent implements OnInit {
   #dialog = inject(MatDialogRef<ListMessageComponent>);

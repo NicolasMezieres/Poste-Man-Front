@@ -12,7 +12,6 @@ import { ToastService } from 'src/app/services/toast/toast';
   selector: 'app-list-project',
   imports: [MatIcon, ButtonActionComponent, DatePipe],
   templateUrl: './list-project.html',
-  styleUrl: './list-project.css',
 })
 export class ListProjectComponent implements OnInit {
   #dialog = inject(MatDialogRef<ListProjectComponent>);

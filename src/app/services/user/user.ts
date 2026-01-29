@@ -70,4 +70,18 @@ export class UserService {
       })
       .pipe(take(1));
   }
+  banUser(userId: string): Observable<resMessageType> {
+    return this.#http
+      .patch<resMessageType>(`${this.#url}user/${userId}/ban`, null, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  deleteUser(userId: string): Observable<resMessageType> {
+    return this.#http
+      .delete<resMessageType>(`${this.#url}user/${userId}/delete`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
 }
