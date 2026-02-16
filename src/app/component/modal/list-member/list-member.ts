@@ -37,10 +37,15 @@ export class ListMemberComponent implements OnInit {
   }
   ngOnInit(): void {
     if (!this.data.isAdmin) {
+      console.log('utilisateur');
       this.#authSocket
         .connectedListMember(this.data.projectId)
-        .then((data) => this.members.update(() => data))
-        .catch(() => {
+        .then((data) => {
+          console.log(data);
+          this.members.update(() => data);
+        })
+        .catch((err) => {
+          console.log(err);
           this.closeDialog();
         });
       this.detectChange();

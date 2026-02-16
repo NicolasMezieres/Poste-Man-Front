@@ -60,11 +60,9 @@ export class ProjectService {
       .pipe(take(1));
   }
   create(data: nameType): Observable<resCreateProject> {
-    return this.#http
-      .post<resCreateProject>(`${this.#url}create`, data, {
-        withCredentials: true,
-      })
-      .pipe(take(1));
+    return this.#http.post<resCreateProject>(`${this.#url}create`, data, {
+      withCredentials: true,
+    });
   }
 
   createInvitationLink(

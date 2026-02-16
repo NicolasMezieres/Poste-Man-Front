@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthSocketService {
-  private socket = io(environment.gatewayURL, {
+  private socket = io(environment.apiURL, {
     reconnection: true,
     reconnectionDelay: 2000,
     reconnectionAttempts: 5,
@@ -19,7 +19,8 @@ export class AuthSocketService {
     this.socket.disconnect();
   }
   listenToException() {
-    this.socket.on('connect_error', () => {
+    this.socket.on('connect_error', (err) => {
+      console.log(err);
       this.socket.io.opts.reconnection = false;
       this.socket.disconnect();
     });
@@ -34,12 +35,14 @@ export class AuthSocketService {
   }
   authSocket() {
     if (!this.socket.connected) {
+      console.log('connexion socket');
       this.socket.connect();
       this.socket.emit('auth');
     }
   }
   connectedListMember(projectId: string): Promise<member[]> {
     this.authSocket();
+    console.log('récupération list membre');
     return this.socket.emitWithAck('listMember', projectId);
   }
   listenAuth() {

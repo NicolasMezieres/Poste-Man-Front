@@ -48,6 +48,7 @@ export class AuthComponent {
       validators: Validators.required,
     }),
   });
+
   formRegister = new FormGroup(
     {
       lastName: new FormControl('', {

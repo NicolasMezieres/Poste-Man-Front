@@ -20,18 +20,18 @@ export class AuthService {
   #isAdmin = signal<boolean>(false);
   readonly #url = environment.apiURL;
   signup(data: dataSignupType): Observable<resMessageType> {
-    return this.#http
-      .post<resMessageType>(`${this.#url}auth/signup`, data, {
-        withCredentials: true,
-      })
-      .pipe(take(1));
+    return this.#http.post<resMessageType>(`${this.#url}auth/signup`, data, {
+      withCredentials: true,
+    });
   }
   signin(data: dataSigninType): Observable<resSigninType> {
-    const res = this.#http
-      .post<resSigninType>(`${this.#url}auth/signin`, data, {
+    const res = this.#http.post<resSigninType>(
+      `${this.#url}auth/signin`,
+      data,
+      {
         withCredentials: true,
-      })
-      .pipe(take(1));
+      },
+    );
     res.subscribe({
       next: (res) => {
         this.#isAdmin.update(() => res.role === 'Admin');
@@ -39,22 +39,25 @@ export class AuthService {
     });
     return res;
   }
+
   activAccount(token: string): Observable<resMessageType> {
-    return this.#http
-      .patch<resMessageType>(
-        `${this.#url}auth/activationAccount/${token}`,
-        null,
-        { withCredentials: true },
-      )
-      .pipe(take(1));
+    return this.#http.patch<resMessageType>(
+      `${this.#url}auth/activationAccount/${token}`,
+      null,
+      { withCredentials: true },
+    );
   }
+
   forgetPassword(data: dataForgetPasswordType): Observable<resMessageType> {
-    return this.#http
-      .post<resMessageType>(`${this.#url}auth/forgetPassword`, data, {
+    return this.#http.post<resMessageType>(
+      `${this.#url}auth/forgetPassword`,
+      data,
+      {
         withCredentials: true,
-      })
-      .pipe(take(1));
+      },
+    );
   }
+
   resetPassword(
     token: string,
     data: dataResetPasswordType,
@@ -86,6 +89,9 @@ export class AuthService {
     res.subscribe({
       next: (res) => {
         this.#isAdmin.update(() => res.isAdmin);
+      },
+      error: (err) => {
+        console.log(err);
       },
     });
     return res;

@@ -7,7 +7,7 @@ import { postSocketType } from 'src/app/utils/type';
   providedIn: 'root',
 })
 export class PostSocketService {
-  private socket = io(environment.gatewayURL, {
+  private socket = io(environment.apiURL, {
     withCredentials: true,
     reconnection: true,
     reconnectionDelay: 1000,
