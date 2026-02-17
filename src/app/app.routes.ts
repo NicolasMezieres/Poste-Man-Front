@@ -1,4 +1,51 @@
 import { Routes } from '@angular/router';
-import { Presentation } from './page/presentation/presentation';
+import { AuthComponent } from './page/auth/auth';
+import { Erreur404 } from './page/erreur404/erreur404';
+import { Erreur500 } from './page/erreur500/erreur500';
+import { ForgetPasswordComponent } from './page/forget-password/forget-password';
+import { HomeComponent } from './page/home/home';
+import { Mention } from './page/mention/mention';
+import { PresentationComponent } from './page/presentation/presentation';
+import { ProfilComponent } from './page/profil/profil';
+import { TchatComponent } from './page/tchat/tchat';
+import { SectionComponent } from './page/section/section';
+import { PostComponent } from './page/post/post';
+import { ResetPasswordComponent } from './page/reset-password/reset-password';
+import { ValidAccountComponent } from './page/valid-account/valid-account';
+import { ProjectComponent } from './page/project/project';
+import { JoinProjectComponent } from './page/join-project/join-project';
+import { ListProjectComponent } from './page/list-project/list-project';
+import { DetailProjectPage } from './page/detail-project/detail-project';
+import { ListUserPage } from './page/list-user/list-user';
+import { DetailUserPage } from './page/detail-user/detail-user';
 
-export const routes: Routes = [{ path: '', component: Presentation }];
+export const routes: Routes = [
+  { path: '', component: PresentationComponent },
+  { path: 'auth', component: AuthComponent },
+  { path: 'validAccount', component: ValidAccountComponent },
+  { path: 'forgetPassword', component: ForgetPasswordComponent },
+  { path: 'resetPassword/:token', component: ResetPasswordComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'home/:token', component: HomeComponent },
+  { path: 'profil', component: ProfilComponent },
+  {
+    path: 'project',
+    children: [
+      { path: ':projectId', component: ProjectComponent },
+      { path: ':projectId/tchat', component: TchatComponent },
+      { path: ':projectId/section', component: SectionComponent },
+      {
+        path: ':projectId/section/:sectionId',
+        component: PostComponent,
+      },
+      { path: ':linkId/join', component: JoinProjectComponent },
+    ],
+  },
+  { path: '500', component: Erreur500 },
+  { path: 'mentions', component: Mention },
+  { path: 'listProject', component: ListProjectComponent },
+  { path: 'listUser', component: ListUserPage },
+  { path: 'detailProject/:projectId', component: DetailProjectPage },
+  { path: 'detailUser/:userId', component: DetailUserPage },
+  { path: '**', component: Erreur404 },
+];

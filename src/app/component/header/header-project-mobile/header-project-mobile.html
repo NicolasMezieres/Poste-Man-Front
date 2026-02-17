@@ -1,0 +1,16 @@
+<header
+  class="flex items-center justify-between text-center text-white w-full px-2.5 py-5 bg-purple rounded-[10px] md:hidden"
+>
+  <app-icon-back />
+  <h1 class="font-Julius text-[24px] wrap-anywhere">{{title()}}</h1>
+  <button
+    [matMenuTriggerFor]="menu"
+    aria-label="open Menu"
+    (click)="actionMore.emit()"
+  >
+    <app-icon-more />
+  </button>
+  <mat-menu #menu="matMenu">
+    <ng-content />
+  </mat-menu>
+</header>

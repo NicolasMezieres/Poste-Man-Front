@@ -1,0 +1,67 @@
+<div
+  class="h-screen w-screen text-center overflow-y-auto bg-white flex flex-col p-5 gap-5 font-Agdasima"
+>
+  <button
+    aria-label="close dialog"
+    class="absolute right-4 top-4"
+    (click)="closeDialog()"
+  >
+    <mat-icon fontIcon="close" />
+  </button>
+  <h1 class="font-Julius text-[32px]">{{data.username}}</h1>
+  <h2 class="font-Julius text-xl">Projets: {{totalProject()}}</h2>
+  <section class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+    @for (project of listProject(); track $index) {
+    <article
+      class="bg-purple20 rounded-[10px] p-5 flex flex-col gap-2.5 border"
+    >
+      <h3 class="text-[32px]">{{project.name}}</h3>
+      <div class="flex justify-around text-2xl">
+        <p class="font-bold">{{project.moderator}}</p>
+        <p>Membres : {{project.totalMember}}</p>
+      </div>
+      <div class="mb-5">
+        <p class="text-start text-2xl">Élements:</p>
+        <div class="flex justify-around bg-white rounded-[10px] border">
+          <p class="border-r flex-1 py-2.5 text-xl">
+            Sections : {{project.totalSection}}
+          </p>
+          <p class="flex-1 py-2.5 text-xl">Posts : {{project.totalPost}}</p>
+        </div>
+      </div>
+      <div class="text-2xl mb-5">
+        <p class="text-start">Date de création :</p>
+        <p class="bg-white rounded-[10px] py-2.5 border">
+          {{project.createdAt | date: 'dd/MM/yyyy HH:mm'}}
+        </p>
+      </div>
+      <div class="text-2xl mb-5">
+        <p class="text-start">Dernière activité :</p>
+        <p class="bg-white rounded-[10px] py-2.5 border">
+          {{project.updatedAt | date: 'dd/MM/yyyy HH:mm'}}
+        </p>
+      </div>
+      <app-button-action
+        (action)="navigateToProject(project.id)"
+        type="button"
+        text="Consulter le projet"
+      />
+    </article>
+    }@empty {
+    <p>Aucun projet</p>
+    }
+  </section>
+  <div class="flex items-center self-center">
+    @if(page() >1){
+    <button aria-label="previous page" (click)="updatePage(false)">
+      <mat-icon fontIcon="arrow_left" />
+    </button>
+    }
+    <p class="text-xl">{{page()}}</p>
+    @if(!isEndList()){
+    <button aria-label="next page" (click)="updatePage(true)">
+      <mat-icon fontIcon="arrow_right" />
+    </button>
+    }
+  </div>
+</div>

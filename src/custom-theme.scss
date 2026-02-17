@@ -8,6 +8,11 @@
 
 $agdasima: var(--font-Agdasima);
 $julius: var(--font-Julius);
+$placeholder: var(--color-placeholder);
+$colorError: var(--color-error);
+$colorValid: var(--color-valid);
+$colorWhite: var(--color-white);
+$colorPurple: var(--color-purple);
 .agdasima {
   @include mat.theme(
     (
@@ -22,7 +27,46 @@ $julius: var(--font-Julius);
     )
   );
 }
-
+.toastFail {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: $colorError,
+      supporting-text-size: 24px,
+      container-shape: 10px,
+    )
+  );
+  text-align: center;
+}
+.toastSucces {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: $colorValid,
+      supporting-text-size: 24px,
+      container-shape: 10px,
+    )
+  );
+  text-align: center;
+}
+.sendIcon {
+  color: $colorWhite;
+  font-size: 24px !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+.spinnerMessage {
+  width: 40px !important;
+  height: 40px !important;
+}
+.arrowIcon {
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+.deleteIcon {
+  color: $colorPurple !important;
+  margin: 0 !important;
+}
 html {
   @include mat.theme(
     (
@@ -30,8 +74,23 @@ html {
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
+      typography: $agdasima,
       density: 0,
+    )
+  );
+}
+:root {
+  @include mat.checkbox-overrides(
+    (
+      label-text-size: 16px,
+    )
+  );
+}
+
+.dialog-rectangle {
+  @include mat.dialog-overrides(
+    (
+      container-shape: rectangle,
     )
   );
 }

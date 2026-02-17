@@ -1,0 +1,90 @@
+<div class="bg-white h-screen w-[375px] flex flex-col p-5 gap-5 font-Agdasima">
+  <button aria-label="close dialog" class="absolute right-4 top-4">
+    <mat-icon (click)="closeDialog()" fontIcon="close" />
+  </button>
+  <h1 class="font-Julius text-4xl text-center">Membre</h1>
+  <div
+    class="bg-purple20 p-5 text-xl rounded-[10px] h-full flex flex-col gap-5"
+  >
+    @if(!data.isAdmin){
+    <section>
+      <h2 class="underline mb-2.5">En ligne :</h2>
+      <ul class="flex flex-col gap-2.5">
+        @for (member of members(); track $index) { @if(member.isConnected &&
+        !member.isBanned){
+        <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
+          [isAdmin]="data.isAdmin"
+          [isModerator]="data.isModerator"
+          [member]="member"
+          type="online"
+        />
+        } }
+      </ul>
+    </section>
+    <section>
+      <h2 class="underline mb-2.5">Hors ligne :</h2>
+      <ul class="flex flex-col gap-2.5">
+        @for (member of members(); track $index) { @if(!member.isConnected &&
+        !member.isBanned){
+        <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
+          [isAdmin]="data.isAdmin"
+          [isModerator]="data.isModerator"
+          [member]="member"
+          type="offline"
+        />
+        } }
+      </ul>
+    </section>
+    <section>
+      <h2 class="underline mb-2.5">Banni :</h2>
+      <ul class="flex flex-col gap-2.5">
+        @for (member of members(); track $index) { @if(member.isBanned){
+        <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
+          [isAdmin]="data.isAdmin"
+          [isModerator]="data.isModerator"
+          [member]="member"
+          type=""
+        />
+        } }
+      </ul>
+    </section>
+    }@else {
+    <section>
+      <h2 class="underline mb-2.5">Membre :</h2>
+      <ul class="flex flex-col gap-2.5">
+        @for (member of members(); track $index) { @if( !member.isBanned){
+        <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
+          [isAdmin]="data.isAdmin"
+          [isModerator]="data.isModerator"
+          [member]="member"
+          type=""
+        />
+        } }
+      </ul>
+    </section>
+    <section>
+      <h2 class="underline mb-2.5">Banni :</h2>
+      <ul class="flex flex-col gap-2.5">
+        @for (member of members(); track $index) { @if(member.isBanned){
+        <app-member
+          (kickUser)="openDialogKickUser(member)"
+          (banUser)="openDialogBanUser(member)"
+          [isAdmin]="data.isAdmin"
+          [isModerator]="data.isModerator"
+          [member]="member"
+          type=""
+        />
+        } }
+      </ul>
+    </section>
+    }
+  </div>
+</div>

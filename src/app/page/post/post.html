@@ -1,0 +1,113 @@
+<div
+  class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima md:flex-row md:p-0 md:gap-0"
+>
+  <app-header-project-mobile
+    class="md:hidden p-2.5 select-none"
+    title="nom du projet"
+  />
+  <app-side-bar class="hidden md:block">
+    <app-icon-back />
+    <app-icon-group
+      [projectId]="projectId()"
+      [isAdmin]="isAdmin()"
+      [isModerator]="isModerator()"
+      [hidden]="isAdmin()"
+    />
+    @if(!isAdmin()){
+    <button
+      aria-label="open modal creation post"
+      (click)="openModalCreatePost()"
+    >
+      <mat-icon fontIcon="add" />
+    </button>
+    } @if(isModerator()){
+    <button
+      aria-label="transfert all post"
+      (click)="openModalTransfertAllPost()"
+    >
+      <mat-icon fontIcon="drive_file_move_outline" />
+    </button>
+    } @if(isAdmin() || isModerator()){
+    <button aria-label="delte all post" (click)="openModalDeleteAllPost()">
+      <mat-icon fontIcon="delete" />
+    </button>
+    }
+  </app-side-bar>
+  <main class="flex flex-col flex-1">
+    <h1
+      class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle select-none"
+    >
+      {{sectionName()}}
+    </h1>
+    <app-ground class="flex flex-1" [(zoom)]="zoom">
+      @for (post of posts(); track $index) { @if(post.isVisible){
+      <article
+        [id]="post.id"
+        class="w-72 flex flex-col absolute"
+        [style]="`left:${post.poseX || 0}px;top:${post.poseY || 0}px`"
+        draggable="true"
+        (dragend)="moveCard($event)"
+      >
+        <header
+          class="flex justify-between bg-purple text-white border border-black rounded-t-[5px] px-5 py-2"
+        >
+          <div class="flex items-center gap-2.5">
+            <button
+              aria-label="upVote"
+              class="flex items-center"
+              (click)="submitVote(true,post.id)"
+              [hidden]="isAdmin()"
+            >
+              <mat-icon fontIcon="arrow_upward" class="arrowIcon" />
+            </button>
+            <span class="text-xl">{{post.score}}</span>
+            <button
+              aria-label="downVote"
+              class="flex items-center"
+              (click)="submitVote(false,post.id)"
+              [hidden]="isAdmin()"
+            >
+              <mat-icon fontIcon="arrow_downward" class="arrowIcon" />
+            </button>
+          </div>
+          <h2 class="text-2xl wrap-anywhere text-center">
+            {{post.user.username}}
+          </h2>
+        </header>
+        <p
+          [id]="post.id"
+          class="text-xl flex-1 p-2 border rounded-b-[5px] bg-white disabled:bg-white whitespace-pre-line"
+        >
+          {{post.text}}
+        </p>
+        <time datetime="01/01/1111 01:01" class="text-end text-xl py-2.5"
+          >{{post.createdAt | date:'dd/MM/yyyy HH:mm'}}
+        </time>
+        @if(isAdmin() || isModerator() || post.user.username === username()){
+        <div [class]="isAdmin() ? 'flex justify-end':'flex justify-between'">
+          @if(post.user.username === username()){
+          <button aria-label="modify post" (click)="openModalUpdatePost(post)">
+            <mat-icon fontIcon="edit" /></button
+          >}
+          <button
+            aria-label="transfer post"
+            (click)="openModalTransfertPost(post)"
+            [hidden]="isAdmin()"
+          >
+            <mat-icon fontIcon="drive_file_move_outline" />
+          </button>
+          <button aria-label="delete post" (click)="openModalDeletePost(post)">
+            <mat-icon fontIcon="delete" />
+          </button>
+        </div>
+        }
+      </article>
+      }}
+    </app-ground>
+    @if(posts().length === 0){
+    <h1 class="font-Julius text-[32px] fixed top-1/2 self-center">
+      Aucun post
+    </h1>
+    }
+  </main>
+</div>
