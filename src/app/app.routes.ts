@@ -14,6 +14,10 @@ import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { ValidAccountComponent } from './page/valid-account/valid-account';
 import { ProjectComponent } from './page/project/project';
 import { JoinProjectComponent } from './page/join-project/join-project';
+import { ListProjectComponent } from './page/list-project/list-project';
+import { DetailProjectPage } from './page/detail-project/detail-project';
+import { ListUserPage } from './page/list-user/list-user';
+import { DetailUserPage } from './page/detail-user/detail-user';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -39,5 +43,9 @@ export const routes: Routes = [
   },
   { path: '500', component: Erreur500 },
   { path: 'mentions', component: Mention },
+  { path: 'listProject', component: ListProjectComponent },
+  { path: 'listUser', component: ListUserPage },
+  { path: 'detailProject/:projectId', component: DetailProjectPage },
+  { path: 'detailUser/:userId', component: DetailUserPage },
   { path: '**', component: Erreur404 },
 ];

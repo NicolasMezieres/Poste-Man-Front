@@ -180,7 +180,24 @@ export type resGetProjectType = {
   isModerator: boolean;
   isAdmin: boolean;
 };
-
+export type resGetProjectDetailType = {
+  data: {
+    author: string;
+    totalPost: number;
+    totalSection: number;
+    updatedAt: string;
+    createdAt: string;
+    projectName: string;
+  };
+};
+export type projectDetailType = {
+  author: string;
+  totalPost: number;
+  totalSection: number;
+  updatedAt: string;
+  createdAt: string;
+  projectName: string;
+};
 export type resJoinProjectType = {
   message: string;
   projectId: string;
@@ -221,4 +238,69 @@ export type resListenAuthData = {
   isConnected?: boolean;
   isBanned?: boolean;
   user?: { username: string; icon: string | null };
+};
+
+export type resLogData = {
+  message: string;
+  isAdmin: boolean;
+};
+
+export type reqSearchUserType = {
+  search: string;
+  page: number;
+  isActive: boolean | null;
+};
+export type resSearchUserType = {
+  data: listUserType[];
+  totalUser: number;
+  isNextPage: boolean;
+};
+export type listUserType = {
+  id: string;
+  email: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+};
+export type resDetailUserType = {
+  data: detailUserType;
+};
+export type detailUserType = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+  gdpr: boolean;
+  createdAt: string;
+  updatedAt: string;
+  username: string;
+};
+export type resGetListProject = {
+  data: listProjectType[];
+  isEndList: boolean;
+  totalProject: number;
+};
+export type listProjectType = {
+  name: string;
+  moderator: string;
+  createdAt: Date;
+  updatedAt: Date;
+  id: string;
+  totalMember: number;
+  totalSection: number;
+  totalPost: number;
+};
+export type resGetListMessageUser = {
+  data: messageUserType[];
+  isEndList: boolean;
+  totalMessage: number;
+};
+export type messageUserType = {
+  id: string;
+  updatedAt: Date;
+  project: {
+    name: string;
+  };
+  message: string;
 };

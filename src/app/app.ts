@@ -4,8 +4,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthSocketService } from './services/auth/auth-socket';
-import { UserService } from './services/user/user';
 import { Subscription } from 'rxjs';
+import { AuthService } from './services/auth/auth-service';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, MatBadgeModule, MatButtonModule, MatIconModule],
@@ -14,31 +14,36 @@ import { Subscription } from 'rxjs';
 })
 export class App implements OnInit, OnDestroy {
   protected readonly title = signal('poste-man');
-  #userService = inject(UserService);
+  #authService = inject(AuthService);
   #authSocket = inject(AuthSocketService);
   #router = inject(Router);
   #subscription!: Subscription;
   ngOnInit(): void {
-    this.#userService.myAccount().subscribe({
+    this.#authService.log().subscribe({
       next: () => {
-        this.#authSocket.authSocket();
-        this.#subscription = this.#authSocket.listenAuth().subscribe({
-          next: (data) => {
-            switch (data.type) {
-              case 'banned':
-                this.#authSocket.deconnection();
-                this.#router.navigate(['home']);
-                break;
-              case 'kicked':
-                this.#authSocket.deconnection();
-                this.#router.navigate(['home']);
-                break;
-            }
-          },
-        });
+        const isAdmin = this.#authService.getIsAdmin();
+        if (!isAdmin) {
+          this.#authSocket.authSocket();
+          this.#subscription = this.#authSocket.listenAuth().subscribe({
+            next: (data) => {
+              switch (data.type) {
+                case 'banned':
+                  this.#authSocket.deconnection();
+                  this.#router.navigate(['home']);
+                  break;
+                case 'kicked':
+                  this.#authSocket.deconnection();
+                  this.#router.navigate(['home']);
+                  break;
+              }
+            },
+          });
+        } else {
+          console.log('ok');
+        }
       },
       error: () => {
-        this.#router.navigate(['auth']);
+        console.log('error');
       },
     });
   }

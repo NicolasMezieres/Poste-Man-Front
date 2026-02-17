@@ -2,6 +2,7 @@
   class="w-screen h-screen max-w-[375px] animate-slide-in-right bg-[#F5F5F5] flex flex-col fixed"
 >
   <app-header [username]="username()" (logout)="submitLogout()"></app-header>
+  @if(!isAdmin()){
   <div class="p-4 flex-1 flex flex-col overflow-hidden">
     <div class="flex flex-col m-4 gap-4">
       <app-create (closeMenu)="closeDialog()"></app-create>
@@ -34,5 +35,12 @@
       </ul>
     </div>
   </div>
+  }@else {
+  <div class="flex flex-col justify-center gap-20 items-center flex-1">
+    <a [routerLink]="'/home'">Accueil</a>
+    <a [routerLink]="'/listProject'">Projets</a>
+    <a [routerLink]="'/listUser'">Utilisateurs</a>
+  </div>
+  }
   <app-footer></app-footer>
 </div>

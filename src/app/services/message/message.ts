@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
+  resGetListMessageUser,
   resMessageType,
   resProjectMessage,
   resProjectName,
@@ -57,6 +58,19 @@ export class MessageService {
       .delete<resMessageType>(`${this.#url}message/project/${projectId}`, {
         withCredentials: true,
       })
+      .pipe(take(1));
+  }
+  getListMessageByUser(
+    userId: string,
+    page: number,
+  ): Observable<resGetListMessageUser> {
+    return this.#http
+      .get<resGetListMessageUser>(
+        `${this.#url}message/user/${userId}?page=${page}`,
+        {
+          withCredentials: true,
+        },
+      )
       .pipe(take(1));
   }
 }

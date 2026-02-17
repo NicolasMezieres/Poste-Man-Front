@@ -2,17 +2,17 @@
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima gap-2.5 md:flex-row md:p-0 md:gap-0"
 >
   <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet">
+    @if(!isAdmin()){
     <button
       aria-label="open list member"
       mat-menu-item
       class="flex flex-row-reverse gap-2.5"
     >
-      <!--todo: group version mobile-->
       <span class="text-[28px] font-Agdasima text-purple">Membres</span>
       <mat-icon fontIcon="group" class="flex deleteIcon" />
     </button>
     <hr />
-    @if(isModerator() || isAdmin()){
+    } @if(isModerator() || isAdmin()){
     <button
       aria-label="open dialog delete message"
       mat-menu-item
@@ -39,6 +39,7 @@
       [projectId]="projectId()"
       [isAdmin]="isAdmin()"
       [isModerator]="isModerator()"
+      [hidden]="isAdmin()"
     />
     @if(isModerator() || isAdmin()){
     <button
@@ -97,6 +98,7 @@
 
     <form
       [formGroup]="formMessage"
+      [hidden]="isAdmin()"
       class="w-full flex justify-between self-center md:max-w-72"
     >
       <div

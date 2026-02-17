@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthSocketService {
-  private socket = io(environment.gatewayURL, {
+  private socket = io(environment.apiURL, {
     reconnection: true,
     reconnectionDelay: 2000,
     reconnectionAttempts: 5,

@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'app-icon-help',
   imports: [MatIcon],
   template: `<button class="flex" (click)="actionHelp.emit()">
-    <mat-icon fontIcon="help_center" class="absolute bottom-5" />
+    <mat-icon fontIcon="help_center" class="absolute bottom-5" />z
   </button>`,
 })
 export class IconHelpComponent {

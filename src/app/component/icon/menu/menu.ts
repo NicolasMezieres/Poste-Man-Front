@@ -38,6 +38,8 @@ export class MenuComponent implements OnInit {
   search = signal<string>('');
   projects = signal<searchProjectType[]>([]);
   username = signal<string>('');
+  isAdmin = signal<boolean>(false);
+
   constructor() {
     toObservable(this.search)
       .pipe(debounceTime(750), takeUntilDestroyed())
@@ -63,6 +65,7 @@ export class MenuComponent implements OnInit {
   }
   ngOnInit(): void {
     this.searchProject();
+    this.isAdmin.set(this.#authService.getIsAdmin());
   }
   connectSocket(projectId: string) {
     this.#authSocket.authSocket();

@@ -2,11 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import {
+  member,
   nameType,
   querySearchAdminType,
   querySearchType,
   resCreateInvitationLikeType,
   resCreateProject,
+  resGetListProject,
+  resGetProjectDetailType,
   resGetProjectType,
   resJoinProjectType,
   resMessageType,
@@ -49,12 +52,17 @@ export class ProjectService {
       })
       .pipe(take(1));
   }
-  create(data: nameType): Observable<resCreateProject> {
+  getDetail(projectId: string): Observable<resGetProjectDetailType> {
     return this.#http
-      .post<resCreateProject>(`${this.#url}create`, data, {
+      .get<resGetProjectDetailType>(`${this.#url}${projectId}/detail`, {
         withCredentials: true,
       })
       .pipe(take(1));
+  }
+  create(data: nameType): Observable<resCreateProject> {
+    return this.#http.post<resCreateProject>(`${this.#url}create`, data, {
+      withCredentials: true,
+    });
   }
 
   createInvitationLink(
@@ -103,6 +111,26 @@ export class ProjectService {
       .delete<resMessageType>(`${this.#url}${projectId}/user/${userId}`, {
         withCredentials: true,
       })
+      .pipe(take(1));
+  }
+  getListMember(projectId: string): Observable<{ data: member[] }> {
+    return this.#http
+      .get<{ data: member[] }>(`${this.#url}${projectId}/listMember`, {
+        withCredentials: true,
+      })
+      .pipe(take(1));
+  }
+  getListProjectByUser(
+    userId: string,
+    page: number,
+  ): Observable<resGetListProject> {
+    return this.#http
+      .get<resGetListProject>(
+        `${this.#url}projectListByUser/${userId}?page=${page}`,
+        {
+          withCredentials: true,
+        },
+      )
       .pipe(take(1));
   }
 }
