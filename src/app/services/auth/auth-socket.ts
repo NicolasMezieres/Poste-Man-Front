@@ -19,8 +19,7 @@ export class AuthSocketService {
     this.socket.disconnect();
   }
   listenToException() {
-    this.socket.on('connect_error', (err) => {
-      console.log(err);
+    this.socket.on('connect_error', () => {
       this.socket.io.opts.reconnection = false;
       this.socket.disconnect();
     });
@@ -35,14 +34,12 @@ export class AuthSocketService {
   }
   authSocket() {
     if (!this.socket.connected) {
-      console.log('connexion socket');
       this.socket.connect();
       this.socket.emit('auth');
     }
   }
   connectedListMember(projectId: string): Promise<member[]> {
     this.authSocket();
-    console.log('récupération list membre');
     return this.socket.emitWithAck('listMember', projectId);
   }
   listenAuth() {

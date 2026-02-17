@@ -93,7 +93,7 @@ export class PostComponent implements OnInit, OnDestroy {
     const resultX =
       (e.clientX - boundingCard.width / 2 - boundingTable.x) / this.zoom();
     const resultY = (e.clientY - 30 - boundingTable.y) / this.zoom();
-    // si le calcul sort du tableau on reste dans le tableau 
+    // si le calcul sort du tableau on reste dans le tableau
     const poseX =
       resultX < 0
         ? 0
@@ -108,7 +108,7 @@ export class PostComponent implements OnInit, OnDestroy {
           ? (boundingTable.height - boundingCard.height) / this.zoom()
           : resultY;
     card.style.top = poseY + 'px';
-    //mise en place d'un delais 
+    //mise en place d'un delais
     this.subjectMoveCard.next({
       id: card.id,
       poseX: Number(poseX.toFixed(0)),
@@ -282,7 +282,7 @@ export class PostComponent implements OnInit, OnDestroy {
       },
     });
   }
-  
+
   openModalDeletePost(post: postType) {
     this.#dialog
       .open(DeletePostComponent, { data: { post } })
