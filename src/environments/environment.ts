@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiURL: 'http://localhost:3000/',
+  apiURL: 'https://poste-man-back.onrender.com/',
   domain: 'http://localhost:4200/',
 };
