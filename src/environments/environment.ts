@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
   apiURL: 'http://localhost:3000/',
-  gatewayURL: 'http://localhost:3001/',
+  domain: 'http://localhost:4200/',
 };

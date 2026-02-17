@@ -1,6 +1,24 @@
 <div class="flex min-h-screen bg-white">
   <app-side-bar />
-  <main class="flex-1 flex items-center font-Agdasima px-5">
-    <h1 class="text-4xl text-center">Aucun projet sélectionner</h1>
+  <main
+    class="flex-1 flex flex-col items-center justify-around font-Agdasima px-5"
+  >
+    @if(!isAdmin()){
+    <p class="text-4xl text-center">Aucun projet sélectionner</p>
+    }@else {
+    <h1 class="font-Julius text-[32px] text-center">Panel Administrateur</h1>
+    <a
+      routerLink="/listProject"
+      class="bg-purple20 rounded-[10px] w-64 h-48 border flex items-center justify-center font-Julius text-[28px]"
+    >
+      Projets
+    </a>
+    <a
+      routerLink="/listUser"
+      class="bg-purple20 rounded-[10px] w-64 h-48 border flex items-center justify-center font-Julius text-[28px]"
+    >
+      Utilisateurs
+    </a>
+    }
   </main>
 </div>

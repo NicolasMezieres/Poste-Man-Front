@@ -1,0 +1,48 @@
+<div
+  class="h-screen w-screen text-center overflow-y-auto bg-white flex flex-col p-5 gap-5 font-Agdasima text-xl"
+>
+  <button
+    aria-label="close dialog"
+    class="absolute right-4 top-4"
+    (click)="closeDialog()"
+  >
+    <mat-icon fontIcon="close" />
+  </button>
+  <h1 class="font-Julius text-[32px]">{{data.username}}</h1>
+  <h2 class="font-Julius text-xl">Messages : {{totalMessage()}}</h2>
+  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    @for (message of listMessage(); track $index) {
+    <article class="flex flex-col">
+      <header
+        class="bg-purple text-white flex justify-between items-center p-2.5 border border-black"
+      >
+        <h3 class="font-bold underline">{{message.project.name}}</h3>
+        <app-icon-more-message
+          [message]="{message:message.message, isAllMessage:false}"
+          (submitDelete)="deleteMessage(message.id)"
+        />
+      </header>
+      <p class="text-start bg-white p-2.5 pb-5 border wrap-break-word">
+        {{message.message}}
+      </p>
+      <p class="text-end">{{message.updatedAt}}</p>
+    </article>
+
+    }@empty {
+    <p class="text-2xl font-bold md:col-span-2 lg:col-span-3">Aucun message</p>
+    }
+  </section>
+  <div class="flex items-center justify-center">
+    @if(page() >1){
+    <button aria-label="previous page" (click)="updatePage(false)">
+      <mat-icon fontIcon="arrow_left" />
+    </button>
+    }
+    <p class="text-xl">{{page()}}</p>
+    @if(!isEndList()){
+    <button aria-label="next page" (click)="updatePage(true)">
+      <mat-icon fontIcon="arrow_right" />
+    </button>
+    }
+  </div>
+</div>

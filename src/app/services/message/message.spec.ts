@@ -26,8 +26,8 @@ describe('MessageService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+  const projectId = 'projectId';
   describe('(GET) get Project Messages', () => {
-    const projectId = 'projectId';
     const nbrMessage = 0;
     it('Should get message of project', () => {
       service.getProjectMessages(projectId, nbrMessage).subscribe();
@@ -46,9 +46,26 @@ describe('MessageService', () => {
       req.flush(null, { status: 401, statusText: 'Unauthorized' });
     });
   });
+  describe('(GET) get Project Name', () => {
+    it('Should get name of project', () => {
+      service.getProjectName(projectId).subscribe();
+      const req = http.expectOne(
+        `${environment.apiURL}message/project/${projectId}/name`,
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush({ projectName: 'projectName' });
+    });
+    it('Should fail', () => {
+      service.getProjectName(projectId).subscribe();
+      const req = http.expectOne(
+        `${environment.apiURL}message/project/${projectId}/name`,
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush(null, { status: 401, statusText: 'Unauthorized' });
+    });
+  });
   describe('(POST) create Message', () => {
     const data = { message: 'message' };
-    const projectId = 'projectId';
     it('Should get message of project', () => {
       service.createMessage(data, projectId).subscribe();
       const req = http.expectOne(
@@ -63,6 +80,39 @@ describe('MessageService', () => {
         `${environment.apiURL}message/project/${projectId}`,
       );
       expect(req.request.method).toEqual('POST');
+      req.flush(null, { status: 401, statusText: 'Unauthorized' });
+    });
+  });
+  describe('/(DELETE) delete Message', () => {
+    const messageId = 'messageId';
+    it('Should message deleted', () => {
+      service.deleteMessage(messageId).subscribe();
+      const req = http.expectOne(`${environment.apiURL}message/${messageId}`);
+      expect(req.request.method).toEqual('DELETE');
+      req.flush({ message: 'deleted' });
+    });
+    it('Should fail', () => {
+      service.deleteMessage(messageId).subscribe();
+      const req = http.expectOne(`${environment.apiURL}message/${messageId}`);
+      expect(req.request.method).toEqual('DELETE');
+      req.flush(null, { status: 401, statusText: 'Unauthorized' });
+    });
+  });
+  describe('/(DELETE) delete All Message', () => {
+    it('Should messages deleted', () => {
+      service.deleteAllMessage(projectId).subscribe();
+      const req = http.expectOne(
+        `${environment.apiURL}message/project/${projectId}`,
+      );
+      expect(req.request.method).toEqual('DELETE');
+      req.flush({ message: 'deleted' });
+    });
+    it('Should fail', () => {
+      service.deleteAllMessage(projectId).subscribe();
+      const req = http.expectOne(
+        `${environment.apiURL}message/project/${projectId}`,
+      );
+      expect(req.request.method).toEqual('DELETE');
       req.flush(null, { status: 401, statusText: 'Unauthorized' });
     });
   });

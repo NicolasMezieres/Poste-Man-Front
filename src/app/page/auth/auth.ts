@@ -8,7 +8,7 @@ import {
 import { Logo } from 'src/app/component/logo/logo';
 import { Footer } from 'src/app/component/footer/footer';
 import { InputFormComponent } from 'src/app/component/input/input-form/input-form';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ErrorMessage } from 'src/app/component/error-message/error-message';
 import { matchPasswords, passwordValidator } from 'src/app/utils/function';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -16,6 +16,7 @@ import { AuthService } from '../../services/auth/auth-service';
 import { ToastService } from 'src/app/services/toast/toast';
 import { HttpErrorResponseType } from 'src/app/utils/type';
 import { ButtonActionComponent } from 'src/app/component/button/button-action/button-action';
+import { AuthSocketService } from 'src/app/services/auth/auth-socket';
 @Component({
   selector: 'app-auth',
   imports: [
@@ -32,8 +33,10 @@ import { ButtonActionComponent } from 'src/app/component/button/button-action/bu
   styleUrl: './auth.css',
 })
 export class AuthComponent {
+  #router = inject(Router);
   #toast = inject(ToastService);
   #auth = inject(AuthService);
+  #authSocket = inject(AuthSocketService);
   isSubmit = signal<boolean>(false);
   formConnexion = new FormGroup({
     identifier: new FormControl('', {
@@ -45,6 +48,7 @@ export class AuthComponent {
       validators: Validators.required,
     }),
   });
+
   formRegister = new FormGroup(
     {
       lastName: new FormControl('', {
@@ -121,7 +125,9 @@ export class AuthComponent {
       const data = this.formConnexion.getRawValue();
       this.#auth.signin(data).subscribe({
         next: (res) => {
+          this.#authSocket.authSocket();
           this.#toast.openSuccesToast(res.message);
+          this.#router.navigate(['home']);
         },
         error: (err: HttpErrorResponseType) => {
           this.#toast.openFailToast(err);

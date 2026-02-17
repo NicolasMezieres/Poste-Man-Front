@@ -1,11 +1,54 @@
 <div
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima gap-2.5 md:flex-row md:p-0 md:gap-0"
 >
-  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet" />
+  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet">
+    @if(!isAdmin()){
+    <button
+      aria-label="open list member"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Membres</span>
+      <mat-icon fontIcon="group" class="flex deleteIcon" />
+    </button>
+    <hr />
+    } @if(isModerator() || isAdmin()){
+    <button
+      aria-label="open dialog delete message"
+      mat-menu-item
+      (click)="openDialogueDeleteAllMessage()"
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Tout Supprimer</span>
+      <mat-icon fontIcon="delete" class="flex deleteIcon" />
+    </button>
+    <hr />
+    }
+    <button
+      aria-label="open dialog help"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Aide</span>
+      <mat-icon fontIcon="help_center" class="flex deleteIcon" />
+    </button>
+  </app-header-project-mobile>
   <app-side-bar class="hidden md:block">
     <app-icon-back />
-    <mat-icon fontIcon="group" />
-    <mat-icon fontIcon="settings" />
+    <app-icon-group
+      [projectId]="projectId()"
+      [isAdmin]="isAdmin()"
+      [isModerator]="isModerator()"
+      [hidden]="isAdmin()"
+    />
+    @if(isModerator() || isAdmin()){
+    <button
+      aria-label="delete all message"
+      (click)="openDialogueDeleteAllMessage()"
+    >
+      <mat-icon fontIcon="delete" />
+    </button>
+    }
   </app-side-bar>
 
   <main
@@ -14,7 +57,7 @@
     <h1
       class="hidden md:block text-center font-Julius text-[32px] w-full border-b shadowTitle"
     >
-      Nom du projet
+      {{projectName()}}
     </h1>
     <section
       id="sectionScroll"
@@ -25,13 +68,15 @@
       [scrollWindow]="false"
       (scrolledUp)="onScroll()"
     >
-      @for (message of messages(); track $index) {
+      @for (message of messages(); track $index) { @if(message.isVisible){
       <article
         class="{{message.user.username === username() ? 'md:place-self-end' : ''}} md:size-fit"
       >
         <div class="flex items-center justify-between gap-5">
           <h1 class="text-2xl">{{message.user.username}}</h1>
-          <app-icon-more
+          <app-icon-more-message
+            [message]="{message:message.message, isAllMessage:false}"
+            (submitDelete)="submitDeleteMessage(message.id)"
             [hidden]="message.user.username !== username() && !isModerator()"
           />
         </div>
@@ -42,7 +87,7 @@
         </p>
         <p class="text-end">{{message.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
       </article>
-      }@empty {
+      }} @empty {
       <p class="absolute top-1/2 self-center text-[28px]">Aucun message</p>
       } @if(isLoadingMessage()){
       <div class="flex justify-center py-2">
@@ -53,6 +98,7 @@
 
     <form
       [formGroup]="formMessage"
+      [hidden]="isAdmin()"
       class="w-full flex justify-between self-center md:max-w-72"
     >
       <div
@@ -67,7 +113,11 @@
         />
         <span>{{formMessage.value.message?.length || '0'}}/255</span>
       </div>
-      <button class="bg-purple border" (click)="submitFormMessage($event)">
+      <button
+        class="bg-purple border"
+        (click)="submitFormMessage($event)"
+        aria-label="send message"
+      >
         <mat-icon fontIcon="send" class="sendIcon" />
       </button>
     </form>

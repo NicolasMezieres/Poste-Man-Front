@@ -56,4 +56,36 @@ describe('UserService', () => {
       req.flush(null, { status: 401, statusText: 'email' });
     });
   });
+  describe('changePassword', () => {
+    it('password change', () => {
+      service
+        .changePassword({
+          password: 'StrongP@ssword73',
+          oldPassword: 'OldStrongP@ssword73',
+          confirmPassword: 'StrongP@ssword73',
+        })
+        .subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/changePassword');
+      expect(req.request.method).toEqual('PATCH');
+      req.flush({ message: 'password change' });
+    });
+  });
+  describe('delete Account', () => {
+    it('Account deleted', () => {
+      service.deleteAccount().subscribe();
+      const req = http.expectOne(
+        environment.apiURL + 'user/account/desactivate',
+      );
+      expect(req.request.method).toEqual('DELETE');
+      req.flush({ message: 'account deleted' });
+    });
+  });
+  describe('change Avatar', () => {
+    it('Avatar changed', () => {
+      service.changeAvatar('cat').subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/changeAvatar');
+      expect(req.request.method).toEqual('PATCH');
+      req.flush({ message: 'Avatar changed' });
+    });
+  });
 });

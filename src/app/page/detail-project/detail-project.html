@@ -1,0 +1,55 @@
+<div class="min-h-screen bg-white flex">
+  <app-side-bar>
+    <app-icon-back />
+  </app-side-bar>
+  <main class="flex-1 flex flex-col">
+    <h1
+      class="font-Julius shadowUnset text-center text-[28px] md:shadowUnset py-1.5"
+    >
+      {{detailData()?.projectName}}
+    </h1>
+    <div class="flex-1 flex items-center justify-center">
+      <section
+        class="bg-purple20 flex flex-col gap-5 items-center w-72 md:w-96 place-self-center mt-5 py-5 rounded-[10px]"
+      >
+        <ul class="text-center flex flex-col gap-2.5">
+          <li>Créer par : {{detailData()?.author}}</li>
+          <li>Sections : {{detailData()?.totalSection}}</li>
+          <li>Postes : {{detailData()?.totalPost}}</li>
+          <li>
+            Date de création :
+            <span>{{detailData()?.createdAt| date: 'dd/MM/yyyy HH:mm'}}</span>
+          </li>
+          <li>
+            Dernière activité :
+            <span>{{detailData()?.updatedAt| date:'dd/MM/yyyy HH:mm'}}</span>
+          </li>
+        </ul>
+        <button
+          (click)="openModalListMember()"
+          class="w-36 bg-white rounded-[10px] shadowUnset py-2"
+          aria-label="open modal list member"
+        >
+          Membres
+        </button>
+        <a
+          class="text-center w-36 bg-white rounded-[10px] shadowUnset py-2"
+          [routerLink]="`/project/${projectId()}/section`"
+          >Section</a
+        >
+        <a
+          class="text-center w-36 bg-white rounded-[10px] shadowUnset py-2"
+          [routerLink]="`/project/${projectId()}/tchat`"
+          >Tchat</a
+        >
+        <button
+          (click)="openModalDeleteProject()"
+          class="w-36 bg-white rounded-[10px] shadowUnset py-2"
+          aria-label="open modal delete project"
+        >
+          Supprimer le projet
+        </button>
+      </section>
+    </div>
+  </main>
+</div>

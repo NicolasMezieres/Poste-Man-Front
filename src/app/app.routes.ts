@@ -1,12 +1,23 @@
 import { Routes } from '@angular/router';
-import { PresentationComponent } from './page/presentation/presentation';
 import { AuthComponent } from './page/auth/auth';
-import { ValidAccountComponent } from './page/valid-account/valid-account';
+import { Erreur404 } from './page/erreur404/erreur404';
+import { Erreur500 } from './page/erreur500/erreur500';
 import { ForgetPasswordComponent } from './page/forget-password/forget-password';
-import { ResetPasswordComponent } from './page/reset-password/reset-password';
 import { HomeComponent } from './page/home/home';
+import { Mention } from './page/mention/mention';
+import { PresentationComponent } from './page/presentation/presentation';
 import { ProfilComponent } from './page/profil/profil';
 import { TchatComponent } from './page/tchat/tchat';
+import { SectionComponent } from './page/section/section';
+import { PostComponent } from './page/post/post';
+import { ResetPasswordComponent } from './page/reset-password/reset-password';
+import { ValidAccountComponent } from './page/valid-account/valid-account';
+import { ProjectComponent } from './page/project/project';
+import { JoinProjectComponent } from './page/join-project/join-project';
+import { ListProjectComponent } from './page/list-project/list-project';
+import { DetailProjectPage } from './page/detail-project/detail-project';
+import { ListUserPage } from './page/list-user/list-user';
+import { DetailUserPage } from './page/detail-user/detail-user';
 
 export const routes: Routes = [
   { path: '', component: PresentationComponent },
@@ -19,6 +30,22 @@ export const routes: Routes = [
   { path: 'profil', component: ProfilComponent },
   {
     path: 'project',
-    children: [{ path: ':projectId/tchat', component: TchatComponent }],
+    children: [
+      { path: ':projectId', component: ProjectComponent },
+      { path: ':projectId/tchat', component: TchatComponent },
+      { path: ':projectId/section', component: SectionComponent },
+      {
+        path: ':projectId/section/:sectionId',
+        component: PostComponent,
+      },
+      { path: ':linkId/join', component: JoinProjectComponent },
+    ],
   },
+  { path: '500', component: Erreur500 },
+  { path: 'mentions', component: Mention },
+  { path: 'listProject', component: ListProjectComponent },
+  { path: 'listUser', component: ListUserPage },
+  { path: 'detailProject/:projectId', component: DetailProjectPage },
+  { path: 'detailUser/:userId', component: DetailUserPage },
+  { path: '**', component: Erreur404 },
 ];

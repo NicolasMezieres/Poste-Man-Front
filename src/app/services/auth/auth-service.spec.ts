@@ -49,13 +49,13 @@ describe('AuthService', () => {
   describe('Signin', () => {
     const signinDTO = { identifier: 'test', password: 'StrongP@ssword73' };
     it('Should Connexion succes', () => {
-      service.signin(signinDTO).subscribe();
+      service.signin(signinDTO);
       const req = http.expectOne(environment.apiURL + 'auth/signin');
       expect(req.request.method).toEqual('POST');
       req.flush({ message: 'Connexion', role: 'role' });
     });
     it('Should Connexion fail', () => {
-      service.signin(signinDTO).subscribe();
+      service.signin(signinDTO);
       const req = http.expectOne(environment.apiURL + 'auth/signin');
       expect(req.request.method).toEqual('POST');
       req.flush(null, { status: 404, statusText: 'Not found' });
@@ -117,6 +117,14 @@ describe('AuthService', () => {
         status: 401,
         statusText: 'Unauthorized',
       });
+    });
+  });
+  describe('Logout', () => {
+    it('Should success, navigate to auth page', () => {
+      service.logout();
+      const req = http.expectOne(environment.apiURL + 'auth/logout');
+      expect(req.request.method).toEqual('DELETE');
+      req.flush({ message: 'logout' });
     });
   });
 });
