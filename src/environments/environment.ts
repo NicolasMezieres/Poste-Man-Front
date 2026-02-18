@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiURL: 'https://poste-man-back-production.up.railway.app/',
+  apiURL: 'https://ab58-155-2-129-75.ngrok-free.app/',
   domain: 'http://localhost:4200/',
 };
