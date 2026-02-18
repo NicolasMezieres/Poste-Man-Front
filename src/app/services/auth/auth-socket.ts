@@ -14,6 +14,7 @@ export class AuthSocketService {
     reconnectionAttempts: 5,
     withCredentials: true,
     autoConnect: false,
+    transports: ['websocket'],
   });
   deconnection() {
     this.socket.disconnect();
