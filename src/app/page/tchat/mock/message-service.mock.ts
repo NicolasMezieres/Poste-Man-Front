@@ -4,4 +4,5 @@ export const messageServiceMock = {
   getProjectName: jest.fn(),
   deleteMessage: jest.fn(),
   deleteAllMessage: jest.fn(),
+  getListMessageByUser: jest.fn(),
 };
