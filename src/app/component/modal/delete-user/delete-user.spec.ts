@@ -25,4 +25,16 @@ describe('DeleteUserDialog', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('Close Dialog', () => {
+    it('Should close dialog', () => {
+      component.closeDialog();
+      expect(component.dialog.close).toHaveBeenCalledWith();
+    });
+  });
+  describe('Submit Delete User', () => {
+    it('Should close dialog with data', () => {
+      component.submitDeleteUser();
+      expect(component.dialog.close).toHaveBeenCalledWith({ isSubmit: true });
+    });
+  });
 });
