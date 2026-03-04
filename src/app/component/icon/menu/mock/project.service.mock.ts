@@ -9,4 +9,5 @@ export const projectServiceMock = {
   rename: jest.fn(),
   remove: jest.fn(),
   kickUser: jest.fn(),
+  getListMember: jest.fn(),
 };
