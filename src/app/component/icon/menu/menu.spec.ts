@@ -146,4 +146,29 @@ describe('MenuComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['home']);
     });
   });
+  describe('NG On Init', () => {
+    it('Should be defined', () => {
+      jest.spyOn(projectService, 'search').mockReturnValue(of());
+      jest.spyOn(authServiceMock, 'getIsAdmin').mockReturnValue(true);
+      component.ngOnInit();
+      expect(projectService.search).toHaveBeenCalled();
+      expect(component.isAdmin()).toEqual(true);
+    });
+  });
+  describe('Detect change search', () => {
+    it('Should detect change search and reset pagination', () => {
+      jest.spyOn(projectService, 'search').mockReturnValue(of());
+      fixture.detectChanges();
+      component.page.set(2);
+      component.search.update(() => 'change');
+      setTimeout(() => {
+        expect(component.page()).toEqual(2);
+        expect(projectService.search).not.toHaveBeenCalled();
+      }, 749);
+      setTimeout(() => {
+        expect(component.page()).toEqual(1);
+        expect(projectService.search).toHaveBeenCalled();
+      }, 750);
+    });
+  });
 });

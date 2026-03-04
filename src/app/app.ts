@@ -38,8 +38,6 @@ export class App implements OnInit, OnDestroy {
               }
             },
           });
-        } else {
-          console.log('ok');
         }
       },
       error: () => {
