@@ -88,4 +88,28 @@ describe('UserService', () => {
       req.flush({ message: 'Avatar changed' });
     });
   });
+  describe('Get User', () => {
+    it('Get detail user', () => {
+      service.getUser('userId').subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/userId/detail');
+      expect(req.request.method).toEqual('GET');
+      req.flush({ data: 'Detail User' });
+    });
+  });
+  describe('Ban User', () => {
+    it('Should ban user', () => {
+      service.banUser('userId').subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/userId/ban');
+      expect(req.request.method).toEqual('PATCH');
+      req.flush({ message: 'succes' });
+    });
+  });
+  describe('Delete User', () => {
+    it('Should delete user', () => {
+      service.deleteUser('userId').subscribe();
+      const req = http.expectOne(environment.apiURL + 'user/userId/delete');
+      expect(req.request.method).toEqual('DELETE');
+      req.flush({ message: 'User deleted' });
+    });
+  });
 });
