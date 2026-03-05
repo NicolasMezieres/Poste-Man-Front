@@ -11,4 +11,5 @@ export const projectServiceMock = {
   kickUser: jest.fn(),
   getListMember: jest.fn(),
   getListProjectByUser: jest.fn(),
+  getDetail: jest.fn(),
 };
