@@ -80,6 +80,16 @@ describe('UserService', () => {
       req.flush({ message: 'account deleted' });
     });
   });
+  describe('Search User', () => {
+    it('Get list user', () => {
+      service.searchUser({ isActive: true, page: 1, search: 'a' }).subscribe();
+      const req = http.expectOne(
+        environment.apiURL + 'user/userList?search=a&page=1&isActive=true',
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush({ data: 'List user' });
+    });
+  });
   describe('change Avatar', () => {
     it('Avatar changed', () => {
       service.changeAvatar('cat').subscribe();
