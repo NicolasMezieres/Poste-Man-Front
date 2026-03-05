@@ -36,7 +36,7 @@ import { InputFormComponent } from 'src/app/component/input/input-form/input-for
       </div>
       <app-button-action
         type="submit"
-        [text]="data && data.name ? 'Modifier' : 'Renommer'"
+        [text]="data && data.name ? 'Modifier' : 'Créer'"
         (action)="submit()"
       />
     </form>
