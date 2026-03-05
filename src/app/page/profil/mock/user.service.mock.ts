@@ -4,4 +4,5 @@ export const userServiceMock = {
   deleteAccount: jest.fn(),
   changePassword: jest.fn(),
   changeAvatar: jest.fn(),
+  searchUser: jest.fn(),
 };
