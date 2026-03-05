@@ -25,4 +25,16 @@ describe('BanUserDialog', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('Close Dialog', () => {
+    it('Should close dialog', () => {
+      component.closeDialog();
+      expect(component.dialog.close).toHaveBeenCalledWith();
+    });
+  });
+  describe('Submit Ban', () => {
+    it('Should close dialog with data', () => {
+      component.submitBan();
+      expect(component.dialog.close).toHaveBeenCalledWith({ isSubmit: true });
+    });
+  });
 });

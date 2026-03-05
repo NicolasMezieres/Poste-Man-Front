@@ -109,4 +109,31 @@ describe('ProjectService', () => {
       expect(req.request.method).toEqual('DELETE');
     });
   });
+  describe('(GET) getDetail', () => {
+    it('Should get detail user', () => {
+      service.getDetail('projectId').subscribe();
+      const req = http.expectOne(
+        environment.apiURL + 'project/projectId/detail',
+      );
+      expect(req.request.method).toEqual('GET');
+    });
+  });
+  describe('(GET) getListMember', () => {
+    it('Should return list member', () => {
+      service.getListMember('projectId').subscribe();
+      const req = http.expectOne(
+        environment.apiURL + 'project/projectId/listMember',
+      );
+      expect(req.request.method).toEqual('GET');
+    });
+  });
+  describe('(GET) getListProjectByUser', () => {
+    it('Should return list project', () => {
+      service.getListProjectByUser('userId', 1).subscribe();
+      const req = http.expectOne(
+        environment.apiURL + 'project/projectListByUser/userId?page=1',
+      );
+      expect(req.request.method).toEqual('GET');
+    });
+  });
 });

@@ -116,4 +116,14 @@ describe('MessageService', () => {
       req.flush(null, { status: 401, statusText: 'Unauthorized' });
     });
   });
+  describe('GetListMessageByUser', () => {
+    it('Should succes', () => {
+      service.getListMessageByUser('userId', 1).subscribe();
+      const req = http.expectOne(
+        environment.apiURL + 'message/user/userId?page=1',
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush({ data: 'list member' });
+    });
+  });
 });

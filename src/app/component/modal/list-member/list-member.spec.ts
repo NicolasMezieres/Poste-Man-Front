@@ -79,6 +79,25 @@ describe('ListMemberComponent', () => {
       await Promise.resolve().then();
       expect(component.closeDialog).toHaveBeenCalled();
     });
+    it('Get List Member when is an Admin', () => {
+      jest
+        .spyOn(projectService, 'getListMember')
+        .mockReturnValue(of({ data: memberMock }));
+      component.data.isAdmin = true;
+      fixture.detectChanges();
+      expect(projectService.getListMember).toHaveBeenCalled();
+      expect(component.members()).toEqual(memberMock);
+    });
+    it('Error when is an Admin', () => {
+      jest
+        .spyOn(projectService, 'getListMember')
+        .mockReturnValue(throwError(() => {}));
+      jest.spyOn(component, 'closeDialog').mockReturnValue();
+      component.data.isAdmin = true;
+      fixture.detectChanges();
+      expect(projectService.getListMember).toHaveBeenCalled();
+      expect(component.closeDialog).toHaveBeenCalled();
+    });
   });
   describe('detectChange', () => {
     it('Should received online', () => {

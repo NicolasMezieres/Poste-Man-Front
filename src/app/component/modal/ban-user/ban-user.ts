@@ -8,7 +8,7 @@ import { ButtonCancelComponent } from '../../button/button-cancel/button-cancel'
   selector: 'app-ban-user',
   imports: [MatIcon, ButtonDeleteComponent, ButtonCancelComponent],
   template: `<div
-    class="w-[335px] max-h-screen flex flex-col items-center p-5 gap-5 font-Agdasima overflow-hidden"
+    class="w-83.5 max-h-screen flex flex-col items-center p-5 gap-5 font-Agdasima overflow-hidden"
   >
     <button aria-label="close Modal" class="flex w-full justify-end">
       <mat-icon (click)="closeDialog()" fontIcon="close" />
