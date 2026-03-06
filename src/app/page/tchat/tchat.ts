@@ -32,6 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
 import { IconGroupComponent } from 'src/app/component/icon/group/group';
 import { AuthSocketService } from 'src/app/services/auth/auth-socket';
+import { buttonGroupMobile } from "src/app/component/button/button-group-mobile/button.group.mobile";
 @Component({
   selector: 'app-tchat',
   imports: [
@@ -47,7 +48,8 @@ import { AuthSocketService } from 'src/app/services/auth/auth-socket';
     MatMenuModule,
     IconMoreMessageComponent,
     IconGroupComponent,
-  ],
+    buttonGroupMobile
+],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
 })
