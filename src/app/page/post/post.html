@@ -2,9 +2,55 @@
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima md:flex-row md:p-0 md:gap-0"
 >
   <app-header-project-mobile
-    class="md:hidden p-2.5 select-none"
-    title="nom du projet"
-  />
+    class="md:hidden p-2.5 select-none matMenu2"
+    [title]="sectionName()"
+  >
+    @if(!isAdmin()){
+    <app-button-group-mobile
+      [projectId]="projectId()"
+      [isAdmin]="isAdmin()"
+      [isModerator]="isModerator()" />
+    <hr />
+    <button
+      aria-label="Open Create Post"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5 px-2.5 items-center"
+      (click)="openModalCreatePost()"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Créer un post</span
+      ><mat-icon fontIcon="add" class="flex deleteIcon" />
+    </button>
+    <hr />
+    } @if(isModerator() || isAdmin()){
+    <button
+      aria-label="open dialog transfert message"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+      (click)="openModalTransfertAllPost()"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Tout transférer</span>
+      <mat-icon fontIcon="drive_file_move_outline" class="flex deleteIcon" />
+    </button>
+    <hr />
+    <button
+      aria-label="open dialog delete message"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+      (click)="openModalDeleteAllPost()"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Tout Supprimer</span>
+      <mat-icon fontIcon="delete" class="flex deleteIcon" />
+    </button>
+    <hr />
+    }
+    <button
+      aria-label="open dialog help"
+      mat-menu-item
+      class="flex flex-row-reverse gap-2.5"
+    >
+      <span class="text-[28px] font-Agdasima text-purple">Aide</span>
+      <mat-icon fontIcon="help_center" class="flex deleteIcon" /></button
+  ></app-header-project-mobile>
   <app-side-bar class="hidden md:block">
     <app-icon-back />
     <app-icon-group
