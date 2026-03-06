@@ -404,30 +404,22 @@ describe('PostComponent', () => {
         afterClosed: jest.fn().mockReturnValue(of({ isSubmit: true })),
       } as unknown as MatDialogRef<DeletePostComponent>);
     it('Should success post deleted', () => {
-      // Simulation du dialogue
       dialogMock();
-      //Simulation de la requête de suppression de post
       jest
         .spyOn(postService, 'delete')
         .mockReturnValue(of({ message: 'succes' }));
-      //Simulation du message de succes
       jest.spyOn(toast, 'openSuccesToast');
       component.openModalDeletePost(postMock);
-      //Vérification des fonctions appelées
       expect(toast.openSuccesToast).toHaveBeenCalled();
       expect(postService.delete).toHaveBeenCalled();
     });
 
     it('Should fail unauthorized (401), redirect to page auth', () => {
-      //Simulation du dialogue
       dialogMock();
-      //Simulation du service de suppression de post avec erreur 401
       jest
         .spyOn(postService, 'delete')
         .mockReturnValue(throwError(() => ({ status: 401 })));
-      //Simulation du message d'erreur
       jest.spyOn(toast, 'openFailToast');
-      //Simulation de la redirection
       jest.spyOn(router, 'navigate').mockResolvedValue(true);
       component.openModalDeletePost(postMock);
       expect(postService.delete).toHaveBeenCalled();

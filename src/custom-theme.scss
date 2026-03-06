@@ -85,6 +85,11 @@ html {
       label-text-size: 16px,
     )
   );
+  @include mat.menu-overrides(
+    (
+      container-shape: 10px,
+    )
+  );
 }
 
 .dialog-rectangle {

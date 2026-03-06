@@ -1,16 +1,13 @@
 <div
   class="flex flex-col h-screen overflow-hidden bg-white font-Agdasima gap-2.5 md:flex-row md:p-0 md:gap-0"
 >
-  <app-header-project-mobile class="md:hidden p-2.5" title="nom du projet">
+  <app-header-project-mobile class="md:hidden p-2.5" [title]="projectName()">
     @if(!isAdmin()){
-    <button
-      aria-label="open list member"
-      mat-menu-item
-      class="flex flex-row-reverse gap-2.5"
-    >
-      <span class="text-[28px] font-Agdasima text-purple">Membres</span>
-      <mat-icon fontIcon="group" class="flex deleteIcon" />
-    </button>
+    <app-button-group-mobile
+      [isAdmin]="isAdmin()"
+      [projectId]="projectId()"
+      [isModerator]="isModerator()"
+    />
     <hr />
     } @if(isModerator() || isAdmin()){
     <button

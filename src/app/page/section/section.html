@@ -18,7 +18,11 @@
     <button aria-label="show buttons action" (click)="toggleVisible()">
       <mat-icon fontIcon="settings" />
     </button>
-    <button class="md:hidden" aria-label="delete all section">
+    <button
+      class="md:hidden"
+      aria-label="delete all section"
+      (click)="openModalRemoveAllSection()"
+    >
       <mat-icon fontIcon="delete" /></button
     >}
   </app-side-bar>

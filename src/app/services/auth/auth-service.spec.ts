@@ -127,4 +127,24 @@ describe('AuthService', () => {
       req.flush({ message: 'logout' });
     });
   });
+  describe('Log', () => {
+    it('Should succes', () => {
+      service.log();
+      const req = http.expectOne(environment.apiURL + 'auth/log');
+      expect(req.request.method).toEqual('GET');
+      req.flush({ message: 'connected', isAdmin: true });
+      expect(service.getIsAdmin()).toEqual(true);
+    });
+    it('Shoud fail', () => {
+      service.log();
+      const req = http.expectOne(environment.apiURL + 'auth/log');
+      expect(req.request.method).toEqual('GET');
+      req.flush(null, { status: 401, statusText: 'unauthorized' });
+    });
+  });
+  describe('getIsAdmin', () => {
+    it('Should return isAdmin', () => {
+      expect(service.getIsAdmin).toBeDefined();
+    });
+  });
 });
