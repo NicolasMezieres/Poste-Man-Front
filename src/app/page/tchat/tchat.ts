@@ -32,7 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { dialogDeleteMessageComponent } from 'src/app/component/modal/message/delete-message/delete-message';
 import { IconGroupComponent } from 'src/app/component/icon/group/group';
 import { AuthSocketService } from 'src/app/services/auth/auth-socket';
-import { buttonGroupMobile } from "src/app/component/button/button-group-mobile/button.group.mobile";
+import { buttonGroupMobile } from 'src/app/component/button/button-group-mobile/button.group.mobile';
 @Component({
   selector: 'app-tchat',
   imports: [
@@ -48,8 +48,8 @@ import { buttonGroupMobile } from "src/app/component/button/button-group-mobile/
     MatMenuModule,
     IconMoreMessageComponent,
     IconGroupComponent,
-    buttonGroupMobile
-],
+    buttonGroupMobile,
+  ],
   templateUrl: './tchat.html',
   styleUrl: './tchat.css',
 })
@@ -173,6 +173,7 @@ export class TchatComponent implements OnInit, OnDestroy {
       this.#messageService.createMessage(data, this.projectId()).subscribe({
         next: (res) => {
           this.#toast.openSuccesToast(res.message);
+          this.formMessage.reset({ message: '' });
         },
         error: (err: HttpErrorResponseType) => {
           this.#toast.openFailToast(err);
