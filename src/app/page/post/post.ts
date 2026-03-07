@@ -152,7 +152,9 @@ export class PostComponent implements OnInit, OnDestroy {
       next: (data) => {
         switch (data.action) {
           case 'create':
-            this.posts.update((arrayPost) => [...arrayPost, data.post]);
+            if (data.sectionId === this.sectionId()) {
+              this.posts.update((arrayPost) => [...arrayPost, data.post]);
+            }
             break;
           case 'update':
             this.posts.update((arrayPost) =>
@@ -167,9 +169,13 @@ export class PostComponent implements OnInit, OnDestroy {
             );
             break;
           case 'transfert':
-            this.posts.update((arrayPost) =>
-              arrayPost.filter((post) => post.id != data.post.id),
-            );
+            if (this.sectionId() === data.sectionId) {
+              this.posts.update((arrayPost) => [...arrayPost, data.post]);
+            } else {
+              this.posts.update((arrayPost) =>
+                arrayPost.filter((post) => post.id != data.post.id),
+              );
+            }
             break;
           case 'vote':
             this.posts.update((arrayPost) =>
@@ -182,7 +188,9 @@ export class PostComponent implements OnInit, OnDestroy {
             );
             break;
           case 'reset':
-            this.posts.set([]);
+            if (this.sectionId() === data.sectionId) {
+              this.posts.set([]);
+            }
             break;
           case 'postsUpdate':
             this.posts.update((postArray) =>
@@ -199,6 +207,10 @@ export class PostComponent implements OnInit, OnDestroy {
               postArray.filter((post) => post.user.id !== data.userId),
             );
             break;
+          case 'transfertPosts':
+            if (this.sectionId() === data.sectionId) {
+              this.posts.update((postArray) => [...postArray, ...data.posts]);
+            }
         }
       },
     });

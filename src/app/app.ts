@@ -40,9 +40,6 @@ export class App implements OnInit, OnDestroy {
           });
         }
       },
-      error: () => {
-        console.log('error');
-      },
     });
   }
   ngOnDestroy(): void {

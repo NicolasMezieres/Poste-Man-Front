@@ -90,9 +90,6 @@ export class AuthService {
       next: (res) => {
         this.#isAdmin.update(() => res.isAdmin);
       },
-      error: (err) => {
-        console.log(err);
-      },
     });
     return res;
   }
