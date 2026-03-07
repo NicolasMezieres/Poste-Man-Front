@@ -20,18 +20,17 @@ import { Logo } from '../../component/logo/logo';
       <div class="font-Agdasima p-4">
         <h3 class="text-[28px] underline font-bold">1. Informations légales</h3>
         <ol class="text-[20px]">
-          <li class="font-bold">Éditeur du site :</li>
-          <li>Nom :</li>
-          <li>Adresse :</li>
-          <li>Email de contact :</li>
-          <li>SIRET :</li>
-          <li>Responsable de la publication :</li>
+          <li class="font-bold">Éditeurs du site :</li>
+          <li>Nom : Rémy Da Rocha & Mezieres Nicolas</li>
         </ol>
         <ol class="text-[20px]">
           <li class="font-bold">Hébergement du site :</li>
-          <li>Hébergeur :</li>
-          <li>Adresse :</li>
-          <li>Site Web :</li>
+          <li>Hébergeur : Heroku</li>
+          <li>
+            Site Web :<a target="_blank" href="https://www.heroku.com"
+              >https://www.heroku.com</a
+            >
+          </li>
         </ol>
         <h3 class="text-[28px] underline font-bold">
           2. Description du service
