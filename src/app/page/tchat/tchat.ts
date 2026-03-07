@@ -156,9 +156,6 @@ export class TchatComponent implements OnInit, OnDestroy {
             break;
         }
       },
-      error: (err) => {
-        console.log(err);
-      },
     });
   }
   ngOnDestroy() {

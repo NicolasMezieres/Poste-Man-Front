@@ -69,6 +69,8 @@ export type postSocketType = {
   post: postType;
   userId: string;
   isBan: boolean;
+  sectionId: string;
+  posts: postType[];
 };
 export type resSectionType = {
   data: sectionType[];
