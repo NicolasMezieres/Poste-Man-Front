@@ -28,6 +28,8 @@ import {
 } from 'rxjs';
 import { IconGroupComponent } from 'src/app/component/icon/group/group';
 import { AuthSocketService } from 'src/app/services/auth/auth-socket';
+import { MatMenuModule } from '@angular/material/menu';
+import { buttonGroupMobile } from 'src/app/component/button/button-group-mobile/button.group.mobile';
 @Component({
   selector: 'app-post',
   imports: [
@@ -38,6 +40,8 @@ import { AuthSocketService } from 'src/app/services/auth/auth-socket';
     DatePipe,
     GroundComponent,
     IconGroupComponent,
+    MatMenuModule,
+    buttonGroupMobile,
   ],
   templateUrl: './post.html',
   styleUrl: './post.css',
@@ -62,11 +66,8 @@ export class PostComponent implements OnInit, OnDestroy {
   subjectMoveCard = new Subject<cardMoveType>();
   debounceCard = this.subjectMoveCard
     .pipe(
-      //grouper par post
       groupBy((card) => card.id),
-      // mise en place du délais de 1 seconde
       map((group) => group.pipe(debounceTime(1000))),
-      //après 1 seconde subscribe
       mergeAll(),
     )
     .subscribe((card) => {
@@ -81,19 +82,14 @@ export class PostComponent implements OnInit, OnDestroy {
     });
 
   moveCard(e: DragEvent) {
-    //récupération du tableau
     const table = document.getElementById('table');
-    //récupération du post
     const card = e.target as HTMLElement;
     if (!card || !table) return;
-    // récupération des dimensions par rapport au viewport
     const boundingTable = table.getBoundingClientRect();
     const boundingCard = card.getBoundingClientRect();
-    // calcul du centre de l'écran par rapport au tableau et en fonction du zoom
     const resultX =
       (e.clientX - boundingCard.width / 2 - boundingTable.x) / this.zoom();
     const resultY = (e.clientY - 30 - boundingTable.y) / this.zoom();
-    // si le calcul sort du tableau on reste dans le tableau
     const poseX =
       resultX < 0
         ? 0
@@ -108,7 +104,6 @@ export class PostComponent implements OnInit, OnDestroy {
           ? (boundingTable.height - boundingCard.height) / this.zoom()
           : resultY;
     card.style.top = poseY + 'px';
-    //mise en place d'un delais
     this.subjectMoveCard.next({
       id: card.id,
       poseX: Number(poseX.toFixed(0)),
@@ -221,10 +216,8 @@ export class PostComponent implements OnInit, OnDestroy {
       });
   }
   #createPost(text: string) {
-    // récupération de la position de l'utilisateur
     const { poseX, poseY } = this.getPosition();
     const data = { text, poseX, poseY };
-    //création du post
     this.#postService.createPost(this.sectionId(), data).subscribe({
       next: (res) => {
         this.#toast.openSuccesToast(res.message);

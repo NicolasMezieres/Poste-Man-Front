@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiURL: 'https://ab58-155-2-129-75.ngrok-free.app/',
-  domain: 'http://localhost:4200/',
+  apiURL: 'https://posteman-5ad0ccd49c9b.herokuapp.com/',
+  domain: 'https://poste-man-front.vercel.app/',
 };
