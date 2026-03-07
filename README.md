@@ -1,59 +1,85 @@
 # PosteMan
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+<div style="display:flex;justify-content:center">
+    <image src="public/assets/posteman.webp" alt="logo"/>
+</div>
 
-## Development server
+## Description
 
-To start a local development server, run:
+Posteman est une application facilitant la collaboration d'un groupe de personnes pour organiser un projet, une tâche ou un événement.
+
+Chaque projet contient :
+
+- Une messagerie en temps réel
+- Des sections pour catégoriser les thèmes
+- Des posts pour proposer des idées ou des tâches
+
+Le créateur du projet peut :
+
+- Supprimer des posts et des messages
+- Exclure ou bannir les membres du projet
+
+## Aperçu
+Aperçu des messages :
+
+<image src="public/assets/docs/message.webp" style="width:300px"/>
+
+Aperçu des posts:
+
+<image src="public/assets/docs/post.webp" style="width:300px">
+
+## Stack
+
+- Node.js >= 20 (22 recommandé)
+- Framework Angular 20
+- TailwindCSS
+- Docker
+
+## Installation
+
+### Prérequis :
+
+- Docker Desktop
+- Git
+
+### Cloner le repo
+
+git clone url
+cd Poste-man
+
+## Lancement
+
+Prerequis :
+
+- Lancer Docker Desktop
 
 ```bash
-ng serve
+docker compose build
+
+docker compose up --watch
 ```
+## Développement 
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Prérequis
 
-## Code scaffolding
+- Node.JS >= 20 (22 recommandé)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Initialisation
 
 ```bash
-ng generate component component-name
+npm i
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Lancement des tests unitaires
 
 ```bash
-ng generate --help
+# Tests unitaires
+npm run test
+
+# Couverture des tests unitaires
+npm run test:cov
 ```
 
-## Building
+## L'API
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Le backend du projet est disponible ici : https://github.com/NicolasMezieres/Poste-man-Back
