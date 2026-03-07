@@ -52,7 +52,6 @@ describe('PostComponent', () => {
     socket = TestBed.inject(PostSocketService);
     fixture.detectChanges();
   });
-
   afterEach(() => jest.clearAllMocks());
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -677,7 +676,13 @@ describe('PostComponent', () => {
     });
   });
   describe('Post Socket Subscription', () => {
-    const data = { post: postMock, userId: 'userId', isBan: false };
+    const data = {
+      post: postMock,
+      userId: 'userId',
+      isBan: false,
+      sectionId: 'sectionId',
+      posts: [],
+    };
     it('Should received action Create', () => {
       jest.spyOn(socket, 'listenPost').mockReturnValue(
         of({
@@ -685,6 +690,7 @@ describe('PostComponent', () => {
           ...data,
         }),
       );
+      component.sectionId.set('sectionId');
       component.posts.set([]);
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
@@ -720,7 +726,7 @@ describe('PostComponent', () => {
       expect(socket.listenPost).toHaveBeenCalled();
       expect(component.posts()).toEqual([]);
     });
-    it('Should received action Move', () => {
+    it('Should received action transfert, remove post of section', () => {
       jest
         .spyOn(socket, 'listenPost')
         .mockReturnValue(of({ action: 'transfert', ...data }));
@@ -728,6 +734,16 @@ describe('PostComponent', () => {
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
       expect(component.posts()).toEqual([]);
+    });
+    it('Should receive action transfert, add post in the section', () => {
+      jest
+        .spyOn(socket, 'listenPost')
+        .mockReturnValue(of({ action: 'transfert', ...data }));
+      component.posts.set([]);
+      component.sectionId.set('sectionId');
+      component.postSocketSubscription();
+      expect(socket.listenPost).toHaveBeenCalled();
+      expect(component.posts()).toEqual([postMock]);
     });
     it('Should received action Vote', () => {
       jest
@@ -759,11 +775,24 @@ describe('PostComponent', () => {
     it('Should received action Reset', () => {
       jest
         .spyOn(socket, 'listenPost')
-        .mockReturnValue(of({ action: 'reset', ...data }));
+        .mockReturnValue(of({ action: 'reset', ...data, posts: [postMock] }));
       component.posts.set([postMock]);
+      component.sectionId.set('sectionId');
       component.postSocketSubscription();
       expect(socket.listenPost).toHaveBeenCalled();
       expect(component.posts()).toEqual([]);
+    });
+    it('Should received transfertPosts', () => {
+      jest
+        .spyOn(socket, 'listenPost')
+        .mockReturnValue(
+          of({ action: 'transfertPosts', ...data, posts: [postMock] }),
+        );
+      component.sectionId.set('sectionId');
+      component.posts.set([]);
+      component.postSocketSubscription();
+      expect(socket.listenPost).toHaveBeenCalled();
+      expect(component.posts()).toEqual([postMock]);
     });
   });
   describe('submit Vote', () => {
